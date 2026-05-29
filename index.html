@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEINT 2026 — Banco de Respostas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   RESET & TOKENS
+══════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:         #F2F0EB;
+  --surface:    #FFFFFF;
+  --surface2:   #F7F5F0;
+  --navy:       #0D1F35;
+  --navy2:      #162D47;
+  --accent:     #C8A84B;
+  --accent2:    #A68A35;
+  --red:        #C0392B;
+  --orange:     #D35400;
+  --green:      #1A6B3A;
+  --blue:       #1A4F8A;
+  --text:       #0D1F35;
+  --text2:      #4A5568;
+  --text3:      #8A94A0;
+  --border:     #DDD9D0;
+  --border2:    #C8C3BA;
+  --shadow:     0 1px 4px rgba(13,31,53,.08);
+  --shadow-lg:  0 4px 20px rgba(13,31,53,.12);
+  --r:          6px;
+  --rl:         10px;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  font-size:14px;
+  line-height:1.6;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SETUP BANNER
+══════════════════════════════════════════════════════════ */
+#setup-banner{
+  background:#1A1A2E;
+  color:#E8E8E8;
+  padding:0;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12px;
+  border-bottom:2px solid var(--accent);
+  display:none;
+}
+#setup-banner.show{display:block}
+.setup-inner{padding:16px 24px;max-width:900px;margin:0 auto}
+.setup-inner h3{color:var(--accent);font-size:13px;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.setup-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.setup-step{display:flex;gap:10px;align-items:flex-start}
+.step-num{background:var(--accent);color:#000;font-weight:600;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px}
+.setup-step p{color:#C8C8C8}
+.setup-step a{color:var(--accent);text-decoration:none}
+.setup-step a:hover{text-decoration:underline}
+.setup-step code{background:#2A2A3E;padding:1px 6px;border-radius:3px;color:#90EE90}
+.setup-input-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.setup-input-row input{
+  flex:1;min-width:200px;
+  background:#2A2A3E;border:1px solid #3A3A5E;
+  color:#E8E8E8;border-radius:var(--r);padding:7px 12px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;outline:none;
+}
+.setup-input-row input:focus{border-color:var(--accent)}
+.setup-input-row input::placeholder{color:#666}
+.btn-setup-save{
+  background:var(--accent);color:#000;border:none;border-radius:var(--r);
+  padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;white-space:nowrap;
+}
+.btn-setup-save:hover{background:var(--accent2)}
+.setup-err{color:#FF6B6B;font-size:11px;margin-top:6px;min-height:14px}
+.setup-dismiss{float:right;background:none;border:none;color:#666;cursor:pointer;font-size:16px;line-height:1}
+.setup-dismiss:hover{color:#E8E8E8}
+
+/* ══════════════════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════════════════ */
+#auth-wrap{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;padding:24px;
+}
+.auth-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--rl);
+  box-shadow:var(--shadow-lg);
+  padding:36px;
+  width:100%;max-width:400px;
+  text-align:center;
+}
+.auth-emblem{
+  width:60px;height:60px;
+  background:var(--navy);
+  border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  font-size:26px;
+}
+.auth-card h1{font-size:20px;font-weight:600;color:var(--text);margin-bottom:4px}
+.auth-subtitle{font-size:12px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;font-family:'IBM Plex Mono',monospace}
+.auth-card input[type=password]{
+  width:100%;margin-bottom:10px;
+  border:1.5px solid var(--border);border-radius:var(--r);
+  padding:10px 14px;font-size:14px;
+  font-family:'IBM Plex Sans',sans-serif;
+  color:var(--text);background:var(--bg);outline:none;
+  transition:border-color .2s;
+}
+.auth-card input[type=password]:focus{border-color:var(--accent)}
+.btn-admin{
+  width:100%;background:var(--navy);color:#fff;
+  border:none;border-radius:var(--r);
+  padding:11px;font-size:14px;font-weight:500;
+  cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
+  margin-bottom:8px;transition:background .15s;
+}
+.btn-admin:hover{background:var(--navy2)}
+.btn-viewer{
+  width:100%;background:var(--surface2);color:var(--text2);
+  border:1.5px solid var(--border);border-radius:var(--r);
+  padding:10px;font-size:13px;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;transition:border-color .15s;
+}
+.btn-viewer:hover{border-color:var(--border2)}
+.auth-err{font-size:12px;color:var(--red);margin-top:8px;min-height:16px}
+.auth-config-link{
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--border);
+  font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;
+}
+.auth-config-link a{color:var(--accent);text-decoration:none;cursor:pointer}
+.auth-config-link a:hover{text-decoration:underline}
+
+/* ══════════════════════════════════════════════════════════
+   APP SHELL
+══════════════════════════════════════════════════════════ */
+#app{display:none;flex-direction:column;min-height:100vh}
+
+.topbar{
+  background:var(--navy);
+  color:#fff;
+  padding:0 24px;
+  height:52px;
+  display:flex;align-items:center;gap:16px;
+  position:sticky;top:0;z-index:60;
+  border-bottom:2px solid var(--accent);
+}
+.topbar-brand{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:13px;font-weight:500;
+  letter-spacing:.5px;
+  flex:1;display:flex;align-items:center;gap:10px;
+}
+.brand-tag{
+  background:var(--accent);color:#000;
+  font-size:9px;font-weight:600;letter-spacing:1px;
+  padding:2px 7px;border-radius:3px;text-transform:uppercase;
+}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.mode-pill{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;font-weight:500;letter-spacing:.5px;
+  padding:3px 10px;border-radius:20px;
+}
+.pill-admin{background:var(--accent);color:#000}
+.pill-viewer{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
+.sync-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#4ADE80;
+  display:none;animation:pulse 2s infinite;
+}
+.sync-dot.active{display:block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.btn-topbar{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;background:rgba(255,255,255,.1);
+  color:rgba(255,255,255,.8);border:none;border-radius:var(--r);
+  padding:5px 12px;cursor:pointer;transition:background .15s;
+}
+.btn-topbar:hover{background:rgba(255,255,255,.18)}
+.btn-topbar-config{background:rgba(200,168,75,.15);color:var(--accent)}
+.btn-topbar-config:hover{background:rgba(200,168,75,.25)}
+
+/* ── Tab nav ── */
+.tab-nav{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;gap:0;
+  position:sticky;top:52px;z-index:59;
+  overflow-x:auto;
+}
+.tab-btn{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px;font-weight:500;
+  color:var(--text3);background:none;border:none;
+  border-bottom:2.5px solid transparent;
+  padding:13px 22px;margin-bottom:-1px;
+  cursor:pointer;white-space:nowrap;
+  transition:color .15s,border-color .15s;
+  display:flex;align-items:center;gap:7px;
+}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--navy);border-bottom-color:var(--accent);font-weight:600}
+.page{display:none}.page.active{display:block}
+
+/* ── Controls ── */
+.controls{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:12px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+  position:sticky;top:100px;z-index:58;
+}
+.search-wrap{position:relative;flex:1;min-width:200px}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
+.search-wrap input{padding-left:34px;width:100%}
+input,select,textarea{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px;color:var(--text);
+  background:var(--bg);
+  border:1.5px solid var(--border);border-radius:var(--r);
+  padding:8px 12px;outline:none;
+  transition:border-color .2s;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+.counter{font-size:11px;color:var(--text3);white-space:nowrap;margin-left:auto;font-family:'IBM Plex Mono',monospace}
+.admin-bar{
+  background:var(--surface2);border-bottom:1px solid var(--border);
+  padding:10px 24px;display:flex;justify-content:flex-end;gap:8px;
+}
+.btn-add{
+  background:var(--navy);color:#fff;border:none;
+  border-radius:var(--r);padding:7px 16px;
+  font-size:13px;font-weight:500;cursor:pointer;
+  display:flex;align-items:center;gap:6px;
+  font-family:'IBM Plex Sans',sans-serif;transition:background .15s;
+}
+.btn-add:hover{background:var(--navy2)}
+
+/* ══════════════════════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════════════════════ */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:12px;padding:20px 24px;
+  max-width:1440px;margin:0 auto;
+}
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:var(--rl);
+  cursor:pointer;overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:box-shadow .15s,border-color .15s,transform .1s;
+}
+.card:hover{box-shadow:var(--shadow-lg);border-color:var(--border2);transform:translateY(-1px)}
+.card.copied{border-color:var(--green);animation:flashG .4s ease}
+@keyframes flashG{0%{background:#E8F5E9}100%{background:var(--surface)}}
+.card-stripe{height:3px;flex-shrink:0}
+.card-head{padding:12px 14px 10px;display:flex;align-items:flex-start;gap:9px}
+.card-title{font-weight:600;font-size:13px;color:var(--text);flex:1;line-height:1.35}
+.card-meta{padding:6px 14px;display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--border);background:var(--surface2)}
+.badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px}
+.badge-cat{background:#E8EDF5;color:#1A3A6A}
+.badge-org{background:#F0EDE8;color:#5A4A35;border:1px solid var(--border)}
+.card-body{
+  padding:10px 14px;font-size:12px;line-height:1.7;color:var(--text2);flex:1;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card.expanded .card-body{-webkit-line-clamp:unset;overflow:visible}
+.card-foot{
+  padding:8px 14px;display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid var(--border);background:var(--surface2);
+}
+.btn-expand{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;font-family:'IBM Plex Mono',monospace}
+.btn-expand:hover{color:var(--text)}
+.card-acts{display:flex;gap:5px}
+.btn-card{
+  font-size:11px;font-weight:500;
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:4px 10px;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;
+  background:var(--surface);color:var(--text2);
+  transition:all .15s;
+}
+.btn-card.cp:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-card.cp.done{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-card.ed:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.btn-card.dl:hover{background:#FFEBEE;color:var(--red);border-color:var(--red)}
+.empty-msg{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3);font-size:13px}
+
+/* ══════════════════════════════════════════════════════════
+   NOTES
+══════════════════════════════════════════════════════════ */
+.notes-layout{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:16px;padding:20px 24px;max-width:1440px;margin:0 auto;
+}
+.notes-col{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+.notes-col-top{padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.notes-col-top h3{font-size:12px;font-weight:600;display:flex;align-items:center;gap:7px;letter-spacing:.3px;text-transform:uppercase;font-family:'IBM Plex Mono',monospace}
+.cnt-pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+.note-list{padding:0 12px 12px;display:flex;flex-direction:column;gap:8px}
+.note-card{
+  background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);
+  padding:11px 13px;transition:box-shadow .15s;
+}
+.note-card:hover{box-shadow:var(--shadow)}
+.note-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:5px}
+.note-subj{font-size:13px;font-weight:600;color:var(--text);flex:1;line-height:1.3}
+.note-btns{display:flex;gap:3px;flex-shrink:0}
+.note-btns button{
+  font-size:11px;background:none;border:1px solid var(--border);
+  border-radius:4px;padding:2px 6px;cursor:pointer;color:var(--text3);
+  font-family:'IBM Plex Sans',sans-serif;transition:all .15s;
+}
+.note-btns button:hover{background:var(--border);color:var(--text)}
+.note-detail{font-size:12px;color:var(--text2);line-height:1.55;margin-bottom:7px}
+.note-foot{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pri{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;font-family:'IBM Plex Mono',monospace}
+.pri-alta{background:#FFEBEE;color:var(--red)}
+.pri-media{background:#FFF3E0;color:var(--orange)}
+.pri-baixa{background:#E8F5E9;color:var(--green)}
+.note-date{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace}
+.note-empty{font-size:12px;color:var(--text3);text-align:center;padding:18px 0;font-family:'IBM Plex Mono',monospace}
+.btn-add-note{
+  font-size:11px;background:none;border:1px solid var(--border);border-radius:var(--r);
+  padding:4px 10px;cursor:pointer;color:var(--text3);
+  font-family:'IBM Plex Mono',monospace;transition:all .15s;
+}
+.btn-add-note:hover{border-color:var(--border2);color:var(--text)}
+
+/* ══════════════════════════════════════════════════════════
+   LINKS PAGE
+══════════════════════════════════════════════════════════ */
+.links-page{padding:24px;max-width:840px;margin:0 auto}
+.section-title{
+  font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);font-family:'IBM Plex Mono',monospace;
+  margin-bottom:14px;padding-bottom:10px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+}
+.links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:32px}
+.link-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);
+  padding:16px 18px;text-decoration:none;color:var(--text);
+  display:flex;align-items:flex-start;gap:13px;
+  transition:box-shadow .15s,border-color .15s,transform .1s;
+  box-shadow:var(--shadow);
+}
+.link-card:hover{box-shadow:var(--shadow-lg);border-color:var(--accent);transform:translateY(-2px)}
+.link-icon{
+  width:40px;height:40px;border-radius:8px;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;color:#fff;
+}
+.link-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.link-desc{font-size:11px;color:var(--text2);line-height:1.45}
+.link-url{font-size:10px;color:var(--accent2);margin-top:5px;font-family:'IBM Plex Mono',monospace}
+.tips-box{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rl);overflow:hidden;
+}
+.tip-item{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px 18px;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text2);line-height:1.5;
+}
+.tip-item:last-child{border-bottom:none}
+.tip-num{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
+  background:var(--navy);color:var(--accent);
+  width:20px;height:20px;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  margin-top:2px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MODALS
+══════════════════════════════════════════════════════════ */
+.overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(13,31,53,.5);backdrop-filter:blur(2px);
+  align-items:center;justify-content:center;padding:16px;
+}
+.overlay.open{display:flex}
+.modal{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:var(--rl);width:100%;max-width:520px;
+  box-shadow:0 16px 48px rgba(13,31,53,.2);overflow:hidden;
+}
+.modal-head{
+  background:var(--navy);color:#fff;
+  padding:14px 20px;border-bottom:2px solid var(--accent);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-head h2{font-size:14px;font-weight:600;letter-spacing:.3px}
+.modal-x{background:none;border:none;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;line-height:1;padding:0}
+.modal-x:hover{color:#fff}
+.modal-body{padding:20px;display:flex;flex-direction:column;gap:13px}
+.modal-body label{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace}
+.modal-body input,.modal-body textarea,.modal-body select{width:100%}
+.modal-body textarea{min-height:110px;resize:vertical}
+.modal-row{display:flex;gap:10px}
+.modal-row>div{flex:1}
+.modal-foot{
+  padding:12px 20px;border-top:1px solid var(--border);
+  display:flex;justify-content:flex-end;gap:8px;
+  background:var(--surface2);
+}
+.btn-save{
+  background:var(--navy);color:#fff;border:none;border-radius:var(--r);
+  padding:8px 22px;font-size:13px;font-weight:500;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;transition:background .15s;
+}
+.btn-save:hover{background:var(--navy2)}
+.btn-cancel{
+  background:none;color:var(--text2);
+  border:1px solid var(--border);border-radius:var(--r);
+  padding:8px 16px;font-size:13px;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;transition:border-color .15s;
+}
+.btn-cancel:hover{border-color:var(--border2)}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--navy);color:#fff;
+  padding:9px 22px;border-radius:20px;
+  font-size:13px;font-weight:500;font-family:'IBM Plex Mono',monospace;
+  opacity:0;pointer-events:none;transition:opacity .25s;z-index:999;
+  white-space:nowrap;border-bottom:2px solid var(--accent);
+}
+#toast.show{opacity:1}
+
+/* ── Offline notice ── */
+#offline-badge{
+  position:fixed;bottom:24px;right:24px;
+  background:#FFF3E0;border:1px solid var(--orange);
+  color:var(--orange);padding:6px 14px;border-radius:var(--r);
+  font-size:11px;font-family:'IBM Plex Mono',monospace;
+  display:none;z-index:998;
+}
+#offline-badge.show{display:block}
+
+@media(max-width:600px){
+  .grid{padding:14px;gap:10px;grid-template-columns:1fr}
+  .controls{padding:10px 14px}
+  .topbar{padding:0 14px}
+  .topbar-brand span:last-child{display:none}
+  .notes-layout{padding:14px;grid-template-columns:1fr}
+  .links-page{padding:14px}
+  .modal-row{flex-direction:column}
+  .tab-btn{padding:11px 14px;font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SETUP BANNER ════════════════════════════════════════════════════════ -->
+<div id="setup-banner">
+  <div class="setup-inner">
+    <button class="setup-dismiss" onclick="document.getElementById('setup-banner').classList.remove('show')" title="Fechar">✕</button>
+    <h3>⚙️ Configuração do armazenamento compartilhado — JSONBin.io</h3>
+    <div class="setup-steps">
+      <div class="setup-step"><span class="step-num">1</span><p>Acesse <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> e crie uma conta gratuita.</p></div>
+      <div class="setup-step"><span class="step-num">2</span><p>Vá em <strong>API Keys</strong> e copie sua <code>Master Key</code>.</p></div>
+      <div class="setup-step"><span class="step-num">3</span><p>Clique em <strong>New Bin</strong>, cole o conteúdo <code>{"r":[],"n":{}}</code> e salve. Copie o <strong>Bin ID</strong> exibido.</p></div>
+      <div class="setup-step"><span class="step-num">4</span><p>Cole os valores abaixo e clique em Salvar. As configurações ficam no seu navegador.</p></div>
+    </div>
+    <div class="setup-input-row">
+      <input id="cfg-key" type="password" placeholder="Master Key  ($2a$10$...)">
+      <input id="cfg-bin" type="text" placeholder="Bin ID  (64c3f9...)">
+      <button class="btn-setup-save" onclick="saveConfig()">Salvar e Conectar</button>
+    </div>
+    <div class="setup-err" id="setup-err"></div>
+  </div>
+</div>
+
+<!-- ══ AUTH ════════════════════════════════════════════════════════════════ -->
+<div id="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-emblem">📮</div>
+    <h1>Banco de Respostas</h1>
+    <div class="auth-subtitle">CEINT &nbsp;·&nbsp; 2026</div>
+    <input type="password" id="pw" placeholder="Senha de administrador…" onkeydown="if(event.key==='Enter')tryLogin()">
+    <button class="btn-admin" onclick="tryLogin()">Entrar como Administrador</button>
+    <button class="btn-viewer" onclick="enterViewer()">Visualizador — acesso sem senha</button>
+    <div class="auth-err" id="auth-err"></div>
+    <div class="auth-config-link">
+      Armazenamento compartilhado: <a onclick="toggleSetup()">configurar JSONBin</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ APP ══════════════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span>📮 CEINT — Banco de Respostas</span>
+      <span class="brand-tag">2026</span>
+    </div>
+    <div class="topbar-right">
+      <span class="sync-dot" id="sync-dot" title="Sincronizando…"></span>
+      <span class="mode-pill" id="mode-pill"></span>
+      <button class="btn-topbar btn-topbar-config" onclick="toggleSetup()">⚙ JSONBin</button>
+      <button class="btn-topbar" onclick="sair()">Sair</button>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" onclick="goTab('respostas',this)">📂 Banco de Respostas</button>
+    <button class="tab-btn" onclick="goTab('anotacoes',this)">📋 Anotações Prioritárias</button>
+    <button class="tab-btn" onclick="goTab('links',this)">🔗 Links de Apoio</button>
+  </nav>
+
+  <!-- ─── PAGE: RESPOSTAS ─── -->
+  <div id="page-respostas" class="page active">
+    <div id="admin-bar" class="admin-bar" style="display:none">
+      <button class="btn-add" onclick="openRespModal(null)">＋ Nova Resposta</button>
+    </div>
+    <div class="controls">
+      <div class="search-wrap">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q" type="text" placeholder="Buscar por título, tag ou texto…" oninput="renderCards()">
+      </div>
+      <select id="fCat" onchange="renderCards()"><option value="">Todas as categorias</option></select>
+      <select id="fOrg" onchange="renderCards()"><option value="">Todos os órgãos</option></select>
+      <span class="counter" id="counter"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- ─── PAGE: ANOTAÇÕES ─── -->
+  <div id="page-anotacoes" class="page">
+    <div id="admin-bar-n" class="admin-bar" style="display:none">
+      <span style="flex:1;font-size:12px;color:var(--text3);font-family:'IBM Plex Mono',monospace">Use + Novo em cada coluna para registrar demandas</span>
+    </div>
+    <div class="notes-layout" id="notes-layout"></div>
+  </div>
+
+  <!-- ─── PAGE: LINKS ─── -->
+  <div id="page-links" class="page">
+    <div class="links-page">
+      <div class="section-title">▸ Sistemas internos — acesso direto</div>
+      <div class="links-grid">
+        <a href="https://srointranet.correios.com.br/" target="_blank" rel="noopener" class="link-card">
+          <div class="link-icon">📦</div>
+          <div>
+            <div class="link-name">SRO Intranet</div>
+            <div class="link-desc">Rastreamento interno de objetos — consulta e atualização de eventos postais</div>
+            <div class="link-url">srointranet.correios.com.br</div>
+          </div>
+        </a>
+        <a href="https://smarti.correios.com.br/home" target="_blank" rel="noopener" class="link-card">
+          <div class="link-icon">🧠</div>
+          <div>
+            <div class="link-name">SMARTi</div>
+            <div class="link-desc">Gestão operacional, relatórios e indicadores de desempenho dos Correios</div>
+            <div class="link-url">smarti.correios.com.br/home</div>
+          </div>
+        </a>
+        <a href="https://ssii.correios.com.br/pages/inicio.jsf" target="_blank" rel="noopener" class="link-card">
+          <div class="link-icon">🛃</div>
+          <div>
+            <div class="link-name">SSII</div>
+            <div class="link-desc">Importações e processos aduaneiros — acompanhamento junto à Receita Federal</div>
+            <div class="link-url">ssii.correios.com.br</div>
+          </div>
+        </a>
+      </div>
+      <div class="section-title">▸ Dicas rápidas para operadores</div>
+      <div class="tips-box">
+        <div class="tip-item"><span class="tip-num">01</span> Antes de responder ao cliente, confirme o último evento registrado no <strong>SRO Intranet</strong>.</div>
+        <div class="tip-item"><span class="tip-num">02</span> Para tributação ou fiscalização aduaneira, acesse o <strong>SSII</strong> para verificar a situação junto à Receita Federal.</div>
+        <div class="tip-item"><span class="tip-num">03</span> Demandas sem resolução imediata devem ser registradas em <strong>Anotações Prioritárias</strong> com prioridade e data.</div>
+        <div class="tip-item"><span class="tip-num">04</span> Use a busca do banco com palavras como <em>"extravio"</em>, <em>"ANVISA"</em> ou <em>"devolução"</em> para localizar respostas rapidamente.</div>
+        <div class="tip-item"><span class="tip-num">05</span> Clique em qualquer card do banco para copiar a resposta direto para a área de transferência.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+<!-- ══ MODAL RESPOSTA ══════════════════════════════════════════════════════ -->
+<div class="overlay" id="m-resp">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="m-resp-title">Nova Resposta</h2>
+      <button class="modal-x" onclick="closeM('m-resp')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="rf-id">
+      <div><label>Título *</label><input id="rf-titulo" type="text" placeholder="Ex: Encomenda Retida por Aduana"></div>
+      <div class="modal-row">
+        <div>
+          <label>Categoria *</label>
+          <input id="rf-cat" list="cat-list" placeholder="Ex: Fiscalização / Tributação">
+          <datalist id="cat-list">
+            <option value="Avaria"><option value="Devolução"><option value="Extravio">
+            <option value="Fiscalização / Tributação"><option value="Operacional">
+            <option value="Recorrência"><option value="Refugo / Descarte"><option value="Retenção / Apreensão">
+          </datalist>
+        </div>
+        <div><label>Órgão *</label><input id="rf-orgao" placeholder="Ex: RFB, ANVISA"></div>
+      </div>
+      <div><label>Tags</label><input id="rf-tags" placeholder="Ex: fiscalização; tributos; ANVISA"></div>
+      <div><label>Texto da Resposta *</label><textarea id="rf-texto" placeholder="Digite o texto completo da resposta…"></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeM('m-resp')">Cancelar</button>
+      <button class="btn-save" onclick="saveResp()">💾 Salvar Resposta</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL NOTA ══════════════════════════════════════════════════════════ -->
+<div class="overlay" id="m-nota">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="m-nota-title">Nova Anotação</h2>
+      <button class="modal-x" onclick="closeM('m-nota')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="nf-col">
+      <input type="hidden" id="nf-id">
+      <div><label>Assunto / Demanda *</label><input id="nf-subj" placeholder="Ex: PI #12345 — aguardando DEINT"></div>
+      <div><label>Detalhamento</label><textarea id="nf-detail" placeholder="Próximos passos, área acionada, observações…" style="min-height:80px"></textarea></div>
+      <div class="modal-row">
+        <div>
+          <label>Prioridade</label>
+          <select id="nf-pri">
+            <option value="alta">🔴 Alta</option>
+            <option value="media" selected>🟠 Média</option>
+            <option value="baixa">🟢 Baixa</option>
+          </select>
+        </div>
+        <div><label>Data / Referência</label><input id="nf-date" placeholder="Ex: 29/05/2026 ou PI #9876"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeM('m-nota')">Cancelar</button>
+      <button class="btn-save" onclick="saveNota()">💾 Salvar Anotação</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<div id="offline-badge">⚠ Sem JSONBin — dados locais</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CONFIGURAÇÃO — altere a senha aqui se necessário
+// ══════════════════════════════════════════════════════════════
+const ADMIN_PW = 'ceint2026';
+
+// ══════════════════════════════════════════════════════════════
+// DADOS INICIAIS (29 respostas)
+// ══════════════════════════════════════════════════════════════
+const SEED_R = [{"id":1,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização com Tributos Pagos","orgao":"ANUNTES/RFB","tags":"fiscalização; tributos; RFB; ANUNTES","texto":"Prezados, informamos que apesar de constar o pagamento dos tributos a encomenda, se encontra em fiscalização pelo órgão anuente responsável.\n\nInformamos ainda, que os Correios não apresentam prerrogativas para interferir em tal processo."},{"id":2,"categoria":"Retenção / Apreensão","titulo":"Encomenda Retida/Apreendida","orgao":"Órgão Anuente","tags":"retida; apreendida; conteúdo proibido; ressarcimento","texto":"Prezados, informamos que a encomenda foi retida devido o conteúdo ser proibido de entrar no país. Informamos ainda que os Correios não apresentam prerrogativas para interferir em tal processo.\n\nCaso tenha ocorrido o pagamento dos tributos, pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento."},{"id":3,"categoria":"Devolução","titulo":"Encomenda Devolvida ao País de Origem","orgao":"Órgão Anuente","tags":"devolvida; país origem; ressarcimento; tributos","texto":"Prezados, informamos que a encomenda foi devolvida ao país de origem conforme determinação do órgão anuente responsável. Caso tenha ocorrido o pagamento dos tributos para o objeto, pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento."},{"id":4,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização (Geral)","orgao":"Órgão Anuente","tags":"fiscalização; rastreamento; acompanhamento","texto":"Prezados, informamos que o objeto se encontra em fiscalização conforme consta no sistema de rastreamento desta forma, pedimos, que o cliente seja orientado a realizar o acompanhamento no site dos Correios. Informamos ainda que os Correios, não apresentam prerrogativas para interferir nos processos que são de competência dos órgãos anuentes."},{"id":5,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização – MAPA","orgao":"MAPA","tags":"fiscalização; MAPA; urgência","texto":"Prezados, informamos que a encomenda se encontra em fiscalização pelo MAPA. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."},{"id":6,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização – ANVISA","orgao":"ANVISA","tags":"fiscalização; ANVISA; urgência; saúde","texto":"Prezados, informamos que a encomenda se encontra em fiscalização pela ANVISA. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."},{"id":7,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização – Exército","orgao":"Ministério do Exército","tags":"fiscalização; exército; ministério; urgência","texto":"Prezados, informamos que a encomenda se encontra em fiscalização pela MINISTÉRIO DO EXÉRCITO. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."},{"id":8,"categoria":"Refugo / Descarte","titulo":"Encomenda em Processo de Refugo – ANAC","orgao":"ANAC","tags":"refugo; ANAC; proibido; devolução","texto":"Prezados, a encomenda foi encaminhada para o processo de refugo pelo fato de o conteúdo estar dentro da lista da ANAC de produtos proibidos que não podem seguir viagem ao país de origem."},{"id":9,"categoria":"Devolução","titulo":"Encomenda Devolvida – Falha Operacional","orgao":"Correios","tags":"devolvida; falha operacional; ressarcimento; sistêmica","texto":"Prezados, a encomenda foi devolvida ao país de origem devido a uma falha operacional desta forma nós pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento referente aos tributos pagos. O status do objeto não foi atualizado devido a uma falha sistêmica."},{"id":10,"categoria":"Fiscalização / Tributação","titulo":"Encomenda Aguardando Homologação – ANATEL","orgao":"ANATEL","tags":"homologação; ANATEL; aguardando","texto":"Prezados, informamos que a encomenda se encontra aguardando a homologação por parte do cliente junto a ANATEL. Informamos que os Correios não apresentam prerrogativas para interferir em tal processo."},{"id":11,"categoria":"Retenção / Apreensão","titulo":"Importação Não Autorizada – ANVISA","orgao":"ANVISA","tags":"importação; não autorizada; ANVISA; produto saúde; ressarcimento","texto":"Prezados, informamos que a encomenda teve a importação não autorizada pelo fato do conteúdo ser produto para saúde. Conforme normas do órgão anuente responsável (ANVISA), tais produtos não podem ser importados via postal. Caso tenha ocorrido o pagamento dos tributos, pedimos, que o cliente seja orientado a solicitar o ressarcimento.\n\nLembramos que os Correios não apresentam prerrogativas para interferir nos processos de competência do órgãos anuentes."},{"id":12,"categoria":"Avaria","titulo":"Encomenda Adentrou Avariada – CEINT","orgao":"CEINT","tags":"avaria; CEINT; remetente; ressarcimento","texto":"Prezados, a encomenda adentrou no CEINT avariada e foi constatado que não será possível encaminhar no fluxo postal. Pedimos que o cliente seja orientado a entrar em contato com o remetente e informar o ocorrido. Caso tenha ocorrido o pagamento dos tributos o cliente deve ser ressarcido nos valores pagos referente a tributação."},{"id":13,"categoria":"Fiscalização / Tributação","titulo":"Encomenda Aguardando Retificação","orgao":"Órgão Fiscalizador","tags":"retificação; declaração; aguardando; fiscalização","texto":"Prezados, informamos que o objeto se encontra aguardando a retificação de declaração conforme determinação do órgão fiscalizador. Lembramos, que os Correios não apresentam prerrogativas para interferir nos processo que são de competência do órgão fiscalizador."},{"id":14,"categoria":"Devolução","titulo":"Encomenda Devolvida – Falta de CPF","orgao":"Órgão Anuente","tags":"CPF; falta; irregular; devolução","texto":"Prezados, informamos que o objeto foi encaminhado para o processo de devolução devido à falta de cpf na encomenda ou pelo fato de a situação cadastral do documento citado estar irregular. Informamos ainda que os Correios, não apresentam prerrogativas para interferir em tal processo."},{"id":15,"categoria":"Operacional","titulo":"Encomenda em Processo de Resgate","orgao":"Correios","tags":"resgate; rastreamento; acompanhamento","texto":"Prezados, informamos que a tentativa de resgate da encomenda será realizada desta forma pedimos que o cliente seja orientado a acompanhar o andamento do objeto no site dos Correios no link rastreamento de encomendas."},{"id":16,"categoria":"Devolução","titulo":"Encomenda Packet em Processo de Devolução","orgao":"Operador Logístico","tags":"packet; devolução; operador logístico; modalidade","texto":"Prezados, informamos que para a modalidade packet a devolução ao país de origem é realizada conforme disponibilidade do operador logístico em retirar a carga no centro."},{"id":17,"categoria":"Retenção / Apreensão","titulo":"Importação Não Autorizada – ANATEL","orgao":"ANATEL","tags":"importação; não autorizada; ANATEL; restrito","texto":"Prezados, informamos que a encomenda teve a sua importação não autorizada pela ANATEL devido ao conteúdo ser restrito no país. Informamos ainda, que os Correios não apresentam prerrogativas para interferir nos processos que são de competência do órgão anuente."},{"id":18,"categoria":"Avaria","titulo":"Encomenda Avariada no CEINT – Refugo","orgao":"CEINT","tags":"avaria; CEINT; refugo; ressarcimento; tributos","texto":"Prezados, informamos que ocorreu uma avaria no processo operacional desta forma o objeto, foi encaminhado para o processo de refugo. Como ocorreu o pagamento dos tributos, pedimos, que o cliente seja informado/orientado a solicitar o ressarcimento dos valores pagos referente a tributação."},{"id":19,"categoria":"Extravio","titulo":"Atualizar SRO – Extravio","orgao":"Correios","tags":"extravio; SRO; busca; status; entrega","texto":"Prezados, informamos que a encomenda foi encaminhada para o fluxo operacional, mas como até o momento não ocorreu a entrega o status do objeto será atualizado.\n\nInformamos ainda, que as buscas pelo objeto ainda ocorrem e caso seja encontrada será devidamente encaminhada ao destino final."},{"id":20,"categoria":"Recorrência","titulo":"Recorrência – Resposta Anuentes (Geral)","orgao":"Órgão Anuente","tags":"recorrência; anuentes; urgência; insistência","texto":"Prezados, os Correios não apresentam prerrogativas para interferir nos processos que são de competência dos órgãos anuentes, contudo, nós já solicitamos urgência para o caso junto ao órgão citado."},{"id":21,"categoria":"Recorrência","titulo":"Recorrência – Fiscalização ANVISA","orgao":"ANVISA","tags":"recorrência; ANVISA; urgência; fiscalização","texto":"Prezados, reiteramos que a encomenda se encontra em fiscalização pela ANVISA. Diante da recorrência do contato, nós já encaminhamos nova solicitação de urgência junto ao órgão e aguardamos retorno."},{"id":22,"categoria":"Recorrência","titulo":"Recorrência – Extravio em Investigação","orgao":"Correios","tags":"recorrência; extravio; investigação; prazo","texto":"Prezados, reiteramos que as buscas pela encomenda estão em andamento. Já acionamos a área responsável e o processo de investigação segue em curso. Informaremos o cliente assim que houver atualização."},{"id":23,"categoria":"Operacional","titulo":"Objeto Retido por Endereço Incorreto","orgao":"Correios","tags":"endereço; incorreto; retido; atualização","texto":"Prezados, informamos que a encomenda se encontra retida devido ao endereço de entrega estar incorreto ou incompleto. Pedimos que o cliente seja orientado a fornecer o endereço atualizado para que possamos dar prosseguimento à entrega."},{"id":24,"categoria":"Operacional","titulo":"Objeto Aguardando Retirada na Unidade","orgao":"Correios","tags":"aguardando; retirada; unidade; prazo","texto":"Prezados, informamos que a encomenda encontra-se disponível para retirada na unidade dos Correios. Pedimos que o cliente seja orientado a comparecer à unidade dentro do prazo estabelecido, munido de documento de identificação e do código de rastreamento."},{"id":25,"categoria":"Fiscalização / Tributação","titulo":"Tributação Calculada – Aguardando Pagamento","orgao":"RFB","tags":"tributação; pagamento; aguardando; RFB; tributos","texto":"Prezados, informamos que a tributação referente à encomenda já foi calculada pela Receita Federal do Brasil. Pedimos que o cliente seja orientado a acessar o site dos Correios ou o portal da RFB para efetuar o pagamento dos tributos devidos, a fim de liberar a encomenda."},{"id":26,"categoria":"Fiscalização / Tributação","titulo":"Declaração Aduaneira Ausente ou Incorreta","orgao":"RFB","tags":"declaração aduaneira; ausente; incorreta; CEINT; nacionalização; fiscalização","texto":"Prezados, informamos que a encomenda adentrou no CEINT com a declaração aduaneira ausente/incorreta, desta forma, a nacionalização não foi autorizada pelo órgão fiscalizador. Informamos ainda que os Correios não apresentam prerrogativas para interferir em tal processo."},{"id":27,"categoria":"Operacional","titulo":"Encomenda sem Entrada no CEINT","orgao":"CEINT","tags":"sem entrada; CEINT; SRO; informação eletrônica; fiscalização","texto":"Prezados, informamos que até o momento a encomenda em questão não teve entrada neste CEINT. Os eventos que constam no SRO são referentes ao tratamento da informação eletrônica, a qual foi realizada de forma remota pelo órgão fiscalizador competente."},{"id":28,"categoria":"Fiscalização / Tributação","titulo":"Encomenda com Tributos Pagos – PPR","orgao":"Correios","tags":"tributos; pagos; PPR; rastreamento; prazo; expedido; distribuição","texto":"Prezados, conforme consta no sistema de rastreamento, o objeto já foi devidamente encaminhado para o destino. Lembramos que a encomenda foi postada na modalidade registrada, a qual não apresenta rastreamento ponto a ponto, e o prazo de entrega é de até 40 dias após o evento de objeto expedido para tratamento e distribuição."},{"id":29,"categoria":"Operacional","titulo":"Presença de Carga","orgao":"DEINT","tags":"presença de carga; DEINT; aguardando; resolução; operacional","texto":"Prezados, informamos que a encomenda encontra-se com problema de presença de carga e tal fato já foi reportado para o departamento responsável (DEINT). Neste caso, se faz necessário aguardar a resolução da situação pelo setor informado a fim de que seja possível dar andamento para o objeto."}];
+
+const SEED_N = {acomp:[],pend:[],outras:[]};
+const NOTE_COLS = [
+  {key:'acomp', label:'Em Acompanhamento',       topColor:'#C0392B', badgeBg:'#FFEBEE', badgeColor:'#C0392B'},
+  {key:'pend',  label:'Sem Tratamento Possível', topColor:'#D35400', badgeBg:'#FFF3E0', badgeColor:'#D35400'},
+  {key:'outras',label:'Solicitações a Outras Áreas',topColor:'#1A4F8A',badgeBg:'#E8EDF5',badgeColor:'#1A4F8A'},
+];
+const CAT_COLOR = {
+  'Avaria':'#C0392B','Devolução':'#D35400','Extravio':'#1A6B3A',
+  'Fiscalização / Tributação':'#0D1F35','Operacional':'#00838F',
+  'Recorrência':'#7D6608','Refugo / Descarte':'#6C3483','Retenção / Apreensão':'#922B21'
+};
+
+// ══════════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════════
+let isAdmin = false;
+let RESP = [], NOTAS = {acomp:[],pend:[],outras:[]};
+let syncInterval;
+let CFG = {key:'', bin:''};
+
+// ══════════════════════════════════════════════════════════════
+// JSONBIN API
+// ══════════════════════════════════════════════════════════════
+function loadCfg(){
+  try{ CFG = JSON.parse(localStorage.getItem('ceint_cfg')||'{}'); }catch(e){ CFG={}; }
+  CFG.key = CFG.key||''; CFG.bin = CFG.bin||'';
+}
+function saveCfg(){ localStorage.setItem('ceint_cfg', JSON.stringify(CFG)); }
+
+function hasCfg(){ return CFG.key && CFG.bin; }
+
+async function binRead(){
+  if(!hasCfg()) return null;
+  try{
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${CFG.bin}/latest`,{
+      headers:{'X-Master-Key':CFG.key,'X-Bin-Meta':'false'}
+    });
+    if(!r.ok) return null;
+    return await r.json();
+  }catch(e){ return null; }
+}
+
+async function binWrite(data){
+  if(!hasCfg()) return false;
+  try{
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${CFG.bin}`,{
+      method:'PUT',
+      headers:{'Content-Type':'application/json','X-Master-Key':CFG.key},
+      body: JSON.stringify(data)
+    });
+    return r.ok;
+  }catch(e){ return false; }
+}
+
+async function syncLoad(){
+  const dot = document.getElementById('sync-dot');
+  if(dot) dot.classList.add('active');
+  const data = await binRead();
+  if(dot) dot.classList.remove('active');
+  if(data){
+    RESP  = data.r || RESP;
+    NOTAS = data.n || NOTAS;
+    document.getElementById('offline-badge').classList.remove('show');
+    return true;
+  } else {
+    if(!hasCfg()) document.getElementById('offline-badge').classList.add('show');
+    return false;
+  }
+}
+
+async function syncSave(){
+  const dot = document.getElementById('sync-dot');
+  if(dot) dot.classList.add('active');
+  const ok = await binWrite({r:RESP, n:NOTAS});
+  if(dot) setTimeout(()=>dot.classList.remove('active'), 600);
+  return ok;
+}
+
+// ══════════════════════════════════════════════════════════════
+// CONFIG UI
+// ══════════════════════════════════════════════════════════════
+function toggleSetup(){
+  const b = document.getElementById('setup-banner');
+  b.classList.toggle('show');
+  if(b.classList.contains('show')){
+    document.getElementById('cfg-key').value = CFG.key||'';
+    document.getElementById('cfg-bin').value = CFG.bin||'';
+  }
+}
+async function saveConfig(){
+  const key = document.getElementById('cfg-key').value.trim();
+  const bin = document.getElementById('cfg-bin').value.trim();
+  const err = document.getElementById('setup-err');
+  err.textContent = '';
+  if(!key||!bin){ err.textContent='Preencha os dois campos.'; return; }
+  CFG = {key, bin}; saveCfg();
+  err.textContent = 'Testando conexão…';
+  const data = await binRead();
+  if(data !== null){
+    err.style.color='#4ADE80';
+    err.textContent = '✅ Conectado! Dados carregados com sucesso.';
+    RESP  = data.r && data.r.length ? data.r : JSON.parse(JSON.stringify(SEED_R));
+    NOTAS = data.n || JSON.parse(JSON.stringify(SEED_N));
+    if(!data.r || !data.r.length){
+      await binWrite({r:RESP, n:NOTAS});
+    }
+    renderCards(); renderNotes();
+    document.getElementById('offline-badge').classList.remove('show');
+    setTimeout(()=>{ err.textContent=''; err.style.color=''; },3000);
+  } else {
+    err.style.color='';
+    err.textContent = '❌ Não foi possível conectar. Verifique a Master Key e o Bin ID.';
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════════════════════
+function tryLogin(){
+  const pw = document.getElementById('pw').value;
+  if(pw === ADMIN_PW){ isAdmin=true; launch(); }
+  else { document.getElementById('auth-err').textContent='Senha incorreta.'; }
+}
+function enterViewer(){ isAdmin=false; launch(); }
+function sair(){
+  clearInterval(syncInterval);
+  document.getElementById('auth-wrap').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('pw').value='';
+  document.getElementById('auth-err').textContent='';
+}
+
+async function launch(){
+  document.getElementById('auth-wrap').style.display='none';
+  document.getElementById('app').style.display='flex';
+  const pill = document.getElementById('mode-pill');
+  pill.textContent = isAdmin ? '🔑 Administrador' : '👁 Visualizador';
+  pill.className   = 'mode-pill ' + (isAdmin ? 'pill-admin' : 'pill-viewer');
+  document.getElementById('admin-bar').style.display   = isAdmin ? 'flex' : 'none';
+  document.getElementById('admin-bar-n').style.display = isAdmin ? 'flex' : 'none';
+
+  // Load data
+  const loaded = await syncLoad();
+  if(!loaded){
+    RESP  = JSON.parse(JSON.stringify(SEED_R));
+    NOTAS = JSON.parse(JSON.stringify(SEED_N));
+  }
+  initFilters(); renderCards(); renderNotes();
+
+  // Auto-sync every 8s
+  clearInterval(syncInterval);
+  syncInterval = setInterval(async()=>{
+    await syncLoad();
+    renderCards(); renderNotes();
+  }, 8000);
+}
+
+// ══════════════════════════════════════════════════════════════
+// TABS
+// ══════════════════════════════════════════════════════════════
+function goTab(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+// RESPOSTAS
+// ══════════════════════════════════════════════════════════════
+function initFilters(){
+  const cats = [...new Set(RESP.map(r=>r.categoria))].sort();
+  const orgs = [...new Set(RESP.map(r=>r.orgao))].sort();
+  const sc = document.getElementById('fCat'), so = document.getElementById('fOrg');
+  const cv=sc.value, ov=so.value;
+  sc.innerHTML='<option value="">Todas as categorias</option>';
+  so.innerHTML='<option value="">Todos os órgãos</option>';
+  cats.forEach(c=>{ const o=document.createElement('option');o.value=c;o.textContent=c;sc.appendChild(o); });
+  orgs.forEach(c=>{ const o=document.createElement('option');o.value=c;o.textContent=c;so.appendChild(o); });
+  sc.value=cv; so.value=ov;
+}
+
+function renderCards(){
+  const q   = (document.getElementById('q').value||'').toLowerCase();
+  const cat = document.getElementById('fCat').value;
+  const org = document.getElementById('fOrg').value;
+  const f = RESP.filter(r=>{
+    if(cat && r.categoria!==cat) return false;
+    if(org && r.orgao!==org) return false;
+    if(q && ![r.titulo,r.categoria,r.orgao,r.tags,r.texto].some(v=>v.toLowerCase().includes(q))) return false;
+    return true;
+  });
+  document.getElementById('counter').textContent = f.length+' resposta'+(f.length!==1?'s':'');
+  const g = document.getElementById('grid');
+  g.innerHTML='';
+  if(!f.length){ g.innerHTML='<div class="empty-msg">Nenhuma resposta encontrada.</div>'; return; }
+  f.forEach(r=>g.appendChild(mkCard(r)));
+}
+
+function mkCard(r){
+  const color = CAT_COLOR[r.categoria]||'#555';
+  const d = document.createElement('div');
+  d.className = 'card';
+  const adminBtns = isAdmin
+    ? `<button class="btn-card ed" onclick="event.stopPropagation();openRespModal(${r.id})">✏</button>
+       <button class="btn-card dl" onclick="event.stopPropagation();delResp(${r.id})">🗑</button>`
+    : '';
+  d.innerHTML = `
+    <div class="card-stripe" style="background:${color}"></div>
+    <div class="card-head"><span class="card-title">${r.titulo}</span></div>
+    <div class="card-meta">
+      <span class="badge badge-cat">${r.categoria}</span>
+      <span class="badge badge-org">${r.orgao}</span>
+    </div>
+    <div class="card-body">${r.texto.replace(/\n/g,'<br>')}</div>
+    <div class="card-foot">
+      <button class="btn-expand" onclick="event.stopPropagation();const c=this.closest('.card');c.classList.toggle('expanded');this.textContent=c.classList.contains('expanded')?'▲ recolher':'▼ ver mais'">▼ ver mais</button>
+      <div class="card-acts">
+        ${adminBtns}
+        <button class="btn-card cp" onclick="event.stopPropagation();cpText(${r.id},this)">📋 copiar</button>
+      </div>
+    </div>`;
+  d.addEventListener('click',e=>{ if(e.target.tagName==='BUTTON') return; cpText(r.id, d.querySelector('.btn-card.cp')); });
+  return d;
+}
+
+function cpText(id, btn){
+  const r = RESP.find(x=>x.id===id); if(!r) return;
+  navigator.clipboard.writeText(r.texto).catch(()=>{});
+  const card = btn.closest('.card');
+  card.classList.add('copied');
+  btn.textContent='✅ copiado!'; btn.classList.add('done');
+  showToast('✅ Resposta copiada!');
+  setTimeout(()=>{ card.classList.remove('copied'); btn.textContent='📋 copiar'; btn.classList.remove('done'); }, 2000);
+}
+
+function openRespModal(id){
+  const r = id ? RESP.find(x=>x.id===id) : null;
+  document.getElementById('m-resp-title').textContent = r ? 'Editar Resposta' : 'Nova Resposta';
+  document.getElementById('rf-id').value    = r ? r.id    : '';
+  document.getElementById('rf-titulo').value= r ? r.titulo: '';
+  document.getElementById('rf-cat').value   = r ? r.categoria:'';
+  document.getElementById('rf-orgao').value = r ? r.orgao :'';
+  document.getElementById('rf-tags').value  = r ? r.tags  :'';
+  document.getElementById('rf-texto').value = r ? r.texto :'';
+  openM('m-resp');
+  setTimeout(()=>document.getElementById('rf-titulo').focus(),60);
+}
+
+async function saveResp(){
+  const id    = document.getElementById('rf-id').value;
+  const titulo= document.getElementById('rf-titulo').value.trim();
+  const cat   = document.getElementById('rf-cat').value.trim();
+  const orgao = document.getElementById('rf-orgao').value.trim();
+  const tags  = document.getElementById('rf-tags').value.trim();
+  const texto = document.getElementById('rf-texto').value.trim();
+  if(!titulo||!cat||!orgao||!texto){ alert('Preencha Título, Categoria, Órgão e Texto.'); return; }
+  if(id){
+    const r=RESP.find(x=>x.id===parseInt(id));
+    if(r){ r.titulo=titulo;r.categoria=cat;r.orgao=orgao;r.tags=tags;r.texto=texto; }
+  } else {
+    const nid = RESP.length ? Math.max(...RESP.map(x=>x.id))+1 : 1;
+    RESP.push({id:nid,categoria:cat,titulo,orgao,tags,texto});
+  }
+  closeM('m-resp');
+  initFilters(); renderCards();
+  const ok = await syncSave();
+  showToast(ok ? '💾 Salvo e sincronizado!' : '💾 Salvo localmente (JSONBin não configurado)');
+}
+
+async function delResp(id){
+  if(!confirm('Excluir esta resposta para todos os utilizadores?')) return;
+  RESP = RESP.filter(x=>x.id!==id);
+  initFilters(); renderCards();
+  await syncSave();
+  showToast('🗑 Resposta excluída.');
+}
+
+// ══════════════════════════════════════════════════════════════
+// NOTAS
+// ══════════════════════════════════════════════════════════════
+function renderNotes(){
+  const w = document.getElementById('notes-layout');
+  w.innerHTML='';
+  NOTE_COLS.forEach(col=>{
+    const items = (NOTAS[col.key]||[]);
+    const div = document.createElement('div'); div.className='notes-col';
+    const addBtn = isAdmin ? `<button class="btn-add-note" onclick="openNotaModal('${col.key}')">＋ Novo</button>` : '';
+    div.innerHTML=`
+      <div class="notes-col-top" style="border-bottom:2px solid ${col.topColor}22">
+        <h3 style="color:${col.topColor}">
+          ${col.label}
+          <span class="cnt-pill" style="background:${col.badgeBg};color:${col.badgeColor}">${items.length}</span>
+        </h3>
+        ${addBtn}
+      </div>
+      <div class="note-list" id="nl-${col.key}"></div>`;
+    w.appendChild(div);
+    const list = document.getElementById('nl-'+col.key);
+    if(!items.length){ list.innerHTML='<div class="note-empty">— sem anotações —</div>'; return; }
+    items.forEach(n=>{
+      const priC = {alta:'pri-alta',media:'pri-media',baixa:'pri-baixa'}[n.pri]||'pri-media';
+      const priL = {alta:'🔴 Alta',media:'🟠 Média',baixa:'🟢 Baixa'}[n.pri]||'🟠 Média';
+      const ab = isAdmin
+        ? `<button onclick="openNotaModal('${col.key}','${n.id}')">✏</button>
+           <button onclick="delNota('${col.key}','${n.id}')">🗑</button>` : '';
+      const ni = document.createElement('div'); ni.className='note-card';
+      ni.innerHTML=`
+        <div class="note-top">
+          <div class="note-subj">${esc(n.subj)}</div>
+          <div class="note-btns">${ab}</div>
+        </div>
+        ${n.detail?`<div class="note-detail">${esc(n.detail).replace(/\n/g,'<br>')}</div>`:''}
+        <div class="note-foot">
+          <span class="pri ${priC}">${priL}</span>
+          ${n.date?`<span class="note-date">📅 ${esc(n.date)}</span>`:''}
+        </div>`;
+      list.appendChild(ni);
+    });
+  });
+}
+
+function openNotaModal(col, id){
+  const n = id ? (NOTAS[col]||[]).find(x=>x.id===id) : null;
+  document.getElementById('m-nota-title').textContent = n ? 'Editar Anotação' : 'Nova Anotação';
+  document.getElementById('nf-col').value  = col;
+  document.getElementById('nf-id').value   = id||'';
+  document.getElementById('nf-subj').value = n?n.subj:'';
+  document.getElementById('nf-detail').value=n?n.detail:'';
+  document.getElementById('nf-pri').value  = n?n.pri:'media';
+  document.getElementById('nf-date').value = n?n.date:'';
+  openM('m-nota');
+  setTimeout(()=>document.getElementById('nf-subj').focus(),60);
+}
+
+async function saveNota(){
+  const col  = document.getElementById('nf-col').value;
+  const id   = document.getElementById('nf-id').value;
+  const subj = document.getElementById('nf-subj').value.trim();
+  const detail=document.getElementById('nf-detail').value.trim();
+  const pri  = document.getElementById('nf-pri').value;
+  const date = document.getElementById('nf-date').value.trim();
+  if(!subj){ alert('Informe o assunto da demanda.'); return; }
+  if(!NOTAS[col]) NOTAS[col]=[];
+  if(id){ const n=NOTAS[col].find(x=>x.id===id); if(n){n.subj=subj;n.detail=detail;n.pri=pri;n.date=date;} }
+  else   { NOTAS[col].push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,4),subj,detail,pri,date}); }
+  closeM('m-nota'); renderNotes();
+  const ok = await syncSave();
+  showToast(ok ? '💾 Anotação salva e sincronizada!' : '💾 Anotação salva localmente');
+}
+
+async function delNota(col, id){
+  if(!confirm('Excluir esta anotação para todos?')) return;
+  NOTAS[col]=(NOTAS[col]||[]).filter(x=>x.id!==id);
+  renderNotes(); await syncSave();
+  showToast('🗑 Anotação excluída.');
+}
+
+// ══════════════════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════════════════
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function openM(id){ document.getElementById(id).classList.add('open'); }
+function closeM(id){ document.getElementById(id).classList.remove('open'); }
+
+let toastT;
+function showToast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+document.getElementById('m-resp').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeM('m-resp'); });
+document.getElementById('m-nota').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeM('m-nota'); });
+document.getElementById('pw').addEventListener('keydown',e=>{ if(e.key==='Enter') tryLogin(); });
+
+// Boot
+loadCfg();
+document.getElementById('pw').focus();
+</script>
+</body>
+</html>
