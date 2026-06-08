@@ -7,9 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════════════════════
-   RESET & TOKENS
-══════════════════════════════════════════════════════════ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:         #F2F0EB;
@@ -43,17 +40,11 @@ body{
   line-height:1.6;
 }
 
-/* ══════════════════════════════════════════════════════════
-   SETUP BANNER
-══════════════════════════════════════════════════════════ */
+/* ── SETUP BANNER ── */
 #setup-banner{
-  background:#1A1A2E;
-  color:#E8E8E8;
-  padding:0;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:12px;
-  border-bottom:2px solid var(--accent);
-  display:none;
+  background:#1A1A2E;color:#E8E8E8;padding:0;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  border-bottom:2px solid var(--accent);display:none;
 }
 #setup-banner.show{display:block}
 .setup-inner{padding:16px 24px;max-width:900px;margin:0 auto}
@@ -84,29 +75,20 @@ body{
 .setup-dismiss{float:right;background:none;border:none;color:#666;cursor:pointer;font-size:16px;line-height:1}
 .setup-dismiss:hover{color:#E8E8E8}
 
-/* ══════════════════════════════════════════════════════════
-   AUTH
-══════════════════════════════════════════════════════════ */
+/* ── AUTH ── */
 #auth-wrap{
   display:flex;align-items:center;justify-content:center;
   min-height:100vh;padding:24px;
 }
 .auth-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--rl);
-  box-shadow:var(--shadow-lg);
-  padding:36px;
-  width:100%;max-width:400px;
-  text-align:center;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--rl);box-shadow:var(--shadow-lg);
+  padding:36px;width:100%;max-width:400px;text-align:center;
 }
 .auth-emblem{
-  width:60px;height:60px;
-  background:var(--navy);
-  border-radius:12px;
+  width:60px;height:60px;background:var(--navy);border-radius:12px;
   display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;
-  font-size:26px;
+  margin:0 auto 20px;font-size:26px;
 }
 .auth-card h1{font-size:20px;font-weight:600;color:var(--text);margin-bottom:4px}
 .auth-subtitle{font-size:12px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;font-family:'IBM Plex Mono',monospace}
@@ -125,8 +107,10 @@ body{
   padding:11px;font-size:14px;font-weight:500;
   cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
   margin-bottom:8px;transition:background .15s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
 }
-.btn-admin:hover{background:var(--navy2)}
+.btn-admin:hover:not(:disabled){background:var(--navy2)}
+.btn-admin:disabled{opacity:.6;cursor:not-allowed}
 .btn-viewer{
   width:100%;background:var(--surface2);color:var(--text2);
   border:1.5px solid var(--border);border-radius:var(--r);
@@ -141,52 +125,46 @@ body{
 }
 .auth-config-link a{color:var(--accent);text-decoration:none;cursor:pointer}
 .auth-config-link a:hover{text-decoration:underline}
+.spinner{
+  width:14px;height:14px;border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none;
+}
+.spinner.show{display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* ══════════════════════════════════════════════════════════
-   APP SHELL
-══════════════════════════════════════════════════════════ */
+/* ── APP SHELL ── */
 #app{display:none;flex-direction:column;min-height:100vh}
-
 .topbar{
-  background:var(--navy);
-  color:#fff;
-  padding:0 24px;
-  height:52px;
+  background:var(--navy);color:#fff;padding:0 24px;height:52px;
   display:flex;align-items:center;gap:16px;
-  position:sticky;top:0;z-index:60;
-  border-bottom:2px solid var(--accent);
+  position:sticky;top:0;z-index:60;border-bottom:2px solid var(--accent);
 }
 .topbar-brand{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:13px;font-weight:500;
-  letter-spacing:.5px;
-  flex:1;display:flex;align-items:center;gap:10px;
+  font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;
+  letter-spacing:.5px;flex:1;display:flex;align-items:center;gap:10px;
 }
 .brand-tag{
-  background:var(--accent);color:#000;
-  font-size:9px;font-weight:600;letter-spacing:1px;
-  padding:2px 7px;border-radius:3px;text-transform:uppercase;
+  background:var(--accent);color:#000;font-size:9px;font-weight:600;
+  letter-spacing:1px;padding:2px 7px;border-radius:3px;text-transform:uppercase;
 }
 .topbar-right{display:flex;align-items:center;gap:10px}
 .mode-pill{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:10px;font-weight:500;letter-spacing:.5px;
-  padding:3px 10px;border-radius:20px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.5px;padding:3px 10px;border-radius:20px;
 }
 .pill-admin{background:var(--accent);color:#000}
 .pill-viewer{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
 .sync-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:#4ADE80;
+  width:8px;height:8px;border-radius:50%;background:#4ADE80;
   display:none;animation:pulse 2s infinite;
 }
 .sync-dot.active{display:block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .btn-topbar{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:11px;background:rgba(255,255,255,.1);
-  color:rgba(255,255,255,.8);border:none;border-radius:var(--r);
-  padding:5px 12px;cursor:pointer;transition:background .15s;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  background:rgba(255,255,255,.1);color:rgba(255,255,255,.8);
+  border:none;border-radius:var(--r);padding:5px 12px;cursor:pointer;
+  transition:background .15s;
 }
 .btn-topbar:hover{background:rgba(255,255,255,.18)}
 .btn-topbar-config{background:rgba(200,168,75,.15);color:var(--accent)}
@@ -194,20 +172,14 @@ body{
 
 /* ── Tab nav ── */
 .tab-nav{
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  display:flex;gap:0;
-  position:sticky;top:52px;z-index:59;
-  overflow-x:auto;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;gap:0;position:sticky;top:52px;z-index:59;overflow-x:auto;
 }
 .tab-btn{
-  font-family:'IBM Plex Sans',sans-serif;
-  font-size:13px;font-weight:500;
+  font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:500;
   color:var(--text3);background:none;border:none;
-  border-bottom:2.5px solid transparent;
-  padding:13px 22px;margin-bottom:-1px;
-  cursor:pointer;white-space:nowrap;
-  transition:color .15s,border-color .15s;
+  border-bottom:2.5px solid transparent;padding:13px 22px;margin-bottom:-1px;
+  cursor:pointer;white-space:nowrap;transition:color .15s,border-color .15s;
   display:flex;align-items:center;gap:7px;
 }
 .tab-btn:hover{color:var(--text)}
@@ -224,42 +196,38 @@ body{
 .search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.4;pointer-events:none}
 .search-wrap input{padding-left:34px;width:100%}
 input,select,textarea{
-  font-family:'IBM Plex Sans',sans-serif;
-  font-size:13px;color:var(--text);
-  background:var(--bg);
-  border:1.5px solid var(--border);border-radius:var(--r);
-  padding:8px 12px;outline:none;
-  transition:border-color .2s;
+  font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:var(--text);
+  background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:8px 12px;outline:none;transition:border-color .2s;
 }
 input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .counter{font-size:11px;color:var(--text3);white-space:nowrap;margin-left:auto;font-family:'IBM Plex Mono',monospace}
 .admin-bar{
   background:var(--surface2);border-bottom:1px solid var(--border);
-  padding:10px 24px;display:flex;justify-content:flex-end;gap:8px;
+  padding:10px 24px;display:flex;justify-content:flex-end;gap:8px;align-items:center;
 }
 .btn-add{
-  background:var(--navy);color:#fff;border:none;
-  border-radius:var(--r);padding:7px 16px;
-  font-size:13px;font-weight:500;cursor:pointer;
+  background:var(--navy);color:#fff;border:none;border-radius:var(--r);
+  padding:7px 16px;font-size:13px;font-weight:500;cursor:pointer;
   display:flex;align-items:center;gap:6px;
   font-family:'IBM Plex Sans',sans-serif;transition:background .15s;
 }
 .btn-add:hover{background:var(--navy2)}
+.btn-export{
+  background:none;color:var(--text2);border:1px solid var(--border);
+  border-radius:var(--r);padding:7px 14px;font-size:12px;cursor:pointer;
+  font-family:'IBM Plex Mono',monospace;transition:all .15s;display:flex;align-items:center;gap:5px;
+}
+.btn-export:hover{border-color:var(--green);color:var(--green)}
 
-/* ══════════════════════════════════════════════════════════
-   CARDS
-══════════════════════════════════════════════════════════ */
+/* ── CARDS ── */
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
-  gap:12px;padding:20px 24px;
-  max-width:1440px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:12px;padding:20px 24px;max-width:1440px;margin:0 auto;
 }
 .card{
-  background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--rl);
-  cursor:pointer;overflow:hidden;
-  display:flex;flex-direction:column;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);
+  cursor:pointer;overflow:hidden;display:flex;flex-direction:column;
   transition:box-shadow .15s,border-color .15s,transform .1s;
 }
 .card:hover{box-shadow:var(--shadow-lg);border-color:var(--border2);transform:translateY(-1px)}
@@ -272,6 +240,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px}
 .badge-cat{background:#E8EDF5;color:#1A3A6A}
 .badge-org{background:#F0EDE8;color:#5A4A35;border:1px solid var(--border)}
+.badge-tag{
+  background:#F5F5F5;color:var(--text3);border:1px solid var(--border);
+  cursor:pointer;transition:all .15s;
+}
+.badge-tag:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
 .card-body{
   padding:10px 14px;font-size:12px;line-height:1.7;color:var(--text2);flex:1;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
@@ -285,12 +258,9 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .btn-expand:hover{color:var(--text)}
 .card-acts{display:flex;gap:5px}
 .btn-card{
-  font-size:11px;font-weight:500;
-  border:1px solid var(--border);border-radius:var(--r);
-  padding:4px 10px;cursor:pointer;
-  font-family:'IBM Plex Sans',sans-serif;
-  background:var(--surface);color:var(--text2);
-  transition:all .15s;
+  font-size:11px;font-weight:500;border:1px solid var(--border);border-radius:var(--r);
+  padding:4px 10px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
+  background:var(--surface);color:var(--text2);transition:all .15s;
 }
 .btn-card.cp:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
 .btn-card.cp.done{background:var(--green);color:#fff;border-color:var(--green)}
@@ -298,9 +268,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .btn-card.dl:hover{background:#FFEBEE;color:var(--red);border-color:var(--red)}
 .empty-msg{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text3);font-size:13px}
 
-/* ══════════════════════════════════════════════════════════
-   NOTES
-══════════════════════════════════════════════════════════ */
+/* ── NOTES ── */
 .notes-layout{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
   gap:16px;padding:20px 24px;max-width:1440px;margin:0 auto;
@@ -339,15 +307,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 }
 .btn-add-note:hover{border-color:var(--border2);color:var(--text)}
 
-/* ══════════════════════════════════════════════════════════
-   LINKS PAGE
-══════════════════════════════════════════════════════════ */
+/* ── LINKS PAGE ── */
 .links-page{padding:24px;max-width:840px;margin:0 auto}
 .section-title{
   font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
   color:var(--text3);font-family:'IBM Plex Mono',monospace;
-  margin-bottom:14px;padding-bottom:10px;
-  border-bottom:1px solid var(--border);
+  margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;gap:8px;
 }
 .links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:32px}
@@ -355,23 +320,17 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);
   padding:16px 18px;text-decoration:none;color:var(--text);
   display:flex;align-items:flex-start;gap:13px;
-  transition:box-shadow .15s,border-color .15s,transform .1s;
-  box-shadow:var(--shadow);
+  transition:box-shadow .15s,border-color .15s,transform .1s;box-shadow:var(--shadow);
 }
 .link-card:hover{box-shadow:var(--shadow-lg);border-color:var(--accent);transform:translateY(-2px)}
 .link-icon{
-  width:40px;height:40px;border-radius:8px;
-  background:var(--navy);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;flex-shrink:0;color:#fff;
+  width:40px;height:40px;border-radius:8px;background:var(--navy);
+  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;color:#fff;
 }
 .link-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:3px}
 .link-desc{font-size:11px;color:var(--text2);line-height:1.45}
 .link-url{font-size:10px;color:var(--accent2);margin-top:5px;font-family:'IBM Plex Mono',monospace}
-.tips-box{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--rl);overflow:hidden;
-}
+.tips-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
 .tip-item{
   display:flex;gap:12px;align-items:flex-start;
   padding:12px 18px;border-bottom:1px solid var(--border);
@@ -380,15 +339,11 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .tip-item:last-child{border-bottom:none}
 .tip-num{
   font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
-  background:var(--navy);color:var(--accent);
-  width:20px;height:20px;border-radius:3px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  margin-top:2px;
+  background:var(--navy);color:var(--accent);width:20px;height:20px;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
 }
 
-/* ══════════════════════════════════════════════════════════
-   MODALS
-══════════════════════════════════════════════════════════ */
+/* ── MODALS ── */
 .overlay{
   display:none;position:fixed;inset:0;z-index:200;
   background:rgba(13,31,53,.5);backdrop-filter:blur(2px);
@@ -416,8 +371,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 .modal-row>div{flex:1}
 .modal-foot{
   padding:12px 20px;border-top:1px solid var(--border);
-  display:flex;justify-content:flex-end;gap:8px;
-  background:var(--surface2);
+  display:flex;justify-content:flex-end;gap:8px;background:var(--surface2);
 }
 .btn-save{
   background:var(--navy);color:#fff;border:none;border-radius:var(--r);
@@ -426,18 +380,26 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 }
 .btn-save:hover{background:var(--navy2)}
 .btn-cancel{
-  background:none;color:var(--text2);
-  border:1px solid var(--border);border-radius:var(--r);
+  background:none;color:var(--text2);border:1px solid var(--border);border-radius:var(--r);
   padding:8px 16px;font-size:13px;cursor:pointer;
   font-family:'IBM Plex Sans',sans-serif;transition:border-color .15s;
 }
 .btn-cancel:hover{border-color:var(--border2)}
 
+/* ── Confirm modal ── */
+.confirm-modal{max-width:360px}
+.confirm-modal .modal-body{padding:20px;font-size:13px;color:var(--text2);line-height:1.6}
+.btn-confirm-del{
+  background:var(--red);color:#fff;border:none;border-radius:var(--r);
+  padding:8px 20px;font-size:13px;font-weight:500;cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;transition:background .15s;
+}
+.btn-confirm-del:hover{background:#A93226}
+
 /* ── Toast ── */
 #toast{
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
-  background:var(--navy);color:#fff;
-  padding:9px 22px;border-radius:20px;
+  background:var(--navy);color:#fff;padding:9px 22px;border-radius:20px;
   font-size:13px;font-weight:500;font-family:'IBM Plex Mono',monospace;
   opacity:0;pointer-events:none;transition:opacity .25s;z-index:999;
   white-space:nowrap;border-bottom:2px solid var(--accent);
@@ -449,8 +411,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   position:fixed;bottom:24px;right:24px;
   background:#FFF3E0;border:1px solid var(--orange);
   color:var(--orange);padding:6px 14px;border-radius:var(--r);
-  font-size:11px;font-family:'IBM Plex Mono',monospace;
-  display:none;z-index:998;
+  font-size:11px;font-family:'IBM Plex Mono',monospace;display:none;z-index:998;
 }
 #offline-badge.show{display:block}
 
@@ -468,15 +429,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 </head>
 <body>
 
-<!-- ══ SETUP BANNER ════════════════════════════════════════════════════════ -->
+<!-- SETUP BANNER -->
 <div id="setup-banner">
   <div class="setup-inner">
-    <button class="setup-dismiss" onclick="document.getElementById('setup-banner').classList.remove('show')" title="Fechar">✕</button>
+    <button class="setup-dismiss" onclick="document.getElementById('setup-banner').classList.remove('show')" aria-label="Fechar configuração">✕</button>
     <h3>⚙️ Configuração do armazenamento compartilhado — JSONBin.io</h3>
     <div class="setup-steps">
       <div class="setup-step"><span class="step-num">1</span><p>Acesse <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> e crie uma conta gratuita.</p></div>
       <div class="setup-step"><span class="step-num">2</span><p>Vá em <strong>API Keys</strong> e copie sua <code>Master Key</code>.</p></div>
-      <div class="setup-step"><span class="step-num">3</span><p>Clique em <strong>New Bin</strong>, cole o conteúdo <code>{"r":[],"n":{}}</code> e salve. Copie o <strong>Bin ID</strong> exibido.</p></div>
+      <div class="setup-step"><span class="step-num">3</span><p>Clique em <strong>New Bin</strong>, cole <code>{"r":[],"n":{}}</code> e salve. Copie o <strong>Bin ID</strong>.</p></div>
       <div class="setup-step"><span class="step-num">4</span><p>Cole os valores abaixo e clique em Salvar. As configurações ficam no seu navegador.</p></div>
     </div>
     <div class="setup-input-row">
@@ -488,14 +449,17 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   </div>
 </div>
 
-<!-- ══ AUTH ════════════════════════════════════════════════════════════════ -->
+<!-- AUTH -->
 <div id="auth-wrap">
   <div class="auth-card">
     <div class="auth-emblem">📮</div>
     <h1>Banco de Respostas</h1>
     <div class="auth-subtitle">CEINT &nbsp;·&nbsp; 2026</div>
     <input type="password" id="pw" placeholder="Senha de administrador…" onkeydown="if(event.key==='Enter')tryLogin()">
-    <button class="btn-admin" onclick="tryLogin()">Entrar como Administrador</button>
+    <button class="btn-admin" id="btn-login" onclick="tryLogin()">
+      <span class="spinner" id="login-spinner"></span>
+      <span id="login-label">Entrar como Administrador</span>
+    </button>
     <button class="btn-viewer" onclick="enterViewer()">Visualizador — acesso sem senha</button>
     <div class="auth-err" id="auth-err"></div>
     <div class="auth-config-link">
@@ -504,9 +468,8 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   </div>
 </div>
 
-<!-- ══ APP ══════════════════════════════════════════════════════════════════ -->
+<!-- APP -->
 <div id="app">
-
   <header class="topbar">
     <div class="topbar-brand">
       <span>📮 CEINT — Banco de Respostas</span>
@@ -515,7 +478,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <div class="topbar-right">
       <span class="sync-dot" id="sync-dot" title="Sincronizando…"></span>
       <span class="mode-pill" id="mode-pill"></span>
-      <button class="btn-topbar btn-topbar-config" onclick="toggleSetup()">⚙ JSONBin</button>
+      <button class="btn-topbar btn-topbar-config" onclick="toggleSetup()" aria-label="Configurar JSONBin">⚙ JSONBin</button>
       <button class="btn-topbar" onclick="sair()">Sair</button>
     </div>
   </header>
@@ -526,24 +489,31 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <button class="tab-btn" onclick="goTab('links',this)">🔗 Links de Apoio</button>
   </nav>
 
-  <!-- ─── PAGE: RESPOSTAS ─── -->
+  <!-- PAGE: RESPOSTAS -->
   <div id="page-respostas" class="page active">
     <div id="admin-bar" class="admin-bar" style="display:none">
+      <button class="btn-export" onclick="exportCSV()" aria-label="Exportar banco como CSV">⬇ Exportar CSV</button>
       <button class="btn-add" onclick="openRespModal(null)">＋ Nova Resposta</button>
     </div>
     <div class="controls">
       <div class="search-wrap">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="q" type="text" placeholder="Buscar por título, tag ou texto…" oninput="renderCards()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q" type="text" placeholder="Buscar por título, tag ou texto…" oninput="debounceRender()" aria-label="Buscar respostas">
       </div>
-      <select id="fCat" onchange="renderCards()"><option value="">Todas as categorias</option></select>
-      <select id="fOrg" onchange="renderCards()"><option value="">Todos os órgãos</option></select>
+      <select id="fCat" onchange="renderCards()" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option></select>
+      <select id="fOrg" onchange="renderCards()" aria-label="Filtrar por órgão"><option value="">Todos os órgãos</option></select>
+      <select id="fSort" onchange="renderCards()" aria-label="Ordenar por">
+        <option value="default">Ordem original</option>
+        <option value="titulo">Título A→Z</option>
+        <option value="categoria">Categoria A→Z</option>
+        <option value="orgao">Órgão A→Z</option>
+      </select>
       <span class="counter" id="counter"></span>
     </div>
     <div class="grid" id="grid"></div>
   </div>
 
-  <!-- ─── PAGE: ANOTAÇÕES ─── -->
+  <!-- PAGE: ANOTAÇÕES -->
   <div id="page-anotacoes" class="page">
     <div id="admin-bar-n" class="admin-bar" style="display:none">
       <span style="flex:1;font-size:12px;color:var(--text3);font-family:'IBM Plex Mono',monospace">Use + Novo em cada coluna para registrar demandas</span>
@@ -551,36 +521,14 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <div class="notes-layout" id="notes-layout"></div>
   </div>
 
-  <!-- ─── PAGE: LINKS ─── -->
+  <!-- PAGE: LINKS -->
   <div id="page-links" class="page">
+    <div id="admin-bar-l" class="admin-bar" style="display:none">
+      <button class="btn-add" onclick="openLinkModal(null)">＋ Novo Link</button>
+    </div>
     <div class="links-page">
       <div class="section-title">▸ Sistemas internos — acesso direto</div>
-      <div class="links-grid">
-        <a href="https://srointranet.correios.com.br/" target="_blank" rel="noopener" class="link-card">
-          <div class="link-icon">📦</div>
-          <div>
-            <div class="link-name">SRO Intranet</div>
-            <div class="link-desc">Rastreamento interno de objetos — consulta e atualização de eventos postais</div>
-            <div class="link-url">srointranet.correios.com.br</div>
-          </div>
-        </a>
-        <a href="https://smarti.correios.com.br/home" target="_blank" rel="noopener" class="link-card">
-          <div class="link-icon">🧠</div>
-          <div>
-            <div class="link-name">SMARTi</div>
-            <div class="link-desc">Gestão operacional, relatórios e indicadores de desempenho dos Correios</div>
-            <div class="link-url">smarti.correios.com.br/home</div>
-          </div>
-        </a>
-        <a href="https://ssii.correios.com.br/pages/inicio.jsf" target="_blank" rel="noopener" class="link-card">
-          <div class="link-icon">🛃</div>
-          <div>
-            <div class="link-name">SSII</div>
-            <div class="link-desc">Importações e processos aduaneiros — acompanhamento junto à Receita Federal</div>
-            <div class="link-url">ssii.correios.com.br</div>
-          </div>
-        </a>
-      </div>
+      <div class="links-grid" id="links-grid"></div>
       <div class="section-title">▸ Dicas rápidas para operadores</div>
       <div class="tips-box">
         <div class="tip-item"><span class="tip-num">01</span> Antes de responder ao cliente, confirme o último evento registrado no <strong>SRO Intranet</strong>.</div>
@@ -591,22 +539,21 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
       </div>
     </div>
   </div>
+</div>
 
-</div><!-- /#app -->
-
-<!-- ══ MODAL RESPOSTA ══════════════════════════════════════════════════════ -->
-<div class="overlay" id="m-resp">
+<!-- MODAL RESPOSTA -->
+<div class="overlay" id="m-resp" role="dialog" aria-modal="true" aria-labelledby="m-resp-title">
   <div class="modal">
     <div class="modal-head">
       <h2 id="m-resp-title">Nova Resposta</h2>
-      <button class="modal-x" onclick="closeM('m-resp')">✕</button>
+      <button class="modal-x" onclick="closeM('m-resp')" aria-label="Fechar modal">✕</button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="rf-id">
-      <div><label>Título *</label><input id="rf-titulo" type="text" placeholder="Ex: Encomenda Retida por Aduana"></div>
+      <div><label for="rf-titulo">Título *</label><input id="rf-titulo" type="text" placeholder="Ex: Encomenda Retida por Aduana"></div>
       <div class="modal-row">
         <div>
-          <label>Categoria *</label>
+          <label for="rf-cat">Categoria *</label>
           <input id="rf-cat" list="cat-list" placeholder="Ex: Fiscalização / Tributação">
           <datalist id="cat-list">
             <option value="Avaria"><option value="Devolução"><option value="Extravio">
@@ -614,10 +561,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
             <option value="Recorrência"><option value="Refugo / Descarte"><option value="Retenção / Apreensão">
           </datalist>
         </div>
-        <div><label>Órgão *</label><input id="rf-orgao" placeholder="Ex: RFB, ANVISA"></div>
+        <div><label for="rf-orgao">Órgão *</label><input id="rf-orgao" placeholder="Ex: RFB, ANVISA"></div>
       </div>
-      <div><label>Tags</label><input id="rf-tags" placeholder="Ex: fiscalização; tributos; ANVISA"></div>
-      <div><label>Texto da Resposta *</label><textarea id="rf-texto" placeholder="Digite o texto completo da resposta…"></textarea></div>
+      <div><label for="rf-tags">Tags</label><input id="rf-tags" placeholder="Ex: fiscalização; tributos; ANVISA"></div>
+      <div><label for="rf-texto">Texto da Resposta *</label><textarea id="rf-texto" placeholder="Digite o texto completo da resposta…"></textarea></div>
     </div>
     <div class="modal-foot">
       <button class="btn-cancel" onclick="closeM('m-resp')">Cancelar</button>
@@ -626,28 +573,28 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   </div>
 </div>
 
-<!-- ══ MODAL NOTA ══════════════════════════════════════════════════════════ -->
-<div class="overlay" id="m-nota">
+<!-- MODAL NOTA -->
+<div class="overlay" id="m-nota" role="dialog" aria-modal="true" aria-labelledby="m-nota-title">
   <div class="modal">
     <div class="modal-head">
       <h2 id="m-nota-title">Nova Anotação</h2>
-      <button class="modal-x" onclick="closeM('m-nota')">✕</button>
+      <button class="modal-x" onclick="closeM('m-nota')" aria-label="Fechar modal">✕</button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="nf-col">
       <input type="hidden" id="nf-id">
-      <div><label>Assunto / Demanda *</label><input id="nf-subj" placeholder="Ex: PI #12345 — aguardando DEINT"></div>
-      <div><label>Detalhamento</label><textarea id="nf-detail" placeholder="Próximos passos, área acionada, observações…" style="min-height:80px"></textarea></div>
+      <div><label for="nf-subj">Assunto / Demanda *</label><input id="nf-subj" placeholder="Ex: PI #12345 — aguardando DEINT"></div>
+      <div><label for="nf-detail">Detalhamento</label><textarea id="nf-detail" placeholder="Próximos passos, área acionada, observações…" style="min-height:80px"></textarea></div>
       <div class="modal-row">
         <div>
-          <label>Prioridade</label>
+          <label for="nf-pri">Prioridade</label>
           <select id="nf-pri">
             <option value="alta">🔴 Alta</option>
             <option value="media" selected>🟠 Média</option>
             <option value="baixa">🟢 Baixa</option>
           </select>
         </div>
-        <div><label>Data / Referência</label><input id="nf-date" placeholder="Ex: 29/05/2026 ou PI #9876"></div>
+        <div><label for="nf-date">Data / Referência</label><input id="nf-date" placeholder="Ex: 29/05/2026 ou PI #9876"></div>
       </div>
     </div>
     <div class="modal-foot">
@@ -657,14 +604,60 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   </div>
 </div>
 
-<div id="toast"></div>
-<div id="offline-badge">⚠ Sem JSONBin — dados locais</div>
+<!-- MODAL LINK -->
+<div class="overlay" id="m-link" role="dialog" aria-modal="true" aria-labelledby="m-link-title">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="m-link-title">Novo Link</h2>
+      <button class="modal-x" onclick="closeM('m-link')" aria-label="Fechar modal">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="lf-id">
+      <div class="modal-row">
+        <div style="max-width:80px"><label for="lf-icone">Ícone</label><input id="lf-icone" type="text" placeholder="🔗" maxlength="4"></div>
+        <div style="flex:1"><label for="lf-nome">Nome *</label><input id="lf-nome" type="text" placeholder="Ex: Portal RFB"></div>
+      </div>
+      <div><label for="lf-url">URL *</label><input id="lf-url" type="url" placeholder="https://..."></div>
+      <div><label for="lf-desc">Descrição</label><input id="lf-desc" type="text" placeholder="Breve descrição do sistema ou recurso"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeM('m-link')">Cancelar</button>
+      <button class="btn-save" onclick="saveLink()">💾 Salvar Link</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAÇÃO -->
+<div class="overlay" id="m-confirm" role="dialog" aria-modal="true" aria-labelledby="m-confirm-title">
+  <div class="modal confirm-modal">
+    <div class="modal-head">
+      <h2 id="m-confirm-title">Confirmar exclusão</h2>
+      <button class="modal-x" onclick="closeM('m-confirm')" aria-label="Fechar modal">✕</button>
+    </div>
+    <div class="modal-body" id="m-confirm-body">Deseja realmente excluir este item?</div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeM('m-confirm')">Cancelar</button>
+      <button class="btn-confirm-del" id="btn-confirm-ok">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="offline-badge" role="status">⚠ Sem JSONBin — dados locais</div>
 
 <script>
 // ══════════════════════════════════════════════════════════════
-// CONFIGURAÇÃO — altere a senha aqui se necessário
+// SENHA — hash SHA-256 de 'ceint2026'
+// Para trocar: calcule o SHA-256 da nova senha e atualize o valor abaixo.
+// Exemplo online: https://emn178.github.io/online-tools/sha256.html
 // ══════════════════════════════════════════════════════════════
-const ADMIN_PW = 'ceint2026';
+const ADMIN_HASH = 'dc91088f44402068991ee937c48656f9e449e52afe3813e29e4b3175ebe9e648';
+// ^ hash SHA-256 de "ceint2026" — substitua para trocar a senha
+
+async function hashPw(pw){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
 
 // ══════════════════════════════════════════════════════════════
 // DADOS INICIAIS (29 respostas)
@@ -672,10 +665,15 @@ const ADMIN_PW = 'ceint2026';
 const SEED_R = [{"id":1,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização com Tributos Pagos","orgao":"ANUNTES/RFB","tags":"fiscalização; tributos; RFB; ANUNTES","texto":"Prezados, informamos que apesar de constar o pagamento dos tributos a encomenda, se encontra em fiscalização pelo órgão anuente responsável.\n\nInformamos ainda, que os Correios não apresentam prerrogativas para interferir em tal processo."},{"id":2,"categoria":"Retenção / Apreensão","titulo":"Encomenda Retida/Apreendida","orgao":"Órgão Anuente","tags":"retida; apreendida; conteúdo proibido; ressarcimento","texto":"Prezados, informamos que a encomenda foi retida devido o conteúdo ser proibido de entrar no país. Informamos ainda que os Correios não apresentam prerrogativas para interferir em tal processo.\n\nCaso tenha ocorrido o pagamento dos tributos, pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento."},{"id":3,"categoria":"Devolução","titulo":"Encomenda Devolvida ao País de Origem","orgao":"Órgão Anuente","tags":"devolvida; país origem; ressarcimento; tributos","texto":"Prezados, informamos que a encomenda foi devolvida ao país de origem conforme determinação do órgão anuente responsável. Caso tenha ocorrido o pagamento dos tributos para o objeto, pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento."},{"id":4,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização (Geral)","orgao":"Órgão Anuente","tags":"fiscalização; rastreamento; acompanhamento","texto":"Prezados, informamos que o objeto se encontra em fiscalização conforme consta no sistema de rastreamento desta forma, pedimos, que o cliente seja orientado a realizar o acompanhamento no site dos Correios. Informamos ainda que os Correios, não apresentam prerrogativas para interferir nos processos que são de competência dos órgãos anuentes."},{"id":5,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização – MAPA","orgao":"MAPA","tags":"fiscalização; MAPA; urgência","texto":"Prezados, informamos que a encomenda se encontra em fiscalização pelo MAPA. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."},{"id":6,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização – ANVISA","orgao":"ANVISA","tags":"fiscalização; ANVISA; urgência; saúde","texto":"Prezados, informamos que a encomenda se encontra em fiscalização pela ANVISA. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."},{"id":7,"categoria":"Fiscalização / Tributação","titulo":"Encomenda em Fiscalização – Exército","orgao":"Ministério do Exército","tags":"fiscalização; exército; ministério; urgência","texto":"Prezados, informamos que a encomenda se encontra em fiscalização pela MINISTÉRIO DO EXÉRCITO. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."},{"id":8,"categoria":"Refugo / Descarte","titulo":"Encomenda em Processo de Refugo – ANAC","orgao":"ANAC","tags":"refugo; ANAC; proibido; devolução","texto":"Prezados, a encomenda foi encaminhada para o processo de refugo pelo fato de o conteúdo estar dentro da lista da ANAC de produtos proibidos que não podem seguir viagem ao país de origem."},{"id":9,"categoria":"Devolução","titulo":"Encomenda Devolvida – Falha Operacional","orgao":"Correios","tags":"devolvida; falha operacional; ressarcimento; sistêmica","texto":"Prezados, a encomenda foi devolvida ao país de origem devido a uma falha operacional desta forma nós pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento referente aos tributos pagos. O status do objeto não foi atualizado devido a uma falha sistêmica."},{"id":10,"categoria":"Fiscalização / Tributação","titulo":"Encomenda Aguardando Homologação – ANATEL","orgao":"ANATEL","tags":"homologação; ANATEL; aguardando","texto":"Prezados, informamos que a encomenda se encontra aguardando a homologação por parte do cliente junto a ANATEL. Informamos que os Correios não apresentam prerrogativas para interferir em tal processo."},{"id":11,"categoria":"Retenção / Apreensão","titulo":"Importação Não Autorizada – ANVISA","orgao":"ANVISA","tags":"importação; não autorizada; ANVISA; produto saúde; ressarcimento","texto":"Prezados, informamos que a encomenda teve a importação não autorizada pelo fato do conteúdo ser produto para saúde. Conforme normas do órgão anuente responsável (ANVISA), tais produtos não podem ser importados via postal. Caso tenha ocorrido o pagamento dos tributos, pedimos, que o cliente seja orientado a solicitar o ressarcimento.\n\nLembramos que os Correios não apresentam prerrogativas para interferir nos processos de competência do órgãos anuentes."},{"id":12,"categoria":"Avaria","titulo":"Encomenda Adentrou Avariada – CEINT","orgao":"CEINT","tags":"avaria; CEINT; remetente; ressarcimento","texto":"Prezados, a encomenda adentrou no CEINT avariada e foi constatado que não será possível encaminhar no fluxo postal. Pedimos que o cliente seja orientado a entrar em contato com o remetente e informar o ocorrido. Caso tenha ocorrido o pagamento dos tributos o cliente deve ser ressarcido nos valores pagos referente a tributação."},{"id":13,"categoria":"Fiscalização / Tributação","titulo":"Encomenda Aguardando Retificação","orgao":"Órgão Fiscalizador","tags":"retificação; declaração; aguardando; fiscalização","texto":"Prezados, informamos que o objeto se encontra aguardando a retificação de declaração conforme determinação do órgão fiscalizador. Lembramos, que os Correios não apresentam prerrogativas para interferir nos processo que são de competência do órgão fiscalizador."},{"id":14,"categoria":"Devolução","titulo":"Encomenda Devolvida – Falta de CPF","orgao":"Órgão Anuente","tags":"CPF; falta; irregular; devolução","texto":"Prezados, informamos que o objeto foi encaminhado para o processo de devolução devido à falta de cpf na encomenda ou pelo fato de a situação cadastral do documento citado estar irregular. Informamos ainda que os Correios, não apresentam prerrogativas para interferir em tal processo."},{"id":15,"categoria":"Operacional","titulo":"Encomenda em Processo de Resgate","orgao":"Correios","tags":"resgate; rastreamento; acompanhamento","texto":"Prezados, informamos que a tentativa de resgate da encomenda será realizada desta forma pedimos que o cliente seja orientado a acompanhar o andamento do objeto no site dos Correios no link rastreamento de encomendas."},{"id":16,"categoria":"Devolução","titulo":"Encomenda Packet em Processo de Devolução","orgao":"Operador Logístico","tags":"packet; devolução; operador logístico; modalidade","texto":"Prezados, informamos que para a modalidade packet a devolução ao país de origem é realizada conforme disponibilidade do operador logístico em retirar a carga no centro."},{"id":17,"categoria":"Retenção / Apreensão","titulo":"Importação Não Autorizada – ANATEL","orgao":"ANATEL","tags":"importação; não autorizada; ANATEL; restrito","texto":"Prezados, informamos que a encomenda teve a sua importação não autorizada pela ANATEL devido ao conteúdo ser restrito no país. Informamos ainda, que os Correios não apresentam prerrogativas para interferir nos processos que são de competência do órgão anuente."},{"id":18,"categoria":"Avaria","titulo":"Encomenda Avariada no CEINT – Refugo","orgao":"CEINT","tags":"avaria; CEINT; refugo; ressarcimento; tributos","texto":"Prezados, informamos que ocorreu uma avaria no processo operacional desta forma o objeto, foi encaminhado para o processo de refugo. Como ocorreu o pagamento dos tributos, pedimos, que o cliente seja informado/orientado a solicitar o ressarcimento dos valores pagos referente a tributação."},{"id":19,"categoria":"Extravio","titulo":"Atualizar SRO – Extravio","orgao":"Correios","tags":"extravio; SRO; busca; status; entrega","texto":"Prezados, informamos que a encomenda foi encaminhada para o fluxo operacional, mas como até o momento não ocorreu a entrega o status do objeto será atualizado.\n\nInformamos ainda, que as buscas pelo objeto ainda ocorrem e caso seja encontrada será devidamente encaminhada ao destino final."},{"id":20,"categoria":"Recorrência","titulo":"Recorrência – Resposta Anuentes (Geral)","orgao":"Órgão Anuente","tags":"recorrência; anuentes; urgência; insistência","texto":"Prezados, os Correios não apresentam prerrogativas para interferir nos processos que são de competência dos órgãos anuentes, contudo, nós já solicitamos urgência para o caso junto ao órgão citado."},{"id":21,"categoria":"Recorrência","titulo":"Recorrência – Fiscalização ANVISA","orgao":"ANVISA","tags":"recorrência; ANVISA; urgência; fiscalização","texto":"Prezados, reiteramos que a encomenda se encontra em fiscalização pela ANVISA. Diante da recorrência do contato, nós já encaminhamos nova solicitação de urgência junto ao órgão e aguardamos retorno."},{"id":22,"categoria":"Recorrência","titulo":"Recorrência – Extravio em Investigação","orgao":"Correios","tags":"recorrência; extravio; investigação; prazo","texto":"Prezados, reiteramos que as buscas pela encomenda estão em andamento. Já acionamos a área responsável e o processo de investigação segue em curso. Informaremos o cliente assim que houver atualização."},{"id":23,"categoria":"Operacional","titulo":"Objeto Retido por Endereço Incorreto","orgao":"Correios","tags":"endereço; incorreto; retido; atualização","texto":"Prezados, informamos que a encomenda se encontra retida devido ao endereço de entrega estar incorreto ou incompleto. Pedimos que o cliente seja orientado a fornecer o endereço atualizado para que possamos dar prosseguimento à entrega."},{"id":24,"categoria":"Operacional","titulo":"Objeto Aguardando Retirada na Unidade","orgao":"Correios","tags":"aguardando; retirada; unidade; prazo","texto":"Prezados, informamos que a encomenda encontra-se disponível para retirada na unidade dos Correios. Pedimos que o cliente seja orientado a comparecer à unidade dentro do prazo estabelecido, munido de documento de identificação e do código de rastreamento."},{"id":25,"categoria":"Fiscalização / Tributação","titulo":"Tributação Calculada – Aguardando Pagamento","orgao":"RFB","tags":"tributação; pagamento; aguardando; RFB; tributos","texto":"Prezados, informamos que a tributação referente à encomenda já foi calculada pela Receita Federal do Brasil. Pedimos que o cliente seja orientado a acessar o site dos Correios ou o portal da RFB para efetuar o pagamento dos tributos devidos, a fim de liberar a encomenda."},{"id":26,"categoria":"Fiscalização / Tributação","titulo":"Declaração Aduaneira Ausente ou Incorreta","orgao":"RFB","tags":"declaração aduaneira; ausente; incorreta; CEINT; nacionalização; fiscalização","texto":"Prezados, informamos que a encomenda adentrou no CEINT com a declaração aduaneira ausente/incorreta, desta forma, a nacionalização não foi autorizada pelo órgão fiscalizador. Informamos ainda que os Correios não apresentam prerrogativas para interferir em tal processo."},{"id":27,"categoria":"Operacional","titulo":"Encomenda sem Entrada no CEINT","orgao":"CEINT","tags":"sem entrada; CEINT; SRO; informação eletrônica; fiscalização","texto":"Prezados, informamos que até o momento a encomenda em questão não teve entrada neste CEINT. Os eventos que constam no SRO são referentes ao tratamento da informação eletrônica, a qual foi realizada de forma remota pelo órgão fiscalizador competente."},{"id":28,"categoria":"Fiscalização / Tributação","titulo":"Encomenda com Tributos Pagos – PPR","orgao":"Correios","tags":"tributos; pagos; PPR; rastreamento; prazo; expedido; distribuição","texto":"Prezados, conforme consta no sistema de rastreamento, o objeto já foi devidamente encaminhado para o destino. Lembramos que a encomenda foi postada na modalidade registrada, a qual não apresenta rastreamento ponto a ponto, e o prazo de entrega é de até 40 dias após o evento de objeto expedido para tratamento e distribuição."},{"id":29,"categoria":"Operacional","titulo":"Presença de Carga","orgao":"DEINT","tags":"presença de carga; DEINT; aguardando; resolução; operacional","texto":"Prezados, informamos que a encomenda encontra-se com problema de presença de carga e tal fato já foi reportado para o departamento responsável (DEINT). Neste caso, se faz necessário aguardar a resolução da situação pelo setor informado a fim de que seja possível dar andamento para o objeto."}];
 
 const SEED_N = {acomp:[],pend:[],outras:[]};
+const SEED_L = [
+  {id:'l1',icone:'📦',nome:'SRO Intranet',desc:'Rastreamento interno de objetos — consulta e atualização de eventos postais',url:'https://srointranet.correios.com.br/'},
+  {id:'l2',icone:'🧠',nome:'SMARTi',desc:'Gestão operacional, relatórios e indicadores de desempenho dos Correios',url:'https://smarti.correios.com.br/home'},
+  {id:'l3',icone:'🛃',nome:'SSII',desc:'Importações e processos aduaneiros — acompanhamento junto à Receita Federal',url:'https://ssii.correios.com.br/pages/inicio.jsf'},
+];
 const NOTE_COLS = [
-  {key:'acomp', label:'Em Acompanhamento',       topColor:'#C0392B', badgeBg:'#FFEBEE', badgeColor:'#C0392B'},
-  {key:'pend',  label:'Sem Tratamento Possível', topColor:'#D35400', badgeBg:'#FFF3E0', badgeColor:'#D35400'},
-  {key:'outras',label:'Solicitações a Outras Áreas',topColor:'#1A4F8A',badgeBg:'#E8EDF5',badgeColor:'#1A4F8A'},
+  {key:'acomp', label:'Em Acompanhamento',         topColor:'#C0392B', badgeBg:'#FFEBEE', badgeColor:'#C0392B'},
+  {key:'pend',  label:'Sem Tratamento Possível',   topColor:'#D35400', badgeBg:'#FFF3E0', badgeColor:'#D35400'},
+  {key:'outras',label:'Solicitações a Outras Áreas',topColor:'#1A4F8A', badgeBg:'#E8EDF5', badgeColor:'#1A4F8A'},
 ];
 const CAT_COLOR = {
   'Avaria':'#C0392B','Devolução':'#D35400','Extravio':'#1A6B3A',
@@ -687,9 +685,34 @@ const CAT_COLOR = {
 // STATE
 // ══════════════════════════════════════════════════════════════
 let isAdmin = false;
-let RESP = [], NOTAS = {acomp:[],pend:[],outras:[]};
+let RESP = [], NOTAS = {acomp:[],pend:[],outras:[]}, LINKS = [];
 let syncInterval;
 let CFG = {key:'', bin:''};
+const LS_RESP  = 'ceint_resp_local';
+const LS_NOTAS = 'ceint_notas_local';
+const LS_LINKS = 'ceint_links_local';
+
+// ══════════════════════════════════════════════════════════════
+// PERSISTÊNCIA LOCAL
+// ══════════════════════════════════════════════════════════════
+function saveLocal(){
+  try{
+    localStorage.setItem(LS_RESP,  JSON.stringify(RESP));
+    localStorage.setItem(LS_NOTAS, JSON.stringify(NOTAS));
+    localStorage.setItem(LS_LINKS, JSON.stringify(LINKS));
+  }catch(e){}
+}
+function loadLocal(){
+  try{
+    const r = localStorage.getItem(LS_RESP);
+    const n = localStorage.getItem(LS_NOTAS);
+    const l = localStorage.getItem(LS_LINKS);
+    if(r) RESP  = JSON.parse(r);
+    if(n) NOTAS = JSON.parse(n);
+    if(l) LINKS = JSON.parse(l);
+    return !!(r || n || l);
+  }catch(e){ return false; }
+}
 
 // ══════════════════════════════════════════════════════════════
 // JSONBIN API
@@ -699,7 +722,6 @@ function loadCfg(){
   CFG.key = CFG.key||''; CFG.bin = CFG.bin||'';
 }
 function saveCfg(){ localStorage.setItem('ceint_cfg', JSON.stringify(CFG)); }
-
 function hasCfg(){ return CFG.key && CFG.bin; }
 
 async function binRead(){
@@ -733,6 +755,8 @@ async function syncLoad(){
   if(data){
     RESP  = data.r || RESP;
     NOTAS = data.n || NOTAS;
+    LINKS = data.l || LINKS;
+    saveLocal();
     document.getElementById('offline-badge').classList.remove('show');
     return true;
   } else {
@@ -744,7 +768,8 @@ async function syncLoad(){
 async function syncSave(){
   const dot = document.getElementById('sync-dot');
   if(dot) dot.classList.add('active');
-  const ok = await binWrite({r:RESP, n:NOTAS});
+  saveLocal();
+  const ok = await binWrite({r:RESP, n:NOTAS, l:LINKS});
   if(dot) setTimeout(()=>dot.classList.remove('active'), 600);
   return ok;
 }
@@ -774,9 +799,9 @@ async function saveConfig(){
     err.textContent = '✅ Conectado! Dados carregados com sucesso.';
     RESP  = data.r && data.r.length ? data.r : JSON.parse(JSON.stringify(SEED_R));
     NOTAS = data.n || JSON.parse(JSON.stringify(SEED_N));
-    if(!data.r || !data.r.length){
-      await binWrite({r:RESP, n:NOTAS});
-    }
+    LINKS = data.l && data.l.length ? data.l : JSON.parse(JSON.stringify(SEED_L));
+    if(!data.r || !data.r.length) await binWrite({r:RESP, n:NOTAS, l:LINKS});
+    saveLocal();
     renderCards(); renderNotes();
     document.getElementById('offline-badge').classList.remove('show');
     setTimeout(()=>{ err.textContent=''; err.style.color=''; },3000);
@@ -789,10 +814,25 @@ async function saveConfig(){
 // ══════════════════════════════════════════════════════════════
 // AUTH
 // ══════════════════════════════════════════════════════════════
-function tryLogin(){
+async function tryLogin(){
   const pw = document.getElementById('pw').value;
-  if(pw === ADMIN_PW){ isAdmin=true; launch(); }
-  else { document.getElementById('auth-err').textContent='Senha incorreta.'; }
+  const btn = document.getElementById('btn-login');
+  const spinner = document.getElementById('login-spinner');
+  const label = document.getElementById('login-label');
+  btn.disabled = true;
+  spinner.classList.add('show');
+  label.textContent = 'Verificando…';
+
+  const h = await hashPw(pw);
+  if(h === ADMIN_HASH){
+    isAdmin = true;
+    await launch();
+  } else {
+    btn.disabled = false;
+    spinner.classList.remove('show');
+    label.textContent = 'Entrar como Administrador';
+    document.getElementById('auth-err').textContent = 'Senha incorreta.';
+  }
 }
 function enterViewer(){ isAdmin=false; launch(); }
 function sair(){
@@ -801,6 +841,10 @@ function sair(){
   document.getElementById('app').style.display='none';
   document.getElementById('pw').value='';
   document.getElementById('auth-err').textContent='';
+  const btn = document.getElementById('btn-login');
+  btn.disabled = false;
+  document.getElementById('login-spinner').classList.remove('show');
+  document.getElementById('login-label').textContent = 'Entrar como Administrador';
 }
 
 async function launch(){
@@ -811,21 +855,26 @@ async function launch(){
   pill.className   = 'mode-pill ' + (isAdmin ? 'pill-admin' : 'pill-viewer');
   document.getElementById('admin-bar').style.display   = isAdmin ? 'flex' : 'none';
   document.getElementById('admin-bar-n').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('admin-bar-l').style.display = isAdmin ? 'flex' : 'none';
 
-  // Load data
+  // Tenta JSONBin; fallback: localStorage; fallback: seed
   const loaded = await syncLoad();
   if(!loaded){
-    RESP  = JSON.parse(JSON.stringify(SEED_R));
-    NOTAS = JSON.parse(JSON.stringify(SEED_N));
+    const hadLocal = loadLocal();
+    if(!hadLocal){
+      RESP  = JSON.parse(JSON.stringify(SEED_R));
+      NOTAS = JSON.parse(JSON.stringify(SEED_N));
+      LINKS = JSON.parse(JSON.stringify(SEED_L));
+    }
   }
-  initFilters(); renderCards(); renderNotes();
+  initFilters(); renderCards(); renderNotes(); renderLinks();
 
-  // Auto-sync every 8s
+  // Auto-sync a cada 30s (reduzido para preservar cota do JSONBin)
   clearInterval(syncInterval);
   syncInterval = setInterval(async()=>{
     await syncLoad();
-    renderCards(); renderNotes();
-  }, 8000);
+    renderCards(); renderNotes(); renderLinks();
+  }, 30000);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -853,16 +902,25 @@ function initFilters(){
   sc.value=cv; so.value=ov;
 }
 
+// Debounce para busca
+let debounceTimer;
+function debounceRender(){ clearTimeout(debounceTimer); debounceTimer=setTimeout(renderCards,250); }
+
 function renderCards(){
   const q   = (document.getElementById('q').value||'').toLowerCase();
   const cat = document.getElementById('fCat').value;
   const org = document.getElementById('fOrg').value;
-  const f = RESP.filter(r=>{
+  const sort= document.getElementById('fSort').value;
+  let f = RESP.filter(r=>{
     if(cat && r.categoria!==cat) return false;
     if(org && r.orgao!==org) return false;
-    if(q && ![r.titulo,r.categoria,r.orgao,r.tags,r.texto].some(v=>v.toLowerCase().includes(q))) return false;
+    if(q && ![r.titulo,r.categoria,r.orgao,r.tags,r.texto].some(v=>(v||'').toLowerCase().includes(q))) return false;
     return true;
   });
+  if(sort==='titulo')    f = [...f].sort((a,b)=>a.titulo.localeCompare(b.titulo,'pt'));
+  if(sort==='categoria') f = [...f].sort((a,b)=>a.categoria.localeCompare(b.categoria,'pt'));
+  if(sort==='orgao')     f = [...f].sort((a,b)=>a.orgao.localeCompare(b.orgao,'pt'));
+
   document.getElementById('counter').textContent = f.length+' resposta'+(f.length!==1?'s':'');
   const g = document.getElementById('grid');
   g.innerHTML='';
@@ -874,27 +932,37 @@ function mkCard(r){
   const color = CAT_COLOR[r.categoria]||'#555';
   const d = document.createElement('div');
   d.className = 'card';
+  const tags = (r.tags||'').split(';').map(t=>t.trim()).filter(Boolean);
+  const tagHtml = tags.map(t=>`<span class="badge badge-tag" onclick="event.stopPropagation();filterByTag('${esc(t)}')" title="Filtrar por: ${esc(t)}">${esc(t)}</span>`).join('');
   const adminBtns = isAdmin
-    ? `<button class="btn-card ed" onclick="event.stopPropagation();openRespModal(${r.id})">✏</button>
-       <button class="btn-card dl" onclick="event.stopPropagation();delResp(${r.id})">🗑</button>`
+    ? `<button class="btn-card ed" onclick="event.stopPropagation();openRespModal(${r.id})" aria-label="Editar resposta">✏</button>
+       <button class="btn-card dl" onclick="event.stopPropagation();confirmDelResp(${r.id})" aria-label="Excluir resposta">🗑</button>`
     : '';
   d.innerHTML = `
     <div class="card-stripe" style="background:${color}"></div>
-    <div class="card-head"><span class="card-title">${r.titulo}</span></div>
+    <div class="card-head"><span class="card-title">${esc(r.titulo)}</span></div>
     <div class="card-meta">
-      <span class="badge badge-cat">${r.categoria}</span>
-      <span class="badge badge-org">${r.orgao}</span>
+      <span class="badge badge-cat">${esc(r.categoria)}</span>
+      <span class="badge badge-org">${esc(r.orgao)}</span>
+      ${tagHtml}
     </div>
-    <div class="card-body">${r.texto.replace(/\n/g,'<br>')}</div>
+    <div class="card-body">${esc(r.texto).replace(/\n/g,'<br>')}</div>
     <div class="card-foot">
-      <button class="btn-expand" onclick="event.stopPropagation();const c=this.closest('.card');c.classList.toggle('expanded');this.textContent=c.classList.contains('expanded')?'▲ recolher':'▼ ver mais'">▼ ver mais</button>
+      <button class="btn-expand" onclick="event.stopPropagation();const c=this.closest('.card');c.classList.toggle('expanded');this.textContent=c.classList.contains('expanded')?'▲ recolher':'▼ ver mais'" aria-label="Expandir resposta">▼ ver mais</button>
       <div class="card-acts">
         ${adminBtns}
-        <button class="btn-card cp" onclick="event.stopPropagation();cpText(${r.id},this)">📋 copiar</button>
+        <button class="btn-card cp" onclick="event.stopPropagation();cpText(${r.id},this)" aria-label="Copiar resposta">📋 copiar</button>
       </div>
     </div>`;
-  d.addEventListener('click',e=>{ if(e.target.tagName==='BUTTON') return; cpText(r.id, d.querySelector('.btn-card.cp')); });
+  d.addEventListener('click',e=>{ if(e.target.tagName==='BUTTON'||e.target.classList.contains('badge-tag')) return; cpText(r.id, d.querySelector('.btn-card.cp')); });
   return d;
+}
+
+function filterByTag(tag){
+  const q = document.getElementById('q');
+  q.value = tag;
+  renderCards();
+  q.focus();
 }
 
 function cpText(id, btn){
@@ -927,7 +995,7 @@ async function saveResp(){
   const orgao = document.getElementById('rf-orgao').value.trim();
   const tags  = document.getElementById('rf-tags').value.trim();
   const texto = document.getElementById('rf-texto').value.trim();
-  if(!titulo||!cat||!orgao||!texto){ alert('Preencha Título, Categoria, Órgão e Texto.'); return; }
+  if(!titulo||!cat||!orgao||!texto){ showToast('⚠ Preencha Título, Categoria, Órgão e Texto.'); return; }
   if(id){
     const r=RESP.find(x=>x.id===parseInt(id));
     if(r){ r.titulo=titulo;r.categoria=cat;r.orgao=orgao;r.tags=tags;r.texto=texto; }
@@ -941,12 +1009,41 @@ async function saveResp(){
   showToast(ok ? '💾 Salvo e sincronizado!' : '💾 Salvo localmente (JSONBin não configurado)');
 }
 
-async function delResp(id){
-  if(!confirm('Excluir esta resposta para todos os utilizadores?')) return;
-  RESP = RESP.filter(x=>x.id!==id);
-  initFilters(); renderCards();
-  await syncSave();
-  showToast('🗑 Resposta excluída.');
+// Confirmação customizada para deletar resposta
+function confirmDelResp(id){
+  const r = RESP.find(x=>x.id===id);
+  if(!r) return;
+  document.getElementById('m-confirm-body').textContent = `Excluir "${r.titulo}" para todos os utilizadores?`;
+  document.getElementById('btn-confirm-ok').onclick = async ()=>{
+    closeM('m-confirm');
+    RESP = RESP.filter(x=>x.id!==id);
+    initFilters(); renderCards();
+    await syncSave();
+    showToast('🗑 Resposta excluída.');
+  };
+  openM('m-confirm');
+}
+
+// ══════════════════════════════════════════════════════════════
+// EXPORTAR CSV
+// ══════════════════════════════════════════════════════════════
+function exportCSV(){
+  const header = ['ID','Categoria','Título','Órgão','Tags','Texto'];
+  const rows = RESP.map(r=>[
+    r.id,
+    r.categoria,
+    r.titulo,
+    r.orgao,
+    r.tags,
+    r.texto
+  ].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"'));
+  const csv = [header.join(','), ...rows.map(r=>r.join(','))].join('\n');
+  const blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ceint_banco_respostas_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+  showToast('⬇ CSV exportado com sucesso!');
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -975,8 +1072,8 @@ function renderNotes(){
       const priC = {alta:'pri-alta',media:'pri-media',baixa:'pri-baixa'}[n.pri]||'pri-media';
       const priL = {alta:'🔴 Alta',media:'🟠 Média',baixa:'🟢 Baixa'}[n.pri]||'🟠 Média';
       const ab = isAdmin
-        ? `<button onclick="openNotaModal('${col.key}','${n.id}')">✏</button>
-           <button onclick="delNota('${col.key}','${n.id}')">🗑</button>` : '';
+        ? `<button onclick="openNotaModal('${col.key}','${n.id}')" aria-label="Editar anotação">✏</button>
+           <button onclick="confirmDelNota('${col.key}','${n.id}')" aria-label="Excluir anotação">🗑</button>` : '';
       const ni = document.createElement('div'); ni.className='note-card';
       ni.innerHTML=`
         <div class="note-top">
@@ -1013,7 +1110,7 @@ async function saveNota(){
   const detail=document.getElementById('nf-detail').value.trim();
   const pri  = document.getElementById('nf-pri').value;
   const date = document.getElementById('nf-date').value.trim();
-  if(!subj){ alert('Informe o assunto da demanda.'); return; }
+  if(!subj){ showToast('⚠ Informe o assunto da demanda.'); return; }
   if(!NOTAS[col]) NOTAS[col]=[];
   if(id){ const n=NOTAS[col].find(x=>x.id===id); if(n){n.subj=subj;n.detail=detail;n.pri=pri;n.date=date;} }
   else   { NOTAS[col].push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,4),subj,detail,pri,date}); }
@@ -1022,17 +1119,100 @@ async function saveNota(){
   showToast(ok ? '💾 Anotação salva e sincronizada!' : '💾 Anotação salva localmente');
 }
 
-async function delNota(col, id){
-  if(!confirm('Excluir esta anotação para todos?')) return;
-  NOTAS[col]=(NOTAS[col]||[]).filter(x=>x.id!==id);
-  renderNotes(); await syncSave();
-  showToast('🗑 Anotação excluída.');
+function confirmDelNota(col, id){
+  const n = (NOTAS[col]||[]).find(x=>x.id===id);
+  if(!n) return;
+  document.getElementById('m-confirm-body').textContent = `Excluir a anotação "${n.subj}" para todos?`;
+  document.getElementById('btn-confirm-ok').onclick = async ()=>{
+    closeM('m-confirm');
+    NOTAS[col]=(NOTAS[col]||[]).filter(x=>x.id!==id);
+    renderNotes(); await syncSave();
+    showToast('🗑 Anotação excluída.');
+  };
+  openM('m-confirm');
+}
+
+// ══════════════════════════════════════════════════════════════
+// LINKS
+// ══════════════════════════════════════════════════════════════
+function renderLinks(){
+  const grid = document.getElementById('links-grid');
+  if(!grid) return;
+  grid.innerHTML='';
+  if(!LINKS.length){
+    grid.innerHTML='<div class="empty-msg" style="grid-column:1/-1">Nenhum link cadastrado.</div>';
+    return;
+  }
+  LINKS.forEach(l=>{
+    const hostname = (() => { try{ return new URL(l.url).hostname; }catch(e){ return l.url; } })();
+    const card = document.createElement('div');
+    card.style.cssText='position:relative';
+    const adminBtns = isAdmin ? `
+      <div style="position:absolute;top:10px;right:10px;display:flex;gap:4px;">
+        <button class="btn-card ed" onclick="event.preventDefault();event.stopPropagation();openLinkModal('${esc(l.id)}')" aria-label="Editar link" style="font-size:11px;padding:3px 8px;">✏</button>
+        <button class="btn-card dl" onclick="event.preventDefault();event.stopPropagation();confirmDelLink('${esc(l.id)}')" aria-label="Excluir link" style="font-size:11px;padding:3px 8px;">🗑</button>
+      </div>` : '';
+    card.innerHTML=`
+      ${adminBtns}
+      <a href="${esc(l.url)}" target="_blank" rel="noopener" class="link-card" style="${isAdmin?'padding-right:80px':''}">
+        <div class="link-icon">${esc(l.icone)||'🔗'}</div>
+        <div>
+          <div class="link-name">${esc(l.nome)}</div>
+          ${l.desc?`<div class="link-desc">${esc(l.desc)}</div>`:''}
+          <div class="link-url">${esc(hostname)}</div>
+        </div>
+      </a>`;
+    grid.appendChild(card);
+  });
+}
+
+function openLinkModal(id){
+  const l = id ? LINKS.find(x=>x.id===id) : null;
+  document.getElementById('m-link-title').textContent = l ? 'Editar Link' : 'Novo Link';
+  document.getElementById('lf-id').value   = l ? l.id   : '';
+  document.getElementById('lf-icone').value= l ? l.icone: '';
+  document.getElementById('lf-nome').value = l ? l.nome : '';
+  document.getElementById('lf-url').value  = l ? l.url  : '';
+  document.getElementById('lf-desc').value = l ? l.desc : '';
+  openM('m-link');
+  setTimeout(()=>document.getElementById('lf-nome').focus(),60);
+}
+
+async function saveLink(){
+  const id   = document.getElementById('lf-id').value;
+  const icone= document.getElementById('lf-icone').value.trim()||'🔗';
+  const nome = document.getElementById('lf-nome').value.trim();
+  const url  = document.getElementById('lf-url').value.trim();
+  const desc = document.getElementById('lf-desc').value.trim();
+  if(!nome||!url){ showToast('⚠ Preencha Nome e URL.'); return; }
+  if(id){
+    const l=LINKS.find(x=>x.id===id);
+    if(l){ l.icone=icone;l.nome=nome;l.url=url;l.desc=desc; }
+  } else {
+    LINKS.push({id:'l'+Date.now().toString(36),icone,nome,url,desc});
+  }
+  closeM('m-link'); renderLinks();
+  const ok = await syncSave();
+  showToast(ok ? '💾 Link salvo e sincronizado!' : '💾 Link salvo localmente');
+}
+
+function confirmDelLink(id){
+  const l = LINKS.find(x=>x.id===id);
+  if(!l) return;
+  document.getElementById('m-confirm-body').textContent = `Excluir o link "${l.nome}"?`;
+  document.getElementById('btn-confirm-ok').onclick = async ()=>{
+    closeM('m-confirm');
+    LINKS = LINKS.filter(x=>x.id!==id);
+    renderLinks(); await syncSave();
+    showToast('🗑 Link excluído.');
+  };
+  openM('m-confirm');
 }
 
 // ══════════════════════════════════════════════════════════════
 // UTILS
 // ══════════════════════════════════════════════════════════════
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function openM(id){ document.getElementById(id).classList.add('open'); }
 function closeM(id){ document.getElementById(id).classList.remove('open'); }
 
@@ -1042,9 +1222,17 @@ function showToast(msg){
   clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-document.getElementById('m-resp').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeM('m-resp'); });
-document.getElementById('m-nota').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeM('m-nota'); });
-document.getElementById('pw').addEventListener('keydown',e=>{ if(e.key==='Enter') tryLogin(); });
+// Fechar modais com clique no overlay ou tecla Escape
+['m-resp','m-nota','m-link','m-confirm'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',e=>{ if(e.target===e.currentTarget) closeM(id); });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    ['m-resp','m-nota','m-link','m-confirm'].forEach(id=>{
+      document.getElementById(id).classList.remove('open');
+    });
+  }
+});
 
 // Boot
 loadCfg();
