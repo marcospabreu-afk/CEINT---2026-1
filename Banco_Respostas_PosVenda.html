@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Respostas – Pós-Venda</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-dark:  #1F4E79;
+    --blue-mid:   #2E75B6;
+    --blue-light: #D6EAF8;
+    --green:      #2E7D32;
+    --green-bg:   #E8F5E9;
+    --gray-bg:    #F4F6F9;
+    --border:     #DEE2E8;
+    --text:       #1A1A2E;
+    --text-soft:  #555;
+    --shadow:     0 2px 8px rgba(0,0,0,.10);
+    --shadow-lg:  0 6px 24px rgba(0,0,0,.14);
+    --radius:     10px;
+  }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--gray-bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Header ──────────────────────────────────────────── */
+  header {
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+    color: #fff;
+    padding: 22px 32px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+  header h1 { font-size: 1.35rem; font-weight: 700; letter-spacing: .3px; }
+  header p  { font-size: .85rem; opacity: .85; margin-top: 3px; }
+
+  /* ── Controls bar ─────────────────────────────────────── */
+  .controls {
+    display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+    padding: 18px 32px;
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 74px; z-index: 99;
+    box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  }
+  .controls input, .controls select {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: .93rem;
+    outline: none;
+    transition: border-color .2s;
+    color: var(--text);
+    background: #fff;
+  }
+  .controls input { flex: 1; min-width: 220px; }
+  .controls input:focus, .controls select:focus { border-color: var(--blue-mid); }
+  .search-wrap { flex: 1; position: relative; min-width: 220px; }
+  .search-wrap input { width: 100%; padding-left: 38px; }
+  .search-icon {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    opacity: .45; pointer-events: none; font-size: 1rem;
+  }
+  .counter {
+    font-size: .82rem; color: var(--text-soft);
+    white-space: nowrap; margin-left: 4px;
+  }
+
+  /* ── Grid ─────────────────────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 16px;
+    padding: 24px 32px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  /* ── Card ─────────────────────────────────────────────── */
+  .card {
+    background: #fff;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--blue-mid);
+  }
+  .card.copied {
+    border-color: var(--green) !important;
+    box-shadow: 0 0 0 3px rgba(46,125,50,.18);
+    animation: flashGreen .5s ease;
+  }
+  @keyframes flashGreen {
+    0%   { background: #C8E6C9; }
+    100% { background: #fff; }
+  }
+
+  .card-header {
+    padding: 12px 16px 10px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .cat-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%; flex-shrink: 0; margin-top: 4px;
+  }
+  .card-title {
+    font-weight: 700; font-size: .97rem;
+    color: var(--blue-dark); line-height: 1.35;
+    flex: 1;
+  }
+  .copy-hint {
+    font-size: .72rem; color: var(--blue-mid); opacity: .7;
+    flex-shrink: 0; margin-top: 2px;
+  }
+
+  .card-meta {
+    padding: 8px 16px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+    background: var(--gray-bg);
+    border-bottom: 1px solid var(--border);
+  }
+  .badge {
+    font-size: .73rem; padding: 2px 9px;
+    border-radius: 999px; font-weight: 600;
+    background: var(--blue-light); color: var(--blue-dark);
+  }
+  .badge.orgao { background: #EDE7F6; color: #4527A0; }
+
+  .card-tags {
+    padding: 6px 16px 7px;
+    font-size: .75rem; color: var(--text-soft);
+    background: var(--gray-bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-body {
+    padding: 12px 16px 14px;
+    font-size: .88rem; line-height: 1.65;
+    color: #333;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+  .card.expanded .card-body {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .card-footer {
+    padding: 8px 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--border);
+    background: var(--gray-bg);
+  }
+  .card-footer span {
+    font-size: .75rem; color: var(--text-soft);
+  }
+  .btn-copy {
+    font-size: .78rem; font-weight: 700;
+    background: var(--blue-dark); color: #fff;
+    border: none; border-radius: 6px;
+    padding: 5px 13px; cursor: pointer;
+    transition: background .15s;
+  }
+  .btn-copy:hover  { background: var(--blue-mid); }
+  .btn-copy.done   { background: var(--green); }
+  .btn-expand {
+    font-size: .75rem; color: var(--blue-mid);
+    background: none; border: none; cursor: pointer;
+    padding: 0; text-decoration: underline;
+  }
+
+  /* ── Toast ────────────────────────────────────────────── */
+  #toast {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    background: #1b5e20; color: #fff;
+    padding: 11px 26px; border-radius: 8px;
+    font-size: .9rem; font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s;
+    z-index: 9999;
+  }
+  #toast.show { opacity: 1; }
+
+  /* ── Empty state ──────────────────────────────────────── */
+  .empty {
+    grid-column: 1/-1;
+    text-align: center; padding: 60px 20px;
+    color: var(--text-soft);
+  }
+  .empty span { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+  @media (max-width: 600px) {
+    .grid { padding: 16px; gap: 12px; grid-template-columns: 1fr; }
+    .controls { padding: 12px 16px; }
+    header { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🗂️ Banco de Respostas — Pós-Venda</h1>
+  <p>Clique em qualquer card para copiar a resposta automaticamente</p>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="search" type="text" placeholder="Buscar por título, tag ou palavra-chave…" oninput="render()">
+  </div>
+  <select id="filterCat" onchange="render()">
+    <option value="">Todas as categorias</option>
+  </select>
+  <select id="filterOrgao" onchange="render()">
+    <option value="">Todos os órgãos</option>
+  </select>
+  <span class="counter" id="counter"></span>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div id="toast">✅ Resposta copiada!</div>
+
+<script>
+const RESPOSTAS = [
+  {
+    id: 1,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Encomenda em Fiscalização com Tributos Pagos",
+    orgao: "ANUNTES/RFB",
+    tags: "fiscalização; tributos; RFB; ANUNTES",
+    texto: "Prezados, informamos que apesar de constar o pagamento dos tributos a encomenda, se encontra em fiscalização pelo órgão anuente responsável.\n\nInformamos ainda, que os Correios não apresentam prerrogativas para interferir em tal processo."
+  },
+  {
+    id: 2,
+    categoria: "Retenção / Apreensão",
+    titulo: "Encomenda Retida/Apreendida",
+    orgao: "Órgão Anuente",
+    tags: "retida; apreendida; conteúdo proibido; ressarcimento",
+    texto: "Prezados, informamos que a encomenda foi retida devido o conteúdo ser proibido de entrar no país. Informamos ainda que os Correios não apresentam prerrogativas para interferir em tal processo.\n\nCaso tenha ocorrido o pagamento dos tributos, pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento."
+  },
+  {
+    id: 3,
+    categoria: "Devolução",
+    titulo: "Encomenda Devolvida ao País de Origem",
+    orgao: "Órgão Anuente",
+    tags: "devolvida; país origem; ressarcimento; tributos",
+    texto: "Prezados, informamos que a encomenda foi devolvida ao país de origem conforme determinação do órgão anuente responsável. Caso tenha ocorrido o pagamento dos tributos para o objeto, pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento."
+  },
+  {
+    id: 4,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Encomenda em Fiscalização (Geral)",
+    orgao: "Órgão Anuente",
+    tags: "fiscalização; rastreamento; acompanhamento",
+    texto: "Prezados, informamos que o objeto se encontra em fiscalização conforme consta no sistema de rastreamento desta forma, pedimos, que o cliente seja orientado a realizar o acompanhamento no site dos Correios. Informamos ainda que os Correios, não apresentam prerrogativas para interferir nos processos que são de competência dos órgãos anuentes."
+  },
+  {
+    id: 5,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Encomenda em Fiscalização – MAPA",
+    orgao: "MAPA",
+    tags: "fiscalização; MAPA; urgência",
+    texto: "Prezados, informamos que a encomenda se encontra em fiscalização pelo MAPA. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."
+  },
+  {
+    id: 6,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Encomenda em Fiscalização – ANVISA",
+    orgao: "ANVISA",
+    tags: "fiscalização; ANVISA; urgência; saúde",
+    texto: "Prezados, informamos que a encomenda se encontra em fiscalização pela ANVISA. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."
+  },
+  {
+    id: 7,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Encomenda em Fiscalização – Exército",
+    orgao: "Ministério do Exército",
+    tags: "fiscalização; exército; ministério; urgência",
+    texto: "Prezados, informamos que a encomenda se encontra em fiscalização pela MINISTÉRIO DO EXÉRCITO. Diante do relato do cliente, nós, já solicitamos urgência para o caso junto ao órgão citado."
+  },
+  {
+    id: 8,
+    categoria: "Refugo / Descarte",
+    titulo: "Encomenda em Processo de Refugo – ANAC",
+    orgao: "ANAC",
+    tags: "refugo; ANAC; proibido; devolução",
+    texto: "Prezados, a encomenda foi encaminhada para o processo de refugo pelo fato de o conteúdo estar dentro da lista da ANAC de produtos proibidos que não podem seguir viagem ao país de origem."
+  },
+  {
+    id: 9,
+    categoria: "Devolução",
+    titulo: "Encomenda Devolvida – Falha Operacional",
+    orgao: "Correios",
+    tags: "devolvida; falha operacional; ressarcimento; sistêmica",
+    texto: "Prezados, a encomenda foi devolvida ao país de origem devido a uma falha operacional desta forma nós pedimos, que o cliente seja devidamente orientado a solicitar o ressarcimento referente aos tributos pagos. O status do objeto não foi atualizado devido a uma falha sistêmica."
+  },
+  {
+    id: 10,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Encomenda Aguardando Homologação – ANATEL",
+    orgao: "ANATEL",
+    tags: "homologação; ANATEL; aguardando",
+    texto: "Prezados, informamos que a encomenda se encontra aguardando a homologação por parte do cliente junto a ANATEL. Informamos que os Correios não apresentam prerrogativas para interferir em tal processo."
+  },
+  {
+    id: 11,
+    categoria: "Retenção / Apreensão",
+    titulo: "Importação Não Autorizada – ANVISA",
+    orgao: "ANVISA",
+    tags: "importação; não autorizada; ANVISA; produto saúde; ressarcimento",
+    texto: "Prezados, informamos que a encomenda teve a importação não autorizada pelo fato do conteúdo ser produto para saúde. Conforme normas do órgão anuente responsável (ANVISA), tais produtos não podem ser importados via postal. Caso tenha ocorrido o pagamento dos tributos, pedimos, que o cliente seja orientado a solicitar o ressarcimento.\n\nLembramos que os Correios não apresentam prerrogativas para interferir nos processos de competência do órgãos anuentes."
+  },
+  {
+    id: 12,
+    categoria: "Avaria",
+    titulo: "Encomenda Adentrou Avariada – CEINT",
+    orgao: "CEINT",
+    tags: "avaria; CEINT; remetente; ressarcimento",
+    texto: "Prezados, a encomenda adentrou no CEINT avariada e foi constatado que não será possível encaminhar no fluxo postal. Pedimos que o cliente seja orientado a entrar em contato com o remetente e informar o ocorrido. Caso tenha ocorrido o pagamento dos tributos o cliente deve ser ressarcido nos valores pagos referente a tributação."
+  },
+  {
+    id: 13,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Encomenda Aguardando Retificação",
+    orgao: "Órgão Fiscalizador",
+    tags: "retificação; declaração; aguardando; fiscalização",
+    texto: "Prezados, informamos que o objeto se encontra aguardando a retificação de declaração conforme determinação do órgão fiscalizador. Lembramos, que os Correios não apresentam prerrogativas para interferir nos processo que são de competência do órgão fiscalizador."
+  },
+  {
+    id: 14,
+    categoria: "Devolução",
+    titulo: "Encomenda Devolvida – Falta de CPF",
+    orgao: "Órgão Anuente",
+    tags: "CPF; falta; irregular; devolução",
+    texto: "Prezados, informamos que o objeto foi encaminhado para o processo de devolução devido à falta de cpf na encomenda ou pelo fato de a situação cadastral do documento citado estar irregular. Informamos ainda que os Correios, não apresentam prerrogativas para interferir em tal processo."
+  },
+  {
+    id: 15,
+    categoria: "Operacional",
+    titulo: "Encomenda em Processo de Resgate",
+    orgao: "Correios",
+    tags: "resgate; rastreamento; acompanhamento",
+    texto: "Prezados, informamos que a tentativa de resgate da encomenda será realizada desta forma pedimos que o cliente seja orientado a acompanhar o andamento do objeto no site dos Correios no link rastreamento de encomendas."
+  },
+  {
+    id: 16,
+    categoria: "Devolução",
+    titulo: "Encomenda Packet em Processo de Devolução",
+    orgao: "Operador Logístico",
+    tags: "packet; devolução; operador logístico; modalidade",
+    texto: "Prezados, informamos que para a modalidade packet a devolução ao país de origem é realizada conforme disponibilidade do operador logístico em retirar a carga no centro."
+  },
+  {
+    id: 17,
+    categoria: "Retenção / Apreensão",
+    titulo: "Importação Não Autorizada – ANATEL",
+    orgao: "ANATEL",
+    tags: "importação; não autorizada; ANATEL; restrito",
+    texto: "Prezados, informamos que a encomenda teve a sua importação não autorizada pela ANATEL devido ao conteúdo ser restrito no país. Informamos ainda, que os Correios não apresentam prerrogativas para interferir nos processos que são de competência do órgão anuente."
+  },
+  {
+    id: 18,
+    categoria: "Avaria",
+    titulo: "Encomenda Avariada no CEINT – Refugo",
+    orgao: "CEINT",
+    tags: "avaria; CEINT; refugo; ressarcimento; tributos",
+    texto: "Prezados, informamos que ocorreu uma avaria no processo operacional desta forma o objeto, foi encaminhado para o processo de refugo. Como ocorreu o pagamento dos tributos, pedimos, que o cliente seja informado/orientado a solicitar o ressarcimento dos valores pagos referente a tributação."
+  },
+  {
+    id: 19,
+    categoria: "Extravio",
+    titulo: "Atualizar SRO – Extravio",
+    orgao: "Correios",
+    tags: "extravio; SRO; busca; status; entrega",
+    texto: "Prezados, informamos que a encomenda foi encaminhada para o fluxo operacional, mas como até o momento não ocorreu a entrega o status do objeto será atualizado.\n\nInformamos ainda, que as buscas pelo objeto ainda ocorrem e caso seja encontrada será devidamente encaminhada ao destino final."
+  },
+  {
+    id: 20,
+    categoria: "Recorrência",
+    titulo: "Recorrência – Resposta Anuentes (Geral)",
+    orgao: "Órgão Anuente",
+    tags: "recorrência; anuentes; urgência; insistência",
+    texto: "Prezados, os Correios não apresentam prerrogativas para interferir nos processos que são de competência dos órgãos anuentes, contudo, nós já solicitamos urgência para o caso junto ao órgão citado."
+  },
+  {
+    id: 21,
+    categoria: "Recorrência",
+    titulo: "Recorrência – Fiscalização ANVISA",
+    orgao: "ANVISA",
+    tags: "recorrência; ANVISA; urgência; fiscalização",
+    texto: "Prezados, reiteramos que a encomenda se encontra em fiscalização pela ANVISA. Diante da recorrência do contato, nós já encaminhamos nova solicitação de urgência junto ao órgão e aguardamos retorno."
+  },
+  {
+    id: 22,
+    categoria: "Recorrência",
+    titulo: "Recorrência – Extravio em Investigação",
+    orgao: "Correios",
+    tags: "recorrência; extravio; investigação; prazo",
+    texto: "Prezados, reiteramos que as buscas pela encomenda estão em andamento. Já acionamos a área responsável e o processo de investigação segue em curso. Informaremos o cliente assim que houver atualização."
+  },
+  {
+    id: 23,
+    categoria: "Operacional",
+    titulo: "Objeto Retido por Endereço Incorreto",
+    orgao: "Correios",
+    tags: "endereço; incorreto; retido; atualização",
+    texto: "Prezados, informamos que a encomenda se encontra retida devido ao endereço de entrega estar incorreto ou incompleto. Pedimos que o cliente seja orientado a fornecer o endereço atualizado para que possamos dar prosseguimento à entrega."
+  },
+  {
+    id: 24,
+    categoria: "Operacional",
+    titulo: "Objeto Aguardando Retirada na Unidade",
+    orgao: "Correios",
+    tags: "aguardando; retirada; unidade; prazo",
+    texto: "Prezados, informamos que a encomenda encontra-se disponível para retirada na unidade dos Correios. Pedimos que o cliente seja orientado a comparecer à unidade dentro do prazo estabelecido, munido de documento de identificação e do código de rastreamento."
+  },
+  {
+    id: 25,
+    categoria: "Fiscalização / Tributação",
+    titulo: "Tributação Calculada – Aguardando Pagamento",
+    orgao: "RFB",
+    tags: "tributação; pagamento; aguardando; RFB; tributos",
+    texto: "Prezados, informamos que a tributação referente à encomenda já foi calculada pela Receita Federal do Brasil. Pedimos que o cliente seja orientado a acessar o site dos Correios ou o portal da RFB para efetuar o pagamento dos tributos devidos, a fim de liberar a encomenda."
+  }
+];
+
+// ── Cores por categoria ────────────────────────────────────────────────────
+const CAT_COLORS = {
+  "Avaria":                    { bg: "#FCE4EC", dot: "#E91E63" },
+  "Devolução":                 { bg: "#FFF3E0", dot: "#FF6F00" },
+  "Extravio":                  { bg: "#E8F5E9", dot: "#2E7D32" },
+  "Fiscalização / Tributação": { bg: "#D6E4F0", dot: "#1F4E79" },
+  "Operacional":               { bg: "#E0F7FA", dot: "#00838F" },
+  "Recorrência":               { bg: "#FFF9C4", dot: "#F9A825" },
+  "Refugo / Descarte":         { bg: "#F3E5F5", dot: "#6A1B9A" },
+  "Retenção / Apreensão":      { bg: "#FFEBEE", dot: "#C62828" },
+};
+
+function getColor(cat) {
+  return CAT_COLORS[cat] || { bg: "#F5F5F5", dot: "#9E9E9E" };
+}
+
+// ── Inicializar filtros ───────────────────────────────────────────────────
+function initFilters() {
+  const cats   = [...new Set(RESPOSTAS.map(r => r.categoria))].sort();
+  const orgaos = [...new Set(RESPOSTAS.map(r => r.orgao))].sort();
+  const selCat   = document.getElementById('filterCat');
+  const selOrgao = document.getElementById('filterOrgao');
+  cats.forEach(c => {
+    const o = document.createElement('option'); o.value = c; o.textContent = c;
+    selCat.appendChild(o);
+  });
+  orgaos.forEach(o => {
+    const el = document.createElement('option'); el.value = o; el.textContent = o;
+    selOrgao.appendChild(el);
+  });
+}
+
+// ── Copiar para clipboard ─────────────────────────────────────────────────
+function copyText(text, cardEl, btnEl) {
+  navigator.clipboard.writeText(text).then(() => {
+    cardEl.classList.add('copied');
+    btnEl.textContent = '✅ Copiado!';
+    btnEl.classList.add('done');
+    showToast();
+    setTimeout(() => {
+      cardEl.classList.remove('copied');
+      btnEl.textContent = '📋 Copiar';
+      btnEl.classList.remove('done');
+    }, 2000);
+  }).catch(() => {
+    // Fallback para navegadores mais antigos
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    cardEl.classList.add('copied');
+    btnEl.textContent = '✅ Copiado!';
+    btnEl.classList.add('done');
+    showToast();
+    setTimeout(() => {
+      cardEl.classList.remove('copied');
+      btnEl.textContent = '📋 Copiar';
+      btnEl.classList.remove('done');
+    }, 2000);
+  });
+}
+
+let toastTimer;
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── Criar card ────────────────────────────────────────────────────────────
+function createCard(r) {
+  const colors = getColor(r.categoria);
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.id = r.id;
+
+  card.innerHTML = `
+    <div class="card-header" style="background:${colors.bg}">
+      <span class="cat-dot" style="background:${colors.dot}"></span>
+      <span class="card-title">${r.titulo}</span>
+      <span class="copy-hint">clique ▸ copiar</span>
+    </div>
+    <div class="card-meta">
+      <span class="badge">${r.categoria}</span>
+      <span class="badge orgao">🏛 ${r.orgao}</span>
+    </div>
+    <div class="card-tags">🏷 ${r.tags}</div>
+    <div class="card-body">${r.texto.replace(/\n/g, '<br>')}</div>
+    <div class="card-footer">
+      <button class="btn-expand" onclick="event.stopPropagation(); this.closest('.card').classList.toggle('expanded'); this.textContent = this.closest('.card').classList.contains('expanded') ? '▲ Recolher' : '▼ Ver texto completo'">▼ Ver texto completo</button>
+      <button class="btn-copy" onclick="event.stopPropagation(); copyText(RESPOSTAS[${r.id-1}].texto, this.closest('.card'), this)">📋 Copiar</button>
+    </div>
+  `;
+
+  // Clique no card inteiro também copia
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON') return;
+    const btn = card.querySelector('.btn-copy');
+    copyText(r.texto, card, btn);
+  });
+
+  return card;
+}
+
+// ── Render principal ──────────────────────────────────────────────────────
+function render() {
+  const q      = document.getElementById('search').value.toLowerCase();
+  const cat    = document.getElementById('filterCat').value;
+  const orgao  = document.getElementById('filterOrgao').value;
+  const grid   = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  const filtered = RESPOSTAS.filter(r => {
+    const matchCat   = !cat   || r.categoria === cat;
+    const matchOrgao = !orgao || r.orgao     === orgao;
+    const matchQ     = !q    || [r.titulo, r.categoria, r.orgao, r.tags, r.texto]
+                                  .some(v => v.toLowerCase().includes(q));
+    return matchCat && matchOrgao && matchQ;
+  });
+
+  document.getElementById('counter').textContent =
+    `${filtered.length} resposta${filtered.length !== 1 ? 's' : ''}`;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty"><span>🔍</span>Nenhuma resposta encontrada</div>';
+    return;
+  }
+
+  filtered.forEach(r => grid.appendChild(createCard(r)));
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+initFilters();
+render();
+</script>
+</body>
+</html>
