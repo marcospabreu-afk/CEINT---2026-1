@@ -433,16 +433,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 <div id="setup-banner">
   <div class="setup-inner">
     <button class="setup-dismiss" onclick="document.getElementById('setup-banner').classList.remove('show')" aria-label="Fechar configuração">✕</button>
-    <h3>⚙️ Configuração do armazenamento compartilhado — JSONBin.io</h3>
+    <h3>⚙️ Configuração do armazenamento compartilhado — Firebase</h3>
     <div class="setup-steps">
-      <div class="setup-step"><span class="step-num">1</span><p>Acesse <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> e crie uma conta gratuita.</p></div>
-      <div class="setup-step"><span class="step-num">2</span><p>Vá em <strong>API Keys</strong> e copie sua <code>Master Key</code>.</p></div>
-      <div class="setup-step"><span class="step-num">3</span><p>Clique em <strong>New Bin</strong>, cole <code>{"r":[],"n":{}}</code> e salve. Copie o <strong>Bin ID</strong>.</p></div>
-      <div class="setup-step"><span class="step-num">4</span><p>Cole os valores abaixo e clique em Salvar. As configurações ficam no seu navegador.</p></div>
+      <div class="setup-step"><span class="step-num">1</span><p>Acesse <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> e crie um projeto gratuito (pode desativar o Analytics).</p></div>
+      <div class="setup-step"><span class="step-num">2</span><p>No menu lateral: <strong>Criação → Realtime Database → Criar banco de dados</strong> (local: Estados Unidos; modo: bloqueado).</p></div>
+      <div class="setup-step"><span class="step-num">3</span><p>Na aba <strong>Regras</strong>, cole <code>{"rules":{"ceint":{".read":true,".write":true}}}</code> e clique em <strong>Publicar</strong>.</p></div>
+      <div class="setup-step"><span class="step-num">4</span><p>Copie a <strong>URL do banco</strong> exibida no topo da aba Dados (ex.: <code>https://seu-projeto-default-rtdb.firebaseio.com</code>) e cole abaixo.</p></div>
     </div>
     <div class="setup-input-row">
-      <input id="cfg-key" type="password" placeholder="Master Key  ($2a$10$...)">
-      <input id="cfg-bin" type="text" placeholder="Bin ID  (64c3f9...)">
+      <input id="cfg-url" type="text" placeholder="URL do Realtime Database  (https://...-default-rtdb.firebaseio.com)">
       <button class="btn-setup-save" onclick="saveConfig()">Salvar e Conectar</button>
     </div>
     <div class="setup-err" id="setup-err"></div>
@@ -463,7 +462,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <button class="btn-viewer" onclick="enterViewer()">Visualizador — acesso sem senha</button>
     <div class="auth-err" id="auth-err"></div>
     <div class="auth-config-link">
-      Armazenamento compartilhado: <a onclick="toggleSetup()">configurar JSONBin</a>
+      Armazenamento compartilhado: <a onclick="toggleSetup()">configurar Firebase</a>
     </div>
   </div>
 </div>
@@ -478,7 +477,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <div class="topbar-right">
       <span class="sync-dot" id="sync-dot" title="Sincronizando…"></span>
       <span class="mode-pill" id="mode-pill"></span>
-      <button class="btn-topbar btn-topbar-config" onclick="toggleSetup()" aria-label="Configurar JSONBin">⚙ JSONBin</button>
+      <button class="btn-topbar btn-topbar-config" onclick="toggleSetup()" aria-label="Configurar Firebase">⚙ Firebase</button>
       <button class="btn-topbar" onclick="sair()">Sair</button>
     </div>
   </header>
@@ -643,8 +642,10 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
 </div>
 
 <div id="toast" role="status" aria-live="polite"></div>
-<div id="offline-badge" role="status">⚠ Sem JSONBin — dados locais</div>
+<div id="offline-badge" role="status">⚠ Sem Firebase — dados locais</div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
 // SENHA — hash SHA-256 de 'ceint2026'
@@ -687,7 +688,7 @@ const CAT_COLOR = {
 let isAdmin = false;
 let RESP = [], NOTAS = {acomp:[],pend:[],outras:[]}, LINKS = [];
 let syncInterval;
-let CFG = {key:'', bin:''};
+let CFG = {url:''};
 const LS_RESP  = 'ceint_resp_local';
 const LS_NOTAS = 'ceint_notas_local';
 const LS_LINKS = 'ceint_links_local';
@@ -715,64 +716,87 @@ function loadLocal(){
 }
 
 // ══════════════════════════════════════════════════════════════
-// JSONBIN API
+// FIREBASE REALTIME DATABASE
 // ══════════════════════════════════════════════════════════════
 function loadCfg(){
   try{ CFG = JSON.parse(localStorage.getItem('ceint_cfg')||'{}'); }catch(e){ CFG={}; }
-  CFG.key = CFG.key||''; CFG.bin = CFG.bin||'';
+  CFG.url = CFG.url||'';
 }
 function saveCfg(){ localStorage.setItem('ceint_cfg', JSON.stringify(CFG)); }
-function hasCfg(){ return CFG.key && CFG.bin; }
+function hasCfg(){ return !!CFG.url; }
 
+let fbApp = null, fbRef = null;
 let lastSyncErr = '';
-function syncErrMsg(status){
-  if(status===401||status===403) return 'Master Key inválida';
-  if(status===404) return 'Bin ID não encontrado';
-  if(status===429) return 'Cota do JSONBin excedida';
-  if(status===0)   return 'Sem conexão com a internet';
-  return 'Erro '+status+' no JSONBin';
-}
-async function binRead(){
-  if(!hasCfg()) return null;
-  try{
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${CFG.bin}/latest`,{
-      headers:{'X-Master-Key':CFG.key,'X-Bin-Meta':'false'}
-    });
-    if(!r.ok){ lastSyncErr = syncErrMsg(r.status); return null; }
-    lastSyncErr = '';
-    return await r.json();
-  }catch(e){ lastSyncErr = syncErrMsg(0); return null; }
+
+function fbErrMsg(e){
+  return /permission/i.test(String(e&&e.message||e))
+    ? 'Permissão negada — publique as regras do banco'
+    : 'Falha na conexão com o Firebase';
 }
 
-async function binWrite(data){
+function fbInit(){
   if(!hasCfg()) return false;
+  if(typeof firebase === 'undefined'){ lastSyncErr = 'SDK do Firebase não carregou (verifique a internet)'; return false; }
   try{
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${CFG.bin}`,{
-      method:'PUT',
-      headers:{'Content-Type':'application/json','X-Master-Key':CFG.key},
-      body: JSON.stringify(data)
-    });
-    if(!r.ok){ lastSyncErr = syncErrMsg(r.status); }else{ lastSyncErr=''; }
-    return r.ok;
-  }catch(e){ lastSyncErr = syncErrMsg(0); return false; }
+    if(fbRef){ fbRef.off(); fbRef = null; }
+    if(fbApp){ fbApp.delete().catch(()=>{}); fbApp = null; }
+    fbApp = firebase.initializeApp({databaseURL: CFG.url}, 'ceint'+Date.now());
+    fbRef = fbApp.database().ref('ceint');
+    return true;
+  }catch(e){ lastSyncErr = 'URL do banco inválida'; fbApp=null; fbRef=null; return false; }
+}
+
+function applyData(data){
+  if(!data) return;
+  RESP  = data.r || RESP;
+  NOTAS = data.n || NOTAS;
+  LINKS = data.l || LINKS;
+  // Firebase remove arrays vazios — garante as 3 colunas de anotações
+  NOTAS.acomp = NOTAS.acomp||[]; NOTAS.pend = NOTAS.pend||[]; NOTAS.outras = NOTAS.outras||[];
+  saveLocal();
+}
+
+function showOfflineBadge(){
+  const badge = document.getElementById('offline-badge');
+  badge.textContent = !hasCfg() ? '⚠ Sem Firebase — dados locais' : '⚠ '+(lastSyncErr||'Falha no Firebase')+' — dados locais';
+  badge.classList.add('show');
+}
+
+// Escuta em tempo real: qualquer alteração de outro operador aparece na hora
+function fbListen(){
+  if(!hasCfg()) return;
+  if(!fbRef && !fbInit()){ showOfflineBadge(); return; }
+  fbRef.off();
+  fbRef.on('value', snap=>{
+    lastSyncErr = '';
+    document.getElementById('offline-badge').classList.remove('show');
+    applyData(snap.val());
+    if(document.getElementById('app').style.display !== 'none'){
+      renderCards(); renderNotes(); renderLinks();
+    }
+  }, err=>{
+    lastSyncErr = fbErrMsg(err);
+    showOfflineBadge();
+  });
 }
 
 async function syncLoad(){
   const dot = document.getElementById('sync-dot');
   if(dot) dot.classList.add('active');
-  const data = await binRead();
+  let ok = false, data = null;
+  if(hasCfg() && (fbRef || fbInit())){
+    try{
+      const snap = await fbRef.once('value');
+      data = snap.val(); ok = true; lastSyncErr = '';
+    }catch(e){ lastSyncErr = fbErrMsg(e); }
+  }
   if(dot) dot.classList.remove('active');
-  if(data){
-    RESP  = data.r || RESP;
-    NOTAS = data.n || NOTAS;
-    LINKS = data.l || LINKS;
-    saveLocal();
+  if(ok){
+    applyData(data);
     document.getElementById('offline-badge').classList.remove('show');
-    return true;
+    return !!data;
   } else {
-    const badge = document.getElementById('offline-badge');
-    badge.textContent = !hasCfg() ? '⚠ Sem JSONBin — dados locais' : '⚠ '+(lastSyncErr||'Falha no JSONBin')+' — dados locais';
-    badge.classList.add('show');
+    showOfflineBadge();
     return false;
   }
 }
@@ -781,8 +805,13 @@ async function syncSave(){
   const dot = document.getElementById('sync-dot');
   if(dot) dot.classList.add('active');
   saveLocal();
-  const ok = await binWrite({r:RESP, n:NOTAS, l:LINKS});
+  let ok = false;
+  if(hasCfg() && (fbRef || fbInit())){
+    try{ await fbRef.set({r:RESP, n:NOTAS, l:LINKS}); ok = true; lastSyncErr = ''; }
+    catch(e){ lastSyncErr = fbErrMsg(e); }
+  }
   if(dot) setTimeout(()=>dot.classList.remove('active'), 600);
+  if(!ok && hasCfg()) showOfflineBadge();
   return ok;
 }
 
@@ -793,33 +822,39 @@ function toggleSetup(){
   const b = document.getElementById('setup-banner');
   b.classList.toggle('show');
   if(b.classList.contains('show')){
-    document.getElementById('cfg-key').value = CFG.key||'';
-    document.getElementById('cfg-bin').value = CFG.bin||'';
+    document.getElementById('cfg-url').value = CFG.url||'';
   }
 }
 async function saveConfig(){
-  const key = document.getElementById('cfg-key').value.trim();
-  const bin = document.getElementById('cfg-bin').value.trim();
+  const url = document.getElementById('cfg-url').value.trim().replace(/\/+$/,'');
   const err = document.getElementById('setup-err');
   err.textContent = '';
-  if(!key||!bin){ err.textContent='Preencha os dois campos.'; return; }
-  CFG = {key, bin}; saveCfg();
+  if(!url){ err.textContent='Informe a URL do Realtime Database.'; return; }
+  if(!/^https:\/\/[\w.-]+\.(firebaseio\.com|firebasedatabase\.app)$/.test(url)){
+    err.textContent='URL inválida. Ex.: https://seu-projeto-default-rtdb.firebaseio.com'; return;
+  }
+  CFG = {url}; saveCfg();
   err.textContent = 'Testando conexão…';
-  const data = await binRead();
-  if(data !== null){
+  if(!fbInit()){ err.textContent = '❌ '+(lastSyncErr||'Não foi possível iniciar o Firebase.'); return; }
+  try{
+    const snap = await fbRef.once('value');
+    const data = snap.val();
     err.style.color='#4ADE80';
     err.textContent = '✅ Conectado! Dados carregados com sucesso.';
-    RESP  = data.r && data.r.length ? data.r : JSON.parse(JSON.stringify(SEED_R));
-    NOTAS = data.n || JSON.parse(JSON.stringify(SEED_N));
-    LINKS = data.l && data.l.length ? data.l : JSON.parse(JSON.stringify(SEED_L));
-    if(!data.r || !data.r.length) await binWrite({r:RESP, n:NOTAS, l:LINKS});
+    // Banco novo/vazio: aproveita os dados locais atuais (ou o seed) e envia
+    RESP  = data && data.r && data.r.length ? data.r : (RESP.length ? RESP : JSON.parse(JSON.stringify(SEED_R)));
+    NOTAS = data && data.n ? data.n : NOTAS;
+    NOTAS.acomp = NOTAS.acomp||[]; NOTAS.pend = NOTAS.pend||[]; NOTAS.outras = NOTAS.outras||[];
+    LINKS = data && data.l && data.l.length ? data.l : (LINKS.length ? LINKS : JSON.parse(JSON.stringify(SEED_L)));
+    if(!data || !data.r || !data.r.length) await fbRef.set({r:RESP, n:NOTAS, l:LINKS});
     saveLocal();
-    renderCards(); renderNotes();
+    renderCards(); renderNotes(); renderLinks();
     document.getElementById('offline-badge').classList.remove('show');
+    fbListen();
     setTimeout(()=>{ err.textContent=''; err.style.color=''; },3000);
-  } else {
+  }catch(e){
     err.style.color='';
-    err.textContent = '❌ '+(lastSyncErr||'Não foi possível conectar')+'. Verifique a Master Key e o Bin ID.';
+    err.textContent = '❌ '+fbErrMsg(e)+'. Confira a URL e as regras do banco.';
   }
 }
 
@@ -848,7 +883,7 @@ async function tryLogin(){
 }
 function enterViewer(){ isAdmin=false; launch(); }
 function sair(){
-  clearInterval(syncInterval);
+  if(fbRef) fbRef.off();
   document.getElementById('auth-wrap').style.display='flex';
   document.getElementById('app').style.display='none';
   document.getElementById('pw').value='';
@@ -869,7 +904,7 @@ async function launch(){
   document.getElementById('admin-bar-n').style.display = 'flex'; // anotações liberadas também para visualizador
   document.getElementById('admin-bar-l').style.display = isAdmin ? 'flex' : 'none';
 
-  // Tenta JSONBin; fallback: localStorage; fallback: seed
+  // Tenta Firebase; fallback: localStorage; fallback: seed
   const loaded = await syncLoad();
   if(!loaded){
     const hadLocal = loadLocal();
@@ -881,13 +916,8 @@ async function launch(){
   }
   initFilters(); renderCards(); renderNotes(); renderLinks();
 
-  // Auto-sync a cada 5 min e só com a aba visível (preserva a cota do JSONBin)
-  clearInterval(syncInterval);
-  syncInterval = setInterval(async()=>{
-    if(document.hidden) return;
-    await syncLoad();
-    renderCards(); renderNotes(); renderLinks();
-  }, 300000);
+  // Sincronização em tempo real (sem polling): alterações de outros operadores aparecem na hora
+  fbListen();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1019,7 +1049,7 @@ async function saveResp(){
   closeM('m-resp');
   initFilters(); renderCards();
   const ok = await syncSave();
-  showToast(ok ? '💾 Salvo e sincronizado!' : '💾 Salvo localmente (JSONBin não configurado)');
+  showToast(ok ? '💾 Salvo e sincronizado!' : '💾 Salvo localmente (Firebase não conectado)');
 }
 
 // Confirmação customizada para deletar resposta
