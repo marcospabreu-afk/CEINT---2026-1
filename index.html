@@ -854,7 +854,7 @@ async function launch(){
   pill.textContent = isAdmin ? '🔑 Administrador' : '👁 Visualizador';
   pill.className   = 'mode-pill ' + (isAdmin ? 'pill-admin' : 'pill-viewer');
   document.getElementById('admin-bar').style.display   = isAdmin ? 'flex' : 'none';
-  document.getElementById('admin-bar-n').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('admin-bar-n').style.display = 'flex'; // anotações liberadas também para visualizador
   document.getElementById('admin-bar-l').style.display = isAdmin ? 'flex' : 'none';
 
   // Tenta JSONBin; fallback: localStorage; fallback: seed
@@ -1055,7 +1055,7 @@ function renderNotes(){
   NOTE_COLS.forEach(col=>{
     const items = (NOTAS[col.key]||[]);
     const div = document.createElement('div'); div.className='notes-col';
-    const addBtn = isAdmin ? `<button class="btn-add-note" onclick="openNotaModal('${col.key}')">＋ Novo</button>` : '';
+    const addBtn = `<button class="btn-add-note" onclick="openNotaModal('${col.key}')">＋ Novo</button>`;
     div.innerHTML=`
       <div class="notes-col-top" style="border-bottom:2px solid ${col.topColor}22">
         <h3 style="color:${col.topColor}">
@@ -1071,9 +1071,8 @@ function renderNotes(){
     items.forEach(n=>{
       const priC = {alta:'pri-alta',media:'pri-media',baixa:'pri-baixa'}[n.pri]||'pri-media';
       const priL = {alta:'🔴 Alta',media:'🟠 Média',baixa:'🟢 Baixa'}[n.pri]||'🟠 Média';
-      const ab = isAdmin
-        ? `<button onclick="openNotaModal('${col.key}','${n.id}')" aria-label="Editar anotação">✏</button>
-           <button onclick="confirmDelNota('${col.key}','${n.id}')" aria-label="Excluir anotação">🗑</button>` : '';
+      const ab = `<button onclick="openNotaModal('${col.key}','${n.id}')" aria-label="Editar anotação">✏</button>
+           <button onclick="confirmDelNota('${col.key}','${n.id}')" aria-label="Excluir anotação">🗑</button>`;
       const ni = document.createElement('div'); ni.className='note-card';
       ni.innerHTML=`
         <div class="note-top">
