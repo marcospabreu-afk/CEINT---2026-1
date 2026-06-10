@@ -724,15 +724,24 @@ function loadCfg(){
 function saveCfg(){ localStorage.setItem('ceint_cfg', JSON.stringify(CFG)); }
 function hasCfg(){ return CFG.key && CFG.bin; }
 
+let lastSyncErr = '';
+function syncErrMsg(status){
+  if(status===401||status===403) return 'Master Key inválida';
+  if(status===404) return 'Bin ID não encontrado';
+  if(status===429) return 'Cota do JSONBin excedida';
+  if(status===0)   return 'Sem conexão com a internet';
+  return 'Erro '+status+' no JSONBin';
+}
 async function binRead(){
   if(!hasCfg()) return null;
   try{
     const r = await fetch(`https://api.jsonbin.io/v3/b/${CFG.bin}/latest`,{
       headers:{'X-Master-Key':CFG.key,'X-Bin-Meta':'false'}
     });
-    if(!r.ok) return null;
+    if(!r.ok){ lastSyncErr = syncErrMsg(r.status); return null; }
+    lastSyncErr = '';
     return await r.json();
-  }catch(e){ return null; }
+  }catch(e){ lastSyncErr = syncErrMsg(0); return null; }
 }
 
 async function binWrite(data){
@@ -743,8 +752,9 @@ async function binWrite(data){
       headers:{'Content-Type':'application/json','X-Master-Key':CFG.key},
       body: JSON.stringify(data)
     });
+    if(!r.ok){ lastSyncErr = syncErrMsg(r.status); }else{ lastSyncErr=''; }
     return r.ok;
-  }catch(e){ return false; }
+  }catch(e){ lastSyncErr = syncErrMsg(0); return false; }
 }
 
 async function syncLoad(){
@@ -760,7 +770,9 @@ async function syncLoad(){
     document.getElementById('offline-badge').classList.remove('show');
     return true;
   } else {
-    if(!hasCfg()) document.getElementById('offline-badge').classList.add('show');
+    const badge = document.getElementById('offline-badge');
+    badge.textContent = !hasCfg() ? '⚠ Sem JSONBin — dados locais' : '⚠ '+(lastSyncErr||'Falha no JSONBin')+' — dados locais';
+    badge.classList.add('show');
     return false;
   }
 }
@@ -807,7 +819,7 @@ async function saveConfig(){
     setTimeout(()=>{ err.textContent=''; err.style.color=''; },3000);
   } else {
     err.style.color='';
-    err.textContent = '❌ Não foi possível conectar. Verifique a Master Key e o Bin ID.';
+    err.textContent = '❌ '+(lastSyncErr||'Não foi possível conectar')+'. Verifique a Master Key e o Bin ID.';
   }
 }
 
@@ -869,12 +881,13 @@ async function launch(){
   }
   initFilters(); renderCards(); renderNotes(); renderLinks();
 
-  // Auto-sync a cada 30s (reduzido para preservar cota do JSONBin)
+  // Auto-sync a cada 5 min e só com a aba visível (preserva a cota do JSONBin)
   clearInterval(syncInterval);
   syncInterval = setInterval(async()=>{
+    if(document.hidden) return;
     await syncLoad();
     renderCards(); renderNotes(); renderLinks();
-  }, 30000);
+  }, 300000);
 }
 
 // ══════════════════════════════════════════════════════════════
