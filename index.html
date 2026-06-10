@@ -688,6 +688,9 @@ const CAT_COLOR = {
 let isAdmin = false;
 let RESP = [], NOTAS = {acomp:[],pend:[],outras:[]}, LINKS = [];
 let syncInterval;
+// URL do Firebase embutida — operadores não precisam configurar nada.
+// Para trocar de banco, altere o valor abaixo.
+const FB_URL_PADRAO = 'https://banco-de-respostas-default-rtdb.firebaseio.com';
 let CFG = {url:''};
 const LS_RESP  = 'ceint_resp_local';
 const LS_NOTAS = 'ceint_notas_local';
@@ -720,7 +723,7 @@ function loadLocal(){
 // ══════════════════════════════════════════════════════════════
 function loadCfg(){
   try{ CFG = JSON.parse(localStorage.getItem('ceint_cfg')||'{}'); }catch(e){ CFG={}; }
-  CFG.url = CFG.url||'';
+  CFG.url = CFG.url || FB_URL_PADRAO;
 }
 function saveCfg(){ localStorage.setItem('ceint_cfg', JSON.stringify(CFG)); }
 function hasCfg(){ return !!CFG.url; }
