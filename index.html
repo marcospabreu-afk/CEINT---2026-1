@@ -425,6 +425,91 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
   .modal-row{flex-direction:column}
   .tab-btn{padding:11px 14px;font-size:12px}
 }
+
+/* ── RECENTES BAR ── */
+#recentes-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:8px 24px;display:none}
+.recentes-inner{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.recentes-label{font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;white-space:nowrap;flex-shrink:0}
+.recentes-list{display:flex;gap:6px;flex-wrap:wrap}
+.rec-chip{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;cursor:pointer;transition:border-color .15s,background .15s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.rec-chip:hover{border-color:var(--accent);background:#FBF7EC}
+.rec-chip-cat{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace}
+
+/* ── FAVORITOS ── */
+.btn-fav{background:none;border:none;cursor:pointer;font-size:15px;padding:2px 4px;opacity:.35;transition:opacity .15s,transform .15s;line-height:1}
+.btn-fav:hover{opacity:1;transform:scale(1.2)}
+.btn-fav.fav-on{opacity:1}
+.card.card-fav{border-color:rgba(200,168,75,.5);background:linear-gradient(135deg,var(--surface) 94%,#FBF7EC 100%)}
+.uso-badge{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--accent2);opacity:.8}
+mark{background:#FFF176;color:inherit;padding:0 1px;border-radius:2px}
+.var-placeholder{color:var(--blue);background:rgba(26,79,138,.07);border-radius:3px;padding:0 3px;font-family:'IBM Plex Mono',monospace;font-size:12px}
+.btn-card.comp-btn{background:var(--surface2);color:var(--text2)}
+.btn-card.comp-btn:hover{background:#EBF0F8;color:var(--blue);border-color:var(--blue)}
+
+/* ── COMMAND PALETTE ── */
+#cmdpal{display:none;position:fixed;inset:0;background:rgba(13,31,53,.6);z-index:300;align-items:flex-start;justify-content:center;padding-top:10vh;backdrop-filter:blur(3px)}
+#cmdpal.open{display:flex}
+.cmdpal-box{background:var(--surface);border-radius:var(--rl);box-shadow:0 20px 60px rgba(13,31,53,.3);width:100%;max-width:640px;max-height:72vh;display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border2)}
+.cmdpal-search{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.cmdpal-search svg{color:var(--text3);flex-shrink:0}
+.cmdpal-search input{flex:1;border:none;background:none;font-size:15px;font-family:'IBM Plex Sans',sans-serif;color:var(--text);outline:none}
+.cmdpal-search input::placeholder{color:var(--text3)}
+.cmdpal-esc{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:2px 6px;color:var(--text3);cursor:pointer}
+.cmdpal-results{overflow-y:auto;flex:1}
+.cmdpal-item{padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--border);transition:background .1s;border-left:3px solid transparent}
+.cmdpal-item:hover,.cmdpal-item.cmdpal-active{background:var(--surface2)}
+.cmdpal-item.cmdpal-active{border-left-color:var(--accent)}
+.cmdpal-item-main{display:flex;align-items:center;gap:6px}
+.cmdpal-title{font-weight:500;font-size:14px;color:var(--text);flex:1}
+.cmdpal-item-meta{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap}
+.cmdpal-badge{font-size:10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:1px 7px;color:var(--text2);font-family:'IBM Plex Mono',monospace}
+.cmdpal-uso{font-size:10px;color:var(--accent2);font-family:'IBM Plex Mono',monospace}
+.cmdpal-empty{padding:32px;text-align:center;color:var(--text3);font-size:14px}
+.cmdpal-foot{padding:8px 16px;border-top:1px solid var(--border);display:flex;gap:14px;background:var(--surface2);flex-wrap:wrap}
+.cmdpal-foot span{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;display:flex;align-items:center;gap:3px}
+.cmdpal-foot kbd{background:var(--surface);border:1px solid var(--border2);border-radius:3px;padding:1px 5px;font-size:9px}
+
+/* ── MODAL COMPOSIÇÃO ── */
+.modal-lg{max-width:600px}
+.comp-vars-header{margin-bottom:10px;font-size:12px;color:var(--text2);font-weight:500}
+.comp-var-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:4px}
+.comp-var-row label{font-size:11px;font-weight:600;color:var(--navy);margin-bottom:3px;display:block;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.5px}
+
+/* ── ESTATÍSTICAS ── */
+.stats-page{padding:24px;max-width:900px;margin:0 auto}
+.stats-hdr{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:16px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:18px 20px;text-align:center;box-shadow:var(--shadow)}
+.stat-num{font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:500;color:var(--navy);line-height:1;margin-bottom:6px}
+.stat-label{font-size:11px;color:var(--text3);letter-spacing:.3px}
+.stats-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:18px 20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.stats-section h3{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.top-list{list-style:none}
+.top-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px}
+.top-item:last-child{border-bottom:none}
+.top-rank{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);width:22px;flex-shrink:0}
+.top-title{flex:1;color:var(--text)}
+.top-count{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent2);background:rgba(200,168,75,.1);border-radius:20px;padding:2px 10px}
+.notes-summary{display:flex;gap:10px;flex-wrap:wrap}
+.note-stat{flex:1;min-width:110px;padding:12px;border-radius:var(--r);text-align:center}
+.note-stat-num{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500}
+.note-stat-lbl{font-size:10px;margin-top:4px;letter-spacing:.3px}
+.stats-empty{text-align:center;color:var(--text3);padding:20px;font-size:13px}
+
+/* ── CONTADOR FAB ── */
+.counter-fab{position:fixed;bottom:68px;right:24px;z-index:90;display:flex;flex-direction:column;align-items:flex-end}
+.counter-expanded{display:none;background:var(--surface);border:1px solid var(--border2);border-radius:var(--rl);box-shadow:var(--shadow-lg);padding:16px 18px;margin-bottom:10px;min-width:190px}
+.counter-fab.open .counter-expanded{display:block}
+.counter-fab-title{font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:10px;text-align:center}
+.counter-controls{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:10px}
+.counter-btn{width:34px;height:34px;border:1.5px solid var(--border);border-radius:50%;background:var(--surface2);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s;font-family:'IBM Plex Mono',monospace}
+.counter-btn:hover{background:var(--border)}
+.counter-num{font-family:'IBM Plex Mono',monospace;font-size:34px;font-weight:500;color:var(--navy);min-width:56px;text-align:center;line-height:1}
+.counter-reset{display:block;width:100%;background:none;border:1px solid var(--border);border-radius:var(--r);padding:5px;font-size:11px;color:var(--text3);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;transition:all .15s}
+.counter-reset:hover{color:var(--red);border-color:var(--red)}
+.counter-pill{background:var(--navy);color:#fff;border:none;border-radius:24px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 3px 12px rgba(0,0,0,.25);transition:transform .15s;border-bottom:2px solid var(--accent)}
+.counter-pill:hover{transform:translateY(-2px)}
+
 </style>
 </head>
 <body>
@@ -477,6 +562,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <div class="topbar-right">
       <span class="sync-dot" id="sync-dot" title="Sincronizando…"></span>
       <span class="mode-pill" id="mode-pill"></span>
+      <button class="btn-topbar" onclick="openCmdPal()" title="Atalho: Ctrl+K">🔍 Ctrl+K</button>
       <button class="btn-topbar btn-topbar-config" onclick="toggleSetup()" aria-label="Configurar Firebase">⚙ Firebase</button>
       <button class="btn-topbar" onclick="sair()">Sair</button>
     </div>
@@ -487,6 +573,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <button class="tab-btn" onclick="goTab('anotacoes',this)">📋 Anotações Prioritárias</button>
     <button class="tab-btn" onclick="goTab('instrucoes',this)">📖 Instruções</button>
     <button class="tab-btn" onclick="goTab('links',this)">🔗 Links de Apoio</button>
+    <button class="tab-btn" onclick="goTab('stats',this)">📊 Estatísticas</button>
   </nav>
 
   <!-- PAGE: RESPOSTAS -->
@@ -495,6 +582,12 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
       <button class="btn-export" onclick="exportCSV()" aria-label="Exportar banco como CSV">⬇ Exportar CSV</button>
       <button class="btn-add" onclick="openRespModal(null)">＋ Nova Resposta</button>
     </div>
+    <div id="recentes-bar">
+      <div class="recentes-inner">
+        <span class="recentes-label">⏱ Usadas recentemente</span>
+        <div class="recentes-list" id="recentes-list"></div>
+      </div>
+    </div>
     <div class="controls">
       <div class="search-wrap">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -502,6 +595,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
       </div>
       <select id="fCat" onchange="renderCards()" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option></select>
       <select id="fOrg" onchange="renderCards()" aria-label="Filtrar por órgão"><option value="">Todos os órgãos</option></select>
+      <select id="fFav" onchange="renderCards()" aria-label="Filtrar favoritos"><option value="">Todas as respostas</option><option value="fav">⭐ Favoritas</option><option value="used">📋 Mais usadas</option></select>
       <select id="fSort" onchange="renderCards()" aria-label="Ordenar por">
         <option value="default">Ordem original</option>
         <option value="titulo">Título A→Z</option>
@@ -550,7 +644,15 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
       </div>
     </div>
   </div>
+
+  <div id="page-stats" class="page">
+    <div class="admin-bar" style="justify-content:flex-start">
+      <button class="btn-export" onclick="renderStats()">↺ Atualizar</button>
+    </div>
+    <div class="stats-page" id="stats-content"></div>
+  </div>
 </div>
+
 
 <!-- MODAL RESPOSTA -->
 <div class="overlay" id="m-resp" role="dialog" aria-modal="true" aria-labelledby="m-resp-title">
@@ -689,6 +791,52 @@ input:focus,select:focus,textarea:focus{border-color:var(--accent)}
     <div class="modal-foot">
       <button class="btn-cancel" onclick="closeM('m-confirm')">Cancelar</button>
       <button class="btn-confirm-del" id="btn-confirm-ok">Excluir</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL COMPOSIÇÃO -->
+<div class="overlay" id="m-comp" role="dialog" aria-modal="true">
+  <div class="modal modal-lg">
+    <div class="modal-head">
+      <h2 id="comp-modal-title">Compor Resposta</h2>
+      <button class="modal-x" onclick="closeM('m-comp')" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="comp-vars-section" style="display:none">
+        <div class="comp-vars-header">📝 Preencha os campos para personalizar a resposta:</div>
+        <div id="comp-var-fields" class="comp-var-fields"></div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:4px 0 0">
+      </div>
+      <div>
+        <label for="comp-texto" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <span>Texto da resposta</span>
+          <button type="button" onclick="resetCompTexto()" style="font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit">↺ Restaurar original</button>
+        </label>
+        <textarea id="comp-texto" style="min-height:190px;font-size:13px;line-height:1.65;white-space:pre-wrap"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeM('m-comp')">Cancelar</button>
+      <button class="btn-save" onclick="applyAndCopy()">📋 Copiar Resposta</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMMAND PALETTE -->
+<div id="cmdpal" role="dialog" aria-modal="true" aria-label="Busca rápida">
+  <div class="cmdpal-box">
+    <div class="cmdpal-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="cmdpal-q" type="text" placeholder="Buscar resposta… (Enter copia, Ctrl+Enter compõe)" autocomplete="off" spellcheck="false">
+      <button class="cmdpal-esc" onclick="closeCmdPal()">Esc</button>
+    </div>
+    <div class="cmdpal-results" id="cmdpal-results"></div>
+    <div class="cmdpal-foot">
+      <span><kbd>↑↓</kbd> navegar</span>
+      <span><kbd>Enter</kbd> copiar</span>
+      <span><kbd>Ctrl+Enter</kbd> compor</span>
+      <span><kbd>Esc</kbd> fechar</span>
     </div>
   </div>
 </div>
@@ -986,7 +1134,10 @@ async function launch(){
       LINKS = JSON.parse(JSON.stringify(SEED_L));
     }
   }
+  loadUserPrefs();
   initFilters(); renderCards(); renderNotes(); renderLinks(); renderInstr();
+  renderRecentes();
+  updateCounterUI();
 
   // Sincronização em tempo real (sem polling): alterações de outros operadores aparecem na hora
   fbListen();
@@ -1000,6 +1151,7 @@ function goTab(id, btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   btn.classList.add('active');
+  if(id==='stats') renderStats();
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -1022,28 +1174,32 @@ let debounceTimer;
 function debounceRender(){ clearTimeout(debounceTimer); debounceTimer=setTimeout(renderCards,250); }
 
 function renderCards(){
-  const q   = (document.getElementById('q').value||'').toLowerCase();
+  const q   = (document.getElementById('q').value||'').toLowerCase().trim();
   const cat = document.getElementById('fCat').value;
   const org = document.getElementById('fOrg').value;
   const sort= document.getElementById('fSort').value;
+  const ffav= document.getElementById('fFav')?document.getElementById('fFav').value:'';
   let f = RESP.filter(r=>{
     if(cat && r.categoria!==cat) return false;
     if(org && r.orgao!==org) return false;
+    if(ffav==='fav' && !FAVS.has(r.id)) return false;
     if(q && ![r.titulo,r.categoria,r.orgao,r.tags,r.texto].some(v=>(v||'').toLowerCase().includes(q))) return false;
     return true;
   });
-  if(sort==='titulo')    f = [...f].sort((a,b)=>a.titulo.localeCompare(b.titulo,'pt'));
-  if(sort==='categoria') f = [...f].sort((a,b)=>a.categoria.localeCompare(b.categoria,'pt'));
-  if(sort==='orgao')     f = [...f].sort((a,b)=>a.orgao.localeCompare(b.orgao,'pt'));
+  if(sort==='titulo')    f=[...f].sort((a,b)=>a.titulo.localeCompare(b.titulo,'pt'));
+  if(sort==='categoria') f=[...f].sort((a,b)=>a.categoria.localeCompare(b.categoria,'pt'));
+  if(sort==='orgao')     f=[...f].sort((a,b)=>a.orgao.localeCompare(b.orgao,'pt'));
+  if(ffav==='used') f=[...f].sort((a,b)=>(USO_COUNT[b.id]||0)-(USO_COUNT[a.id]||0));
+  else if(ffav!=='fav') f=[...f.filter(r=>FAVS.has(r.id)),...f.filter(r=>!FAVS.has(r.id))];
 
   document.getElementById('counter').textContent = f.length+' resposta'+(f.length!==1?'s':'');
   const g = document.getElementById('grid');
   g.innerHTML='';
   if(!f.length){ g.innerHTML='<div class="empty-msg">Nenhuma resposta encontrada.</div>'; return; }
-  f.forEach(r=>g.appendChild(mkCard(r)));
+  f.forEach(r=>g.appendChild(mkCard(r,q)));
 }
 
-function mkCard(r){
+function mkCard(r, q_hl){
   const color = CAT_COLOR[r.categoria]||'#555';
   const d = document.createElement('div');
   d.className = 'card';
@@ -1053,19 +1209,28 @@ function mkCard(r){
     ? `<button class="btn-card ed" onclick="event.stopPropagation();openRespModal(${r.id})" aria-label="Editar resposta">✏</button>
        <button class="btn-card dl" onclick="event.stopPropagation();confirmDelResp(${r.id})" aria-label="Excluir resposta">🗑</button>`
     : '';
+  const q=q_hl||'';
+  const uso=USO_COUNT[r.id]||0;
+  const usoBadge=uso>0?`<span class="uso-badge" title="Copiada ${uso}×">📋 ${uso}×</span>`:'';
+  const favOn=FAVS.has(r.id);
+  const favBtn=`<button class="btn-fav${favOn?' fav-on':''}" onclick="event.stopPropagation();toggleFav(${r.id})" title="${favOn?'Remover favorito':'Adicionar favorito'}">${favOn?'⭐':'☆'}</button>`;
+  const textHtml=highlight(r.texto,q).replace(/\n/g,'<br>').replace(/\{\{([^{}]+)\}\}/g,'<span class="var-placeholder">{{$1}}</span>');
+  if(favOn) d.classList.add('card-fav');
   d.innerHTML = `
     <div class="card-stripe" style="background:${color}"></div>
-    <div class="card-head"><span class="card-title">${esc(r.titulo)}</span></div>
+    <div class="card-head"><span class="card-title">${highlight(r.titulo,q)}</span>${favBtn}</div>
     <div class="card-meta">
       <span class="badge badge-cat">${esc(r.categoria)}</span>
       <span class="badge badge-org">${esc(r.orgao)}</span>
       ${tagHtml}
+      ${usoBadge}
     </div>
-    <div class="card-body">${esc(r.texto).replace(/\n/g,'<br>')}</div>
+    <div class="card-body">${textHtml}</div>
     <div class="card-foot">
       <button class="btn-expand" onclick="event.stopPropagation();const c=this.closest('.card');c.classList.toggle('expanded');this.textContent=c.classList.contains('expanded')?'▲ recolher':'▼ ver mais'" aria-label="Expandir resposta">▼ ver mais</button>
       <div class="card-acts">
         ${adminBtns}
+        <button class="btn-card comp-btn" onclick="event.stopPropagation();openComposicao(${r.id})" aria-label="Compor resposta">✏ compor</button>
         <button class="btn-card cp" onclick="event.stopPropagation();cpText(${r.id},this)" aria-label="Copiar resposta">📋 copiar</button>
       </div>
     </div>`;
@@ -1081,13 +1246,9 @@ function filterByTag(tag){
 }
 
 function cpText(id, btn){
-  const r = RESP.find(x=>x.id===id); if(!r) return;
-  navigator.clipboard.writeText(r.texto).catch(()=>{});
-  const card = btn.closest('.card');
-  card.classList.add('copied');
-  btn.textContent='✅ copiado!'; btn.classList.add('done');
-  showToast('✅ Resposta copiada!');
-  setTimeout(()=>{ card.classList.remove('copied'); btn.textContent='📋 copiar'; btn.classList.remove('done'); }, 2000);
+  const r=RESP.find(x=>x.id===id); if(!r) return;
+  if(extractVars(r.texto).length){ openComposicao(r.id); return; }
+  doCopyDirect(r.texto, r.id, btn);
 }
 
 function openRespModal(id){
@@ -1504,16 +1665,314 @@ function showToast(msg){
   document.getElementById(id).addEventListener('click',e=>{ if(e.target===e.currentTarget) closeM(id); });
 });
 document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){ e.preventDefault(); openCmdPal(); return; }
   if(e.key==='Escape'){
-    ['m-resp','m-nota','m-link','m-instr','m-confirm'].forEach(id=>{
+    ['m-resp','m-nota','m-link','m-instr','m-confirm','m-comp'].forEach(id=>{
       document.getElementById(id).classList.remove('open');
     });
+    closeCmdPal();
+    document.getElementById('counter-fab').classList.remove('open');
   }
 });
 
+
+
+// ══════════════════════════════════════════════════════════════
+// USER PREFS (localStorage only — por operador, sem Firebase)
+// ══════════════════════════════════════════════════════════════
+let FAVS = new Set();
+let RECENTES = [];
+let USO_COUNT = {};
+let DAILY_COUNT = {date:'', count:0};
+let STATS_DAY = {date:'', copies:0};
+
+function loadUserPrefs(){
+  try{ FAVS = new Set(JSON.parse(localStorage.getItem('ceint_fav')||'[]')); }catch(e){ FAVS=new Set(); }
+  try{ RECENTES = JSON.parse(localStorage.getItem('ceint_recentes')||'[]'); }catch(e){ RECENTES=[]; }
+  try{ USO_COUNT = JSON.parse(localStorage.getItem('ceint_uso')||'{}'); }catch(e){ USO_COUNT={}; }
+  const today = new Date().toISOString().slice(0,10);
+  try{
+    DAILY_COUNT = JSON.parse(localStorage.getItem('ceint_daily')||'{}');
+    if(DAILY_COUNT.date!==today) DAILY_COUNT={date:today,count:0};
+  }catch(e){ DAILY_COUNT={date:today,count:0}; }
+  try{
+    STATS_DAY = JSON.parse(localStorage.getItem('ceint_stats')||'{}');
+    if(STATS_DAY.date!==today) STATS_DAY={date:today,copies:0};
+  }catch(e){ STATS_DAY={date:today,copies:0}; }
+}
+
+function addRecente(id){
+  RECENTES = [{id,ts:Date.now()},...RECENTES.filter(x=>x.id!==id)].slice(0,10);
+  localStorage.setItem('ceint_recentes', JSON.stringify(RECENTES));
+}
+function incUso(id){
+  USO_COUNT[id]=(USO_COUNT[id]||0)+1;
+  localStorage.setItem('ceint_uso', JSON.stringify(USO_COUNT));
+}
+function incStatsCopy(){
+  const today=new Date().toISOString().slice(0,10);
+  if(STATS_DAY.date!==today) STATS_DAY={date:today,copies:0};
+  STATS_DAY.copies++;
+  localStorage.setItem('ceint_stats', JSON.stringify(STATS_DAY));
+}
+function toggleFav(id){
+  if(FAVS.has(id)) FAVS.delete(id); else FAVS.add(id);
+  localStorage.setItem('ceint_fav', JSON.stringify([...FAVS]));
+  renderCards();
+}
+
+// ── Recentes bar ──
+function renderRecentes(){
+  const bar=document.getElementById('recentes-bar');
+  const list=document.getElementById('recentes-list');
+  if(!bar||!list) return;
+  const r5=RECENTES.slice(0,5).map(x=>RESP.find(r=>r.id===x.id||r.id===+x.id)).filter(Boolean);
+  if(!r5.length){ bar.style.display='none'; return; }
+  bar.style.display='block';
+  list.innerHTML=r5.map(r=>`<button class="rec-chip" onclick="cpById(${r.id})" title="${esc(r.titulo)}">${r.titulo.length>34?esc(r.titulo.slice(0,32))+'…':esc(r.titulo)}<span class="rec-chip-cat">${esc(r.categoria.split('/')[0].trim())}</span></button>`).join('');
+}
+
+// ── Core copy helpers ──
+function extractVars(text){
+  const m=[...(text||'').matchAll(/\{\{([^{}]+)\}\}/g)];
+  return [...new Set(m.map(x=>x[1].trim()))];
+}
+function escRx(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function sanId(v){ return v.replace(/[^a-zA-Z0-9]/g,'_'); }
+
+function doCopyDirect(text, id, btn){
+  navigator.clipboard.writeText(text).catch(()=>{});
+  if(id!=null){ addRecente(id); incUso(id); incStatsCopy(); renderRecentes(); renderCards(); }
+  if(btn){
+    const card=btn.closest('.card');
+    if(card) card.classList.add('copied');
+    btn.textContent='✅ copiado!'; btn.classList.add('done');
+    setTimeout(()=>{ if(card) card.classList.remove('copied'); btn.textContent='📋 copiar'; btn.classList.remove('done'); },2000);
+  }
+  showToast('✅ Resposta copiada!');
+}
+
+function cpById(id){
+  const r=RESP.find(x=>x.id===id||x.id===+id); if(!r) return;
+  if(extractVars(r.texto).length){ openComposicao(r.id); return; }
+  doCopyDirect(r.texto, r.id, null);
+}
+
+// ── Highlight ──
+function highlight(text, q){
+  const escaped=esc(text);
+  if(!q||q.length<2) return escaped;
+  try{
+    const re=new RegExp('('+escRx(q)+')','gi');
+    return escaped.replace(re,'<mark>$1</mark>');
+  }catch(e){ return escaped; }
+}
+
+// ══════════════════════════════════════════════════════════════
+// COMMAND PALETTE
+// ══════════════════════════════════════════════════════════════
+let _palIdx=0, _palItems=[];
+
+function openCmdPal(){
+  if(document.getElementById('app').style.display==='none') return;
+  document.getElementById('cmdpal').classList.add('open');
+  document.getElementById('cmdpal-q').value='';
+  renderCmdPal('');
+  setTimeout(()=>document.getElementById('cmdpal-q').focus(),30);
+}
+function closeCmdPal(){ document.getElementById('cmdpal').classList.remove('open'); }
+
+function renderCmdPal(q){
+  const ql=q.toLowerCase().trim();
+  _palItems=RESP.filter(r=>{
+    if(!ql) return true;
+    return [r.titulo,r.categoria,r.orgao,r.tags,r.texto].some(v=>(v||'').toLowerCase().includes(ql));
+  }).sort((a,b)=>{
+    if(ql) return 0;
+    const fa=FAVS.has(a.id),fb=FAVS.has(b.id);
+    if(fa&&!fb) return -1; if(!fa&&fb) return 1;
+    return (USO_COUNT[b.id]||0)-(USO_COUNT[a.id]||0);
+  });
+  _palIdx=0;
+  const c=document.getElementById('cmdpal-results'); c.innerHTML='';
+  if(!_palItems.length){ c.innerHTML='<div class="cmdpal-empty">Nenhuma resposta encontrada.</div>'; return; }
+  _palItems.forEach((r,i)=>{
+    const el=document.createElement('div');
+    el.className='cmdpal-item'+(i===0?' cmdpal-active':'');
+    const uso=USO_COUNT[r.id]||0;
+    el.innerHTML=`<div class="cmdpal-item-main"><span class="cmdpal-title">${highlight(r.titulo,ql)}</span>${FAVS.has(r.id)?'<span>⭐</span>':''}</div><div class="cmdpal-item-meta"><span class="cmdpal-badge">${esc(r.categoria)}</span><span class="cmdpal-badge">${esc(r.orgao)}</span>${uso>0?`<span class="cmdpal-uso">${uso}× usado</span>`:''}</div>`;
+    el.addEventListener('click',e=>{ if(e.ctrlKey||e.metaKey){ closeCmdPal(); openComposicao(r.id); } else palCopy(i); });
+    c.appendChild(el);
+  });
+}
+
+function movePal(d){
+  const els=document.querySelectorAll('.cmdpal-item'); if(!els.length) return;
+  els[_palIdx].classList.remove('cmdpal-active');
+  _palIdx=Math.max(0,Math.min(els.length-1,_palIdx+d));
+  els[_palIdx].classList.add('cmdpal-active');
+  els[_palIdx].scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+
+function palCopy(idx){
+  const r=_palItems[idx!==undefined?idx:_palIdx]; if(!r) return;
+  closeCmdPal();
+  if(extractVars(r.texto).length){ openComposicao(r.id); return; }
+  doCopyDirect(r.texto, r.id, null);
+  showToast('✅ "'+r.titulo.slice(0,32)+'" copiada!');
+}
+
+// Cmdpal event listeners (set up at boot)
+function _initCmdPal(){
+  const pal=document.getElementById('cmdpal');
+  const q=document.getElementById('cmdpal-q');
+  q.addEventListener('input',function(){ renderCmdPal(this.value); });
+  pal.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){ closeCmdPal(); return; }
+    if(e.key==='ArrowDown'){ e.preventDefault(); movePal(1); return; }
+    if(e.key==='ArrowUp'){ e.preventDefault(); movePal(-1); return; }
+    if(e.key==='Enter'){
+      const r=_palItems[_palIdx]; if(!r) return;
+      if(e.ctrlKey||e.metaKey){ closeCmdPal(); openComposicao(r.id); }
+      else palCopy();
+    }
+  });
+  pal.addEventListener('click',e=>{ if(e.target===pal) closeCmdPal(); });
+}
+
+// ══════════════════════════════════════════════════════════════
+// COMPOSIÇÃO COM VARIÁVEIS
+// ══════════════════════════════════════════════════════════════
+let _compId=null;
+
+function openComposicao(id){
+  const r=RESP.find(x=>x.id===id||x.id===+id); if(!r) return;
+  _compId=r.id;
+  document.getElementById('comp-modal-title').textContent='Compor: '+r.titulo;
+  document.getElementById('comp-texto').value=r.texto;
+  const vars=extractVars(r.texto);
+  const sec=document.getElementById('comp-vars-section');
+  const fields=document.getElementById('comp-var-fields');
+  if(vars.length){
+    sec.style.display='block';
+    fields.innerHTML=vars.map(v=>`<div class="comp-var-row"><label for="cv_${sanId(v)}">${esc(v)}</label><input type="text" id="cv_${sanId(v)}" placeholder="${esc(v)}…" oninput="updateCompPreview()"></div>`).join('');
+    openM('m-comp');
+    setTimeout(()=>fields.querySelector('input')?.focus(),60);
+  } else {
+    sec.style.display='none';
+    fields.innerHTML='';
+    openM('m-comp');
+    setTimeout(()=>document.getElementById('comp-texto').focus(),60);
+  }
+}
+
+function updateCompPreview(){
+  const r=RESP.find(x=>x.id===_compId); if(!r) return;
+  let text=r.texto;
+  extractVars(r.texto).forEach(v=>{
+    const inp=document.getElementById('cv_'+sanId(v));
+    if(inp&&inp.value.trim()) text=text.replace(new RegExp('\\{\\{\\s*'+escRx(v)+'\\s*\\}\\}','g'),inp.value.trim());
+  });
+  document.getElementById('comp-texto').value=text;
+}
+
+function resetCompTexto(){
+  const r=RESP.find(x=>x.id===_compId); if(!r) return;
+  document.getElementById('comp-texto').value=r.texto;
+  extractVars(r.texto).forEach(v=>{ const i=document.getElementById('cv_'+sanId(v)); if(i) i.value=''; });
+}
+
+function applyAndCopy(){
+  const text=document.getElementById('comp-texto').value.trim();
+  if(!text){ showToast('⚠ O texto está vazio.'); return; }
+  navigator.clipboard.writeText(text).catch(()=>{});
+  if(_compId!=null){ addRecente(_compId); incUso(_compId); incStatsCopy(); renderRecentes(); renderCards(); }
+  showToast('✅ Resposta copiada!');
+  closeM('m-comp');
+}
+
+// ══════════════════════════════════════════════════════════════
+// ESTATÍSTICAS
+// ══════════════════════════════════════════════════════════════
+function renderStats(){
+  const c=document.getElementById('stats-content'); if(!c) return;
+  const today=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const topUsed=Object.entries(USO_COUNT)
+    .map(([id,count])=>({r:RESP.find(x=>x.id===+id||x.id===id),count}))
+    .filter(x=>x.r).sort((a,b)=>b.count-a.count).slice(0,10);
+  const totalUso=Object.values(USO_COUNT).reduce((a,b)=>a+b,0);
+  const acomp=(NOTAS.acomp||[]).length, pend=(NOTAS.pend||[]).length, outras=(NOTAS.outras||[]).length;
+  const favList=[...FAVS].map(id=>RESP.find(x=>x.id===id||x.id===+id)).filter(Boolean);
+
+  c.innerHTML=`
+  <div class="stats-hdr">📊 Painel de atividade — ${today}</div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-num">${DAILY_COUNT.count}</div><div class="stat-label">Manifestações hoje</div></div>
+    <div class="stat-card"><div class="stat-num">${STATS_DAY.copies}</div><div class="stat-label">Cópias hoje</div></div>
+    <div class="stat-card"><div class="stat-num">${totalUso}</div><div class="stat-label">Total de cópias</div></div>
+    <div class="stat-card"><div class="stat-num">${acomp+pend+outras}</div><div class="stat-label">Anotações abertas</div></div>
+  </div>
+  <div class="stats-section">
+    <h3>🏆 Respostas mais usadas</h3>
+    ${topUsed.length?`<ul class="top-list">${topUsed.map((x,i)=>`<li class="top-item"><span class="top-rank">${i+1}.</span><span class="top-title">${esc(x.r.titulo)}</span><span class="top-count">${x.count}×</span></li>`).join('')}</ul>`:'<div class="stats-empty">Nenhuma resposta copiada ainda.</div>'}
+  </div>
+  <div class="stats-section">
+    <h3>📋 Anotações por status</h3>
+    <div class="notes-summary">
+      <div class="note-stat" style="background:#FFEBEE"><div class="note-stat-num" style="color:#C0392B">${acomp}</div><div class="note-stat-lbl" style="color:#C0392B">Em Acompanhamento</div></div>
+      <div class="note-stat" style="background:#FFF3E0"><div class="note-stat-num" style="color:#D35400">${pend}</div><div class="note-stat-lbl" style="color:#D35400">Sem Tratamento</div></div>
+      <div class="note-stat" style="background:#E8EDF5"><div class="note-stat-num" style="color:#1A4F8A">${outras}</div><div class="note-stat-lbl" style="color:#1A4F8A">Outras Áreas</div></div>
+    </div>
+  </div>
+  <div class="stats-section">
+    <h3>⭐ Favoritos (${favList.length})</h3>
+    ${favList.length?`<ul class="top-list">${favList.map(r=>`<li class="top-item"><span class="top-rank">⭐</span><span class="top-title">${esc(r.titulo)}</span><span class="cmdpal-badge">${esc(r.categoria)}</span></li>`).join('')}</ul>`:'<div class="stats-empty">Nenhum favorito marcado.</div>'}
+  </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// CONTADOR DE MANIFESTAÇÕES
+// ══════════════════════════════════════════════════════════════
+function updateCounterUI(){
+  const n=DAILY_COUNT.count;
+  const p=document.getElementById('counter-pill-num'); if(p) p.textContent='📋 '+n;
+  const b=document.getElementById('counter-big-num'); if(b) b.textContent=n;
+}
+function changeCount(d){
+  const today=new Date().toISOString().slice(0,10);
+  if(DAILY_COUNT.date!==today) DAILY_COUNT={date:today,count:0};
+  DAILY_COUNT.count=Math.max(0,DAILY_COUNT.count+d);
+  localStorage.setItem('ceint_daily',JSON.stringify(DAILY_COUNT));
+  updateCounterUI();
+}
+function resetCount(){
+  DAILY_COUNT.count=0;
+  localStorage.setItem('ceint_daily',JSON.stringify(DAILY_COUNT));
+  updateCounterUI();
+}
+function toggleCounter(){ document.getElementById('counter-fab').classList.toggle('open'); }
+
 // Boot
 loadCfg();
+loadUserPrefs();
+_initCmdPal();
 document.getElementById('pw').focus();
 </script>
+<div class="counter-fab" id="counter-fab">
+  <div class="counter-expanded">
+    <div class="counter-fab-title">Manifestações Hoje</div>
+    <div class="counter-controls">
+      <button class="counter-btn" onclick="changeCount(-1)">−</button>
+      <div class="counter-num" id="counter-big-num">0</div>
+      <button class="counter-btn" onclick="changeCount(1)">+</button>
+    </div>
+    <button class="counter-reset" onclick="resetCount()">↺ Resetar para zero</button>
+  </div>
+  <button class="counter-pill" onclick="toggleCounter()">
+    <span id="counter-pill-num">📋 0</span>
+    <span style="font-size:10px;opacity:.55">manifests.</span>
+  </button>
+</div>
+
 </body>
 </html>
