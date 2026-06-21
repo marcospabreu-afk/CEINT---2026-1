@@ -9,26 +9,26 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:         #F2F0EB;
+  --bg:         #EBF0FA;
   --surface:    #FFFFFF;
-  --surface2:   #F7F5F0;
-  --navy:       #0D1F35;
-  --navy2:      #162D47;
-  --accent:     #C8A84B;
-  --accent2:    #A68A35;
+  --surface2:   #E4EBF7;
+  --navy:       #003F7D;
+  --navy2:      #002D5A;
+  --accent:     #FFCC00;
+  --accent2:    #E6B800;
   --red:        #C0392B;
-  --orange:     #D35400;
-  --green:      #1A6B3A;
-  --blue:       #1A4F8A;
-  --text:       #0D1F35;
-  --text2:      #4A5568;
-  --text3:      #8A94A0;
-  --border:     #DDD9D0;
-  --border2:    #C8C3BA;
-  --shadow:     0 1px 4px rgba(13,31,53,.08);
-  --shadow-lg:  0 4px 20px rgba(13,31,53,.12);
-  --r:          6px;
-  --rl:         10px;
+  --orange:     #E67E22;
+  --green:      #1A8A3A;
+  --blue:       #0A5BA8;
+  --text:       #0D1A2E;
+  --text2:      #3A4A60;
+  --text3:      #7A8A9E;
+  --border:     #C8D5E8;
+  --border2:    #A8BACE;
+  --shadow:     0 2px 8px rgba(0,63,125,.10);
+  --shadow-lg:  0 8px 32px rgba(0,63,125,.16);
+  --r:          8px;
+  --rl:         12px;
 }
 html{scroll-behavior:smooth}
 body{
@@ -510,6 +510,334 @@ mark{background:#FFF176;color:inherit;padding:0 1px;border-radius:2px}
 .counter-pill{background:var(--navy);color:#fff;border:none;border-radius:24px;padding:8px 16px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;box-shadow:0 3px 12px rgba(0,0,0,.25);transition:transform .15s;border-bottom:2px solid var(--accent)}
 .counter-pill:hover{transform:translateY(-2px)}
 
+
+/* ══════════════════════════════════════════════════════════════
+   REDESIGN CORREIOS — Identidade visual azul + amarelo
+   ══════════════════════════════════════════════════════════════ */
+
+/* Body & Background */
+body{background:var(--bg)}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(0,63,125,.08) 0%, transparent 70%),
+    linear-gradient(180deg, #EBF0FA 0%, #F0F5FF 100%);
+  pointer-events:none;z-index:-1;
+}
+
+/* ── Topbar Correios ── */
+.topbar{
+  background:linear-gradient(135deg,#003F7D 0%,#00316A 60%,#002654 100%);
+  border-bottom:4px solid #FFCC00;
+  height:60px;
+  box-shadow:0 4px 20px rgba(0,63,125,.3);
+}
+.topbar-brand{gap:14px}
+.brand-logo-wrap{
+  display:flex;align-items:center;gap:10px;
+  padding-right:14px;border-right:1px solid rgba(255,204,0,.3);
+}
+.brand-text-col{display:flex;flex-direction:column;justify-content:center;gap:1px}
+.brand-correios{
+  font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;
+  color:#FFCC00;letter-spacing:3px;line-height:1;
+}
+.brand-sub{
+  font-family:'IBM Plex Sans',sans-serif;font-size:10px;
+  color:rgba(255,255,255,.6);letter-spacing:.5px;
+}
+.brand-tag{
+  background:#FFCC00;color:#003F7D;font-size:9px;font-weight:700;
+  letter-spacing:1.5px;padding:3px 8px;border-radius:4px;text-transform:uppercase;
+}
+.mode-pill.pill-admin{background:#FFCC00;color:#003F7D;font-weight:600}
+.mode-pill.pill-viewer{background:rgba(255,255,255,.12);color:rgba(255,255,255,.7)}
+.btn-topbar{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.85);border-radius:6px;
+  transition:all .15s;
+}
+.btn-topbar:hover{background:rgba(255,204,0,.2);border-color:rgba(255,204,0,.5);color:#FFCC00}
+.btn-topbar-config{
+  background:rgba(255,204,0,.15);border-color:rgba(255,204,0,.4);color:#FFCC00;
+}
+.btn-topbar-config:hover{background:rgba(255,204,0,.25)}
+
+/* ── Tab Nav ── */
+.tab-nav{
+  background:#FFFFFF;
+  border-bottom:2px solid #C8D5E8;
+  box-shadow:0 2px 8px rgba(0,63,125,.06);
+}
+.tab-btn{color:#3A4A60;font-size:13px;padding:14px 22px}
+.tab-btn:hover{color:#003F7D;background:rgba(0,63,125,.04)}
+.tab-btn.active{
+  color:#003F7D;border-bottom-color:#FFCC00;font-weight:600;
+  background:rgba(255,204,0,.05);
+}
+
+/* ── Auth Card ── */
+#auth-wrap{
+  background:
+    linear-gradient(135deg,#003F7D 0%,#002654 100%);
+  position:relative;overflow:hidden;
+}
+#auth-wrap::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(255,204,0,.12) 0%,transparent 60%);
+}
+#auth-wrap::after{
+  content:'CORREIOS';
+  position:absolute;bottom:-20px;right:-10px;
+  font-family:'IBM Plex Mono',monospace;font-size:120px;font-weight:700;
+  color:rgba(255,255,255,.03);letter-spacing:8px;pointer-events:none;
+  line-height:1;white-space:nowrap;
+}
+.auth-card{
+  background:#FFFFFF;border:none;
+  border-radius:16px;
+  box-shadow:0 24px 80px rgba(0,0,0,.3);
+  overflow:hidden;padding:0;
+}
+.auth-header{
+  background:linear-gradient(135deg,#003F7D,#005099);
+  padding:32px 36px 24px;text-align:center;
+  border-bottom:4px solid #FFCC00;
+  position:relative;
+}
+.auth-header::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,#FFCC00 0%,#FFE066 50%,#FFCC00 100%);
+}
+.auth-logo-svg{margin:0 auto 14px;display:block}
+.auth-logo-name{
+  font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;
+  color:#FFCC00;letter-spacing:5px;margin-bottom:4px;
+}
+.auth-logo-sub{font-size:11px;color:rgba(255,255,255,.6);letter-spacing:2px;text-transform:uppercase}
+.auth-body{padding:28px 36px 32px}
+.auth-emblem{display:none}
+.auth-card h1{font-size:18px;color:#003F7D;margin-bottom:2px}
+.auth-subtitle{color:#7A8A9E;margin-bottom:24px}
+.auth-card input[type=password]{
+  border:2px solid #C8D5E8;border-radius:8px;
+  padding:11px 14px;background:#F5F8FF;
+  font-size:14px;transition:border-color .2s,box-shadow .2s;
+}
+.auth-card input[type=password]:focus{
+  border-color:#FFCC00;outline:none;
+  box-shadow:0 0 0 3px rgba(255,204,0,.2);
+}
+.btn-admin{
+  background:linear-gradient(135deg,#003F7D,#005099);
+  border-radius:8px;padding:12px;font-size:14px;
+  border:none;
+  box-shadow:0 4px 14px rgba(0,63,125,.3);
+  transition:all .15s;
+}
+.btn-admin:hover:not(:disabled){
+  background:linear-gradient(135deg,#002D5A,#003F7D);
+  box-shadow:0 6px 20px rgba(0,63,125,.4);transform:translateY(-1px);
+}
+.btn-viewer{
+  border:2px solid #C8D5E8;border-radius:8px;
+  color:#3A4A60;background:#F5F8FF;padding:10px;font-size:13px;
+  transition:all .15s;
+}
+.btn-viewer:hover{border-color:#003F7D;color:#003F7D;background:#EBF0FA}
+.auth-config-link a{color:#0A5BA8}
+
+/* ── Controls Bar ── */
+.controls{
+  background:#FFFFFF;border-bottom:1px solid #C8D5E8;
+  box-shadow:0 2px 4px rgba(0,63,125,.04);
+}
+.search-wrap input:focus{border-color:#FFCC00;box-shadow:0 0 0 3px rgba(255,204,0,.2)}
+input:focus,select:focus,textarea:focus{
+  border-color:#FFCC00 !important;
+  box-shadow:0 0 0 3px rgba(255,204,0,.15);
+}
+
+/* ── Cards ── */
+.grid{gap:14px;padding:22px 24px}
+.card{
+  background:#FFFFFF;border:1px solid #D0DAE9;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,63,125,.07);
+  transition:all .2s cubic-bezier(.2,.8,.4,1);
+}
+.card:hover{
+  box-shadow:0 8px 28px rgba(0,63,125,.16);
+  border-color:#FFCC00;transform:translateY(-2px);
+}
+.card.copied{border-color:#1A8A3A;box-shadow:0 0 0 2px rgba(26,138,58,.25)}
+.card.card-fav{
+  border-color:rgba(255,204,0,.6);
+  background:linear-gradient(135deg,#FFFFFF 92%,#FFFBEB 100%);
+}
+.card-head{padding:13px 14px 10px}
+.card-title{font-size:13.5px;color:#0D1A2E;font-weight:600}
+.card-stripe{height:4px;border-radius:12px 12px 0 0}
+.badge-cat{background:#003F7D;color:#FFCC00;border:none}
+.badge-org{background:#EBF0FA;color:#003F7D;border:1px solid #C8D5E8}
+.badge-tag{
+  background:#FFFBE0;color:#7A5A00;border:1px solid #FFCC00;
+}
+.badge-tag:hover{background:#FFCC00;color:#003F7D;border-color:#FFCC00}
+.card-meta{background:#F5F8FF;border-top:1px solid #E0E8F4}
+.card-body{color:#3A4A60;line-height:1.7}
+.card-foot{background:#F5F8FF;border-top:1px solid #E0E8F4}
+.btn-card{border-radius:6px;font-size:11.5px;border:1.5px solid #C8D5E8}
+.btn-card.cp{background:#003F7D;color:#FFCC00;border-color:#003F7D;font-weight:600}
+.btn-card.cp:hover{background:#002D5A;border-color:#002D5A;color:#FFCC00;box-shadow:0 3px 10px rgba(0,63,125,.3)}
+.btn-card.cp.done{background:#1A8A3A;border-color:#1A8A3A;color:#FFF}
+.btn-card.comp-btn{background:#FFFBE0;color:#7A5A00;border-color:#FFCC00}
+.btn-card.comp-btn:hover{background:#FFCC00;color:#003F7D;border-color:#FFCC00}
+.btn-card.ed:hover{background:#EBF0FA;color:#003F7D;border-color:#003F7D}
+.btn-card.dl:hover{background:#FFEBEE;color:#C0392B;border-color:#C0392B}
+.btn-expand{color:#7A8A9E}
+.btn-expand:hover{color:#003F7D}
+.btn-fav.fav-on{opacity:1;filter:drop-shadow(0 0 3px rgba(255,204,0,.6))}
+
+/* ── Admin bar ── */
+.admin-bar{
+  background:#F0F5FF;border-bottom:1px solid #C8D5E8;
+}
+.btn-add{
+  background:linear-gradient(135deg,#003F7D,#005099);
+  border-radius:8px;border:none;
+  box-shadow:0 3px 10px rgba(0,63,125,.25);
+  transition:all .15s;
+}
+.btn-add:hover{
+  background:linear-gradient(135deg,#002D5A,#003F7D);
+  box-shadow:0 5px 16px rgba(0,63,125,.35);transform:translateY(-1px);
+}
+.btn-export{
+  border-color:#C8D5E8;color:#003F7D;border-radius:8px;
+  background:#FFFFFF;
+}
+.btn-export:hover{border-color:#003F7D;color:#003F7D;background:#EBF0FA}
+
+/* ── Notes (Kanban) ── */
+.notes-layout{gap:18px;padding:22px 24px}
+.notes-col{
+  background:#FFFFFF;border:1px solid #C8D5E8;border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,63,125,.07);
+}
+.note-card{background:#F5F8FF;border:1px solid #D0DAE9;border-radius:8px}
+.note-card:hover{box-shadow:0 3px 12px rgba(0,63,125,.12);border-color:#FFCC00}
+.btn-add-note{border-color:#C8D5E8;border-radius:6px}
+.btn-add-note:hover{border-color:#FFCC00;color:#003F7D;background:#FFFBE0}
+
+/* ── Links page ── */
+.link-card{border-radius:12px;border:1px solid #C8D5E8;box-shadow:0 2px 8px rgba(0,63,125,.08)}
+.link-card:hover{box-shadow:0 8px 28px rgba(0,63,125,.16);border-color:#FFCC00;transform:translateY(-2px)}
+.link-icon{background:linear-gradient(135deg,#003F7D,#0A5BA8)}
+.tip-num{background:linear-gradient(135deg,#003F7D,#0A5BA8);color:#FFCC00}
+.section-title{color:#003F7D;border-bottom-color:#C8D5E8;font-weight:700}
+
+/* ── Modals ── */
+.modal{border:none;border-radius:14px;box-shadow:0 20px 60px rgba(0,63,125,.25)}
+.modal-head{
+  background:linear-gradient(135deg,#003F7D,#00316A);
+  border-bottom:3px solid #FFCC00;
+}
+.btn-save{
+  background:linear-gradient(135deg,#003F7D,#005099);
+  border-radius:8px;
+  box-shadow:0 3px 10px rgba(0,63,125,.25);
+}
+.btn-save:hover{background:linear-gradient(135deg,#002D5A,#003F7D);transform:translateY(-1px)}
+.btn-cancel{border-radius:8px;border-color:#C8D5E8}
+.btn-cancel:hover{border-color:#003F7D;color:#003F7D;background:#EBF0FA}
+.modal-foot{background:#F5F8FF;border-top-color:#E0E8F4}
+.modal-body{background:#FFFFFF}
+.btn-confirm-del{border-radius:8px;box-shadow:0 3px 10px rgba(192,57,43,.2)}
+
+/* ── Instructions ── */
+.instr-card{border:1px solid #C8D5E8;border-radius:12px;box-shadow:0 2px 8px rgba(0,63,125,.06)}
+.instr-card:hover{border-color:#FFCC00;box-shadow:0 6px 20px rgba(0,63,125,.12)}
+.instr-card h3{color:#003F7D}
+.att-chip{border-color:#C8D5E8;color:#3A4A60;border-radius:8px}
+.att-chip:hover{border-color:#FFCC00;background:#FFFBE0;color:#7A5A00}
+
+/* ── Recentes bar ── */
+#recentes-bar{background:#F0F5FF;border-bottom:1px solid #C8D5E8}
+.rec-chip{
+  background:#FFFFFF;border:1.5px solid #C8D5E8;border-radius:20px;
+  color:#003F7D;
+}
+.rec-chip:hover{border-color:#FFCC00;background:#FFFBE0;color:#7A5A00}
+.rec-chip-cat{color:#7A8A9E}
+
+/* ── Command Palette ── */
+.cmdpal-box{border:1px solid #C8D5E8;border-radius:14px;box-shadow:0 20px 60px rgba(0,63,125,.28)}
+.cmdpal-item.cmdpal-active{background:#F0F5FF;border-left-color:#FFCC00}
+.cmdpal-item:hover{background:#F0F5FF}
+.cmdpal-title{color:#0D1A2E}
+.cmdpal-badge{background:#EBF0FA;border-color:#C8D5E8;color:#003F7D}
+.cmdpal-uso{color:#E6B800}
+.cmdpal-foot{background:#F5F8FF;border-top-color:#E0E8F4}
+.cmdpal-foot kbd{background:#FFFFFF;border-color:#C8D5E8}
+.cmdpal-esc{background:#EBF0FA;border-color:#C8D5E8;color:#003F7D}
+
+/* ── Estatísticas ── */
+.stat-card{border:1px solid #C8D5E8;border-radius:12px}
+.stat-num{color:#003F7D}
+.stats-section{border:1px solid #C8D5E8;border-radius:12px}
+.stats-section h3{color:#003F7D;border-bottom-color:#E0E8F4}
+.top-count{color:#E6B800;background:rgba(255,204,0,.12)}
+.note-stat-num{font-weight:600}
+
+/* ── Contador FAB ── */
+.counter-expanded{border:1px solid #C8D5E8;border-radius:12px;box-shadow:0 8px 32px rgba(0,63,125,.2)}
+.counter-fab-title{color:#7A8A9E}
+.counter-btn{border-color:#C8D5E8;background:#F5F8FF}
+.counter-btn:hover{background:#E0E8F4;border-color:#003F7D}
+.counter-num{color:#003F7D}
+.counter-reset:hover{color:#C0392B;border-color:#C0392B}
+.counter-pill{
+  background:linear-gradient(135deg,#003F7D,#005099);
+  border-bottom:2px solid #FFCC00;
+  box-shadow:0 4px 16px rgba(0,63,125,.35);
+}
+.counter-pill:hover{box-shadow:0 6px 24px rgba(0,63,125,.45)}
+
+/* ── Toast / Offline ── */
+#toast{
+  background:linear-gradient(135deg,#003F7D,#002D5A);
+  border-bottom:2px solid #FFCC00;
+  border-radius:24px;box-shadow:0 8px 24px rgba(0,63,125,.35);
+}
+#offline-badge{background:#FFF8E1;border-color:#E6B800;color:#7A5A00}
+
+/* ── mark highlight ── */
+mark{background:#FFEC3D;color:#003F7D;border-radius:3px;padding:0 2px}
+
+/* ── Sync dot ── */
+.sync-dot{background:#FFCC00}
+
+/* ── Setup banner ── */
+#setup-banner{background:#001A3D;border-bottom:3px solid #FFCC00}
+#setup-banner h3{color:#FFCC00}
+.btn-setup-save{background:#FFCC00;color:#003F7D;font-weight:700}
+.btn-setup-save:hover{background:#E6B800}
+
+/* ── var-placeholder ── */
+.var-placeholder{color:#0A5BA8;background:rgba(10,91,168,.08);border-radius:4px}
+
+/* Scrollbar styling */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#EBF0FA}
+::-webkit-scrollbar-thumb{background:#C8D5E8;border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:#003F7D}
+
+
+/* ── Auth body padding ── */
+.auth-body{padding:28px 36px 32px;display:flex;flex-direction:column;gap:10px}
+.auth-body input[type=password]{margin-bottom:0}
+
 </style>
 </head>
 <body>
@@ -536,9 +864,18 @@ mark{background:#FFF176;color:inherit;padding:0 1px;border-radius:2px}
 <!-- AUTH -->
 <div id="auth-wrap">
   <div class="auth-card">
-    <div class="auth-emblem">📮</div>
-    <h1>Banco de Respostas</h1>
-    <div class="auth-subtitle">CEINT &nbsp;·&nbsp; 2026</div>
+    <div class="auth-header">
+      <svg class="auth-logo-svg" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="64" rx="14" fill="#FFCC00"/>
+          <rect x="10" y="19" width="44" height="28" rx="3.5" fill="#003F7D"/>
+          <path d="M10 24L32 38L54 24" stroke="#FFCC00" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 47L22 34" stroke="#FFCC00" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M54 47L42 34" stroke="#FFCC00" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      <div class="auth-logo-name">CORREIOS</div>
+      <div class="auth-logo-sub">CEINT &nbsp;·&nbsp; Banco de Respostas &nbsp;·&nbsp; 2026</div>
+    </div>
+    <div class="auth-body">
     <input type="password" id="pw" placeholder="Senha de administrador…" onkeydown="if(event.key==='Enter')tryLogin()">
     <button class="btn-admin" id="btn-login" onclick="tryLogin()">
       <span class="spinner" id="login-spinner"></span>
@@ -556,8 +893,20 @@ mark{background:#FFF176;color:inherit;padding:0 1px;border-radius:2px}
 <div id="app">
   <header class="topbar">
     <div class="topbar-brand">
-      <span>📮 CEINT — Banco de Respostas</span>
-      <span class="brand-tag">2026</span>
+      <div class="brand-logo-wrap">
+        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="38" height="38" rx="9" fill="#FFCC00"/>
+          <rect x="6" y="12" width="26" height="17" rx="2.5" fill="#003F7D"/>
+          <path d="M6 14.5L19 23L32 14.5" stroke="#FFCC00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6 29L13.5 21.5" stroke="#FFCC00" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M32 29L24.5 21.5" stroke="#FFCC00" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <div class="brand-text-col">
+          <span class="brand-correios">CORREIOS</span>
+          <span class="brand-sub">Empresa Brasileira de Correios e Telégrafos</span>
+        </div>
+      </div>
+      <span class="brand-tag">CEINT 2026</span>
     </div>
     <div class="topbar-right">
       <span class="sync-dot" id="sync-dot" title="Sincronizando…"></span>
