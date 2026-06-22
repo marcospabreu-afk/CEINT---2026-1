@@ -1343,7 +1343,7 @@ let syncInterval;
 // URL do Firebase embutida — operadores não precisam configurar nada.
 // Para trocar de banco, altere o valor abaixo.
 const FB_URL_PADRAO = 'https://banco-de-respostas-default-rtdb.firebaseio.com';
-let CFG = {url:''};
+let CFG = {url:'https://banco-de-respostas-default-rtdb.firebaseio.com'};
 const LS_RESP  = 'ceint_resp_local';
 const LS_NOTAS = 'ceint_notas_local';
 const LS_LINKS = 'ceint_links_local';
@@ -1378,8 +1378,11 @@ function loadLocal(){
 // FIREBASE REALTIME DATABASE
 // ══════════════════════════════════════════════════════════════
 function loadCfg(){
-  try{ CFG = JSON.parse(localStorage.getItem('ceint_cfg')||'{}'); }catch(e){ CFG={}; }
-  CFG.url = CFG.url || FB_URL_PADRAO;
+  try{
+    const saved = JSON.parse(localStorage.getItem('ceint_cfg')||'{}');
+    if(saved.url) CFG.url = saved.url;   // usa URL salva se existir
+    // caso contrário mantém a URL padrão já definida em CFG
+  }catch(e){}
 }
 function saveCfg(){ localStorage.setItem('ceint_cfg', JSON.stringify(CFG)); }
 function hasCfg(){ return !!CFG.url; }
