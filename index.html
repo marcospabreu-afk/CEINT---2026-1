@@ -716,6 +716,36 @@ mark{background:#FFEC3D;color:#003F7D;border-radius:3px;padding:0 2px}
 ::-webkit-scrollbar-thumb{background:#C8D5E8;border-radius:3px}
 ::-webkit-scrollbar-thumb:hover{background:#003F7D}
 
+
+/* ── CORRETOR ORTOGRÁFICO ─────────────────────────── */
+.corretor-wrap{padding:24px;max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.corretor-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:20px;box-shadow:var(--shadow)}
+.corretor-label{display:block;font-size:11px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;font-family:'IBM Plex Mono',monospace;margin-bottom:8px}
+.corretor-ta{width:100%;min-height:140px;border:1.5px solid var(--border);border-radius:var(--r);padding:12px;font-size:14px;line-height:1.75;font-family:'IBM Plex Sans',sans-serif;resize:vertical;background:var(--bg);color:var(--text);margin-bottom:12px;transition:border-color .15s,box-shadow .15s}
+.corretor-ta:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,204,0,.18);outline:none}
+.corretor-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.spell-counter{font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;flex:1}
+.spell-ok{background:#E8F5E9;border:1px solid #A5D6A7;border-radius:var(--rl);padding:20px;text-align:center;color:#1A8A3A;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:center;gap:10px}
+.spell-ok .spell-icon{font-size:26px}
+.spell-err-msg{background:#FFEBEE;border:1px solid #FFCDD2;border-radius:var(--rl);padding:16px;color:var(--red);font-size:13px}
+.spell-loading{background:var(--surface2);border:1px solid var(--border);border-radius:var(--rl);padding:16px;color:var(--text3);font-size:13px;text-align:center;font-family:'IBM Plex Mono',monospace}
+.spell-summary{background:#FFFBE0;border:1px solid var(--accent);border-radius:var(--r);padding:10px 16px;font-size:13px;color:#7A5A00;margin-bottom:14px}
+.spell-highlighted{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:16px;font-size:14px;line-height:1.8;color:var(--text);margin-bottom:14px}
+.spell-mark{background:#FFEBEE;color:var(--red);border-radius:3px;padding:0 2px;border-bottom:2px solid var(--red)}
+.spell-items{display:flex;flex-direction:column;gap:10px}
+.spell-item{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:var(--r);padding:12px 14px}
+.spell-item-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.spell-item-word{font-weight:700;color:var(--red);font-size:13px}
+.spell-item-rule{font-size:11px;color:var(--text3);font-family:'IBM Plex Mono',monospace;flex:1}
+.spell-item-msg{font-size:12px;color:var(--text2);margin-bottom:8px;line-height:1.5}
+.spell-sugs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;color:var(--text3)}
+.spell-sug{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:3px 12px;font-size:12px;color:var(--navy);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;transition:all .15s}
+.spell-sug:hover{background:var(--navy);color:var(--accent);border-color:var(--navy)}
+.corretor-tips{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:18px 20px;box-shadow:var(--shadow)}
+.tips-list{display:flex;flex-direction:column;gap:10px}
+.tip-row{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text2);line-height:1.5}
+.tip-num{background:var(--accent);color:var(--navy);border-radius:4px;padding:1px 7px;font-size:10px;font-weight:700;font-family:'IBM Plex Mono',monospace;white-space:nowrap;margin-top:2px}
+
 </style>
 </head>
 <body>
@@ -795,6 +825,7 @@ mark{background:#FFEC3D;color:#003F7D;border-radius:3px;padding:0 2px}
     <button class="tab-btn" onclick="goTab('instrucoes',this)">📖 Instruções</button>
     <button class="tab-btn" onclick="goTab('links',this)">🔗 Links de Apoio</button>
     <button class="tab-btn" onclick="goTab('stats',this)">📊 Estatísticas</button>
+    <button class="tab-btn" onclick="goTab('corretor',this)">🔤 Corretor</button>
   </nav>
 
   <!-- PAGE: RESPOSTAS -->
@@ -871,6 +902,34 @@ mark{background:#FFEC3D;color:#003F7D;border-radius:3px;padding:0 2px}
       <button class="btn-export" onclick="renderStats()">↺ Atualizar</button>
     </div>
     <div class="stats-page" id="stats-content"></div>
+  </div>
+
+  <!-- PAGE: CORRETOR -->
+  <div id="page-corretor" class="page">
+    <div class="corretor-wrap">
+      <div class="corretor-box">
+        <label class="corretor-label">Cole ou escreva o texto a verificar</label>
+        <textarea id="spell-input" class="corretor-ta" spellcheck="true" lang="pt-BR"
+          placeholder="Cole aqui o texto que deseja verificar ortograficamente…"
+          oninput="updateWordCount()"></textarea>
+        <div class="corretor-actions">
+          <span id="spell-wcount" class="spell-counter">0 palavras</span>
+          <button class="btn-cancel" onclick="clearSpell()">Limpar</button>
+          <button id="btn-spell" class="btn-save" onclick="checkSpelling()">🔍 Verificar</button>
+          <button class="btn-card cp" style="font-size:13px;padding:8px 18px" onclick="copySpellText()">📋 Copiar Texto</button>
+        </div>
+      </div>
+      <div id="spell-results"></div>
+      <div class="corretor-tips">
+        <div class="section-title" style="margin-bottom:10px">▸ Como usar</div>
+        <div class="tips-list">
+          <div class="tip-row"><span class="tip-num">01</span> Escreva ou cole o texto acima e clique em <strong>Verificar</strong>.</div>
+          <div class="tip-row"><span class="tip-num">02</span> Erros encontrados são destacados em vermelho com sugestões de correção.</div>
+          <div class="tip-row"><span class="tip-num">03</span> Clique em uma sugestão para substituir automaticamente a palavra no texto.</div>
+          <div class="tip-row"><span class="tip-num">04</span> O verificador usa o LanguageTool (pt-BR) e requer conexão com a internet.</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1065,7 +1124,86 @@ mark{background:#FFEC3D;color:#003F7D;border-radius:3px;padding:0 2px}
 <div id="toast" role="status" aria-live="polite"></div>
 <div id="offline-badge" role="status">⚠ Sem Firebase — dados locais</div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js">
+// ── CORRETOR ORTOGRÁFICO ────────────────────────────────────────
+function updateWordCount(){
+  const txt=(document.getElementById('spell-input').value||'').trim();
+  const n=txt?txt.split(/\s+/).length:0;
+  document.getElementById('spell-wcount').textContent=n+' palavra'+(n!==1?'s':'');
+}
+async function checkSpelling(){
+  const ta=document.getElementById('spell-input');
+  const text=ta.value.trim();
+  if(!text){showToast('⚠ Digite ou cole o texto.');return;}
+  const btn=document.getElementById('btn-spell');
+  const res=document.getElementById('spell-results');
+  btn.disabled=true;btn.textContent='⏳ Verificando…';
+  res.innerHTML='<div class="spell-loading">Consultando LanguageTool (pt-BR)…</div>';
+  try{
+    const r=await fetch('https://api.languagetool.org/v2/check',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:'text='+encodeURIComponent(text)+'&language=pt-BR'
+    });
+    if(!r.ok) throw new Error('api');
+    const data=await r.json();
+    renderSpellResults(text, data.matches||[]);
+  }catch(e){
+    res.innerHTML='<div class="spell-err-msg">⚠ Falha ao conectar ao LanguageTool. Verifique sua conexão com a internet.</div>';
+  }finally{
+    btn.disabled=false;btn.textContent='🔍 Verificar';
+  }
+}
+function renderSpellResults(text, matches){
+  const res=document.getElementById('spell-results');
+  if(!matches.length){
+    res.innerHTML='<div class="spell-ok"><span class="spell-icon">✅</span> Nenhum erro encontrado! O texto está correto.</div>';
+    return;
+  }
+  const sorted=[...matches].sort((a,b)=>a.offset-b.offset);
+  let html='',pos=0;
+  for(const m of sorted){
+    if(m.offset>pos) html+=esc(text.slice(pos,m.offset));
+    html+='<mark class="spell-mark" title="'+esc(m.message)+'">'+esc(text.slice(m.offset,m.offset+m.length))+'</mark>';
+    pos=m.offset+m.length;
+  }
+  if(pos<text.length) html+=esc(text.slice(pos));
+  const items=sorted.map(m=>{
+    const word=text.slice(m.offset,m.offset+m.length);
+    const sugs=(m.replacements||[]).slice(0,6);
+    return `<div class="spell-item">
+      <div class="spell-item-head">
+        <span class="spell-item-word">"${esc(word)}"</span>
+        <span class="spell-item-rule">${esc((m.rule&&m.rule.description)||'')}</span>
+      </div>
+      <div class="spell-item-msg">${esc(m.message)}</div>
+      <div class="spell-sugs">${sugs.length?'Sugestões: '+sugs.map(r=>`<button class="spell-sug" onclick="applySpell(${m.offset},${m.length},'${esc(r.value).replace(/'/g,"\\'")}')">${ esc(r.value)}</button>`).join(''):'<em>sem sugestões</em>'}</div>
+    </div>`;
+  }).join('');
+  res.innerHTML=`<div class="spell-summary"><strong>${matches.length}</strong> ocorrência${matches.length!==1?'s':''} encontrada${matches.length!==1?'s':''}</div>
+    <div class="spell-highlighted">${html.replace(/\n/g,'<br>')}</div>
+    <div class="spell-items">${items}</div>`;
+}
+function applySpell(offset,length,replacement){
+  const ta=document.getElementById('spell-input');
+  ta.value=ta.value.slice(0,offset)+replacement+ta.value.slice(offset+length);
+  updateWordCount();
+  document.getElementById('spell-results').innerHTML='<div class="spell-loading">Substituição aplicada. Clique em Verificar para checar novamente.</div>';
+  showToast('✏ "'+replacement+'" aplicado!');
+}
+function clearSpell(){
+  document.getElementById('spell-input').value='';
+  document.getElementById('spell-results').innerHTML='';
+  updateWordCount();
+}
+function copySpellText(){
+  const text=(document.getElementById('spell-input').value||'').trim();
+  if(!text){showToast('⚠ Nenhum texto para copiar.');return;}
+  navigator.clipboard.writeText(text).catch(()=>{});
+  showToast('✅ Texto copiado!');
+}
+
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
@@ -1947,10 +2085,10 @@ function renderRecentes(){
   const bar=document.getElementById('recentes-bar');
   const list=document.getElementById('recentes-list');
   if(!bar||!list) return;
-  const r5=RECENTES.slice(0,5).map(x=>RESP.find(r=>r.id===x.id||r.id===+x.id)).filter(Boolean);
-  if(!r5.length){ bar.style.display='none'; return; }
+  const r3=RECENTES.slice(0,3).map(x=>RESP.find(r=>r.id===x.id||r.id===+x.id)).filter(Boolean);
+  if(!r3.length){ bar.style.display='none'; return; }
   bar.style.display='block';
-  list.innerHTML=r5.map(r=>`<button class="rec-chip" onclick="cpById(${r.id})" title="${esc(r.titulo)}">${r.titulo.length>34?esc(r.titulo.slice(0,32))+'…':esc(r.titulo)}<span class="rec-chip-cat">${esc(r.categoria.split('/')[0].trim())}</span></button>`).join('');
+  list.innerHTML=r3.map(r=>`<button class="rec-chip" onclick="cpById(${r.id})" title="${esc(r.titulo)}">${r.titulo.length>34?esc(r.titulo.slice(0,32))+'…':esc(r.titulo)}<span class="rec-chip-cat">${esc(r.categoria.split('/')[0].trim())}</span></button>`).join('');
 }
 
 // ── Core copy helpers ──
