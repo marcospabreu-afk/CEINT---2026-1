@@ -825,7 +825,7 @@ mark{background:#FFEC3D;color:#003F7D;border-radius:3px;padding:0 2px}
     <button class="tab-btn" onclick="goTab('instrucoes',this)">📖 Instruções</button>
     <button class="tab-btn" onclick="goTab('links',this)">🔗 Links de Apoio</button>
     <button class="tab-btn" onclick="goTab('stats',this)">📊 Estatísticas</button>
-    <button class="tab-btn" onclick="goTab('corretor',this)">🔤 Corretor</button>
+    <button class="tab-btn" onclick="goTab('corretor',this)">🔤 Corretor Ortográfico</button>
   </nav>
 
   <!-- PAGE: RESPOSTAS -->
@@ -1139,17 +1139,30 @@ async function checkSpelling(){
   const res=document.getElementById('spell-results');
   btn.disabled=true;btn.textContent='⏳ Verificando…';
   res.innerHTML='<div class="spell-loading">Consultando LanguageTool (pt-BR)…</div>';
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),20000);
   try{
     const r=await fetch('https://api.languagetool.org/v2/check',{
       method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:'text='+encodeURIComponent(text)+'&language=pt-BR'
+      mode:'cors',
+      headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'application/json'},
+      body:'text='+encodeURIComponent(text)+'&language=pt-BR&enabledOnly=false',
+      signal:controller.signal
     });
-    if(!r.ok) throw new Error('api');
+    clearTimeout(timer);
+    if(!r.ok){
+      const errText=await r.text().catch(()=>'');
+      throw new Error('HTTP '+r.status+(errText?' — '+errText.slice(0,200):''));
+    }
     const data=await r.json();
     renderSpellResults(text, data.matches||[]);
   }catch(e){
-    res.innerHTML='<div class="spell-err-msg">⚠ Falha ao conectar ao LanguageTool. Verifique sua conexão com a internet.</div>';
+    clearTimeout(timer);
+    let msg;
+    if(e.name==='AbortError') msg='Tempo esgotado (>20s). A API pode estar lenta — tente novamente.';
+    else if(e.message&&e.message.includes('Failed to fetch')) msg='Sem conexão com a internet ou API bloqueada. Verifique sua rede.';
+    else msg='Erro ao verificar: '+(e.message||e);
+    res.innerHTML='<div class="spell-err-msg">⚠ '+esc(msg)+'</div>';
   }finally{
     btn.disabled=false;btn.textContent='🔍 Verificar';
   }
@@ -1171,13 +1184,19 @@ function renderSpellResults(text, matches){
   const items=sorted.map(m=>{
     const word=text.slice(m.offset,m.offset+m.length);
     const sugs=(m.replacements||[]).slice(0,6);
+    const sugBtns=sugs.length?'Sugestões: '+sugs.map((r,si)=>{
+      const key='_sug_'+(+new Date())+'_'+m.offset+'_'+si;
+      window.__spellSugs=window.__spellSugs||{};
+      window.__spellSugs[key]={offset:m.offset,length:m.length,value:r.value};
+      return `<button class="spell-sug" onclick="applySpellKey('${key}')">${esc(r.value)}</button>`;
+    }).join(''):'<em>sem sugestões</em>';
     return `<div class="spell-item">
       <div class="spell-item-head">
         <span class="spell-item-word">"${esc(word)}"</span>
         <span class="spell-item-rule">${esc((m.rule&&m.rule.description)||'')}</span>
       </div>
       <div class="spell-item-msg">${esc(m.message)}</div>
-      <div class="spell-sugs">${sugs.length?'Sugestões: '+sugs.map(r=>`<button class="spell-sug" onclick="applySpell(${m.offset},${m.length},'${esc(r.value).replace(/'/g,"\\'")}')">${ esc(r.value)}</button>`).join(''):'<em>sem sugestões</em>'}</div>
+      <div class="spell-sugs">${sugBtns}</div>
     </div>`;
   }).join('');
   res.innerHTML=`<div class="spell-summary"><strong>${matches.length}</strong> ocorrência${matches.length!==1?'s':''} encontrada${matches.length!==1?'s':''}</div>
@@ -1190,6 +1209,11 @@ function applySpell(offset,length,replacement){
   updateWordCount();
   document.getElementById('spell-results').innerHTML='<div class="spell-loading">Substituição aplicada. Clique em Verificar para checar novamente.</div>';
   showToast('✏ "'+replacement+'" aplicado!');
+}
+function applySpellKey(key){
+  const s=(window.__spellSugs||{})[key];
+  if(!s)return;
+  applySpell(s.offset,s.length,s.value);
 }
 function clearSpell(){
   document.getElementById('spell-input').value='';
