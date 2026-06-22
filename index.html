@@ -2402,6 +2402,10 @@ function resetCount(){
   localStorage.setItem('ceint_daily',JSON.stringify(DAILY_COUNT));
   updateCounterUI();
 }
+
+// ── Inicialização (executado uma vez ao carregar a página) ──────
+loadCfg();     // lê URL do Firebase salva no localStorage
+_initCmdPal(); // configura atalhos e eventos da paleta de comandos
 </script>
 </body>
 </html>
